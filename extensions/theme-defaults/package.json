@@ -14,8 +14,8 @@
   "contributes": {
     "themes": [
       {
-        "id": "Default Dark+",
-        "label": "%darkPlusColorThemeLabel%",
+        "id": "Notepadsharpoled",
+        "label": "Notepad# OLED",
         "uiTheme": "vs-dark",
         "path": "./themes/dark_plus.json"
       },
@@ -32,8 +32,8 @@
         "path": "./themes/light_plus.json"
       },
       {
-        "id": "Default Light Modern",
-        "label": "%lightModernThemeLabel%",
+        "id": "SolarizedLightsharp",
+        "label": "Solarized Light #",
         "uiTheme": "vs",
         "path": "./themes/light_modern.json"
       },
