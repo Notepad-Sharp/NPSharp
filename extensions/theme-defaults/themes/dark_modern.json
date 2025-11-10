@@ -1,7 +1,6 @@
 {
 	"$schema": "vscode://schemas/color-theme",
 	"name": "BlackBoard (Default theme)",
-	"include": "./dark_plus.json",
 	"colors": {
 		"foreground": "#F8F8F8",
 		"focusBorder": "#FCE94F",
