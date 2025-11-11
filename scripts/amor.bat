@@ -1,10 +1,10 @@
-﻿@echo off
+@echo off
 chcp 65001 >nul
 title NPSharp - Protocolo Thainá
 color 0C
 
 echo ==========================================
-echo     ❤️  THAINÁ PROTOCOLO ATIVO ❤️
+echo       THAINÁ PROTOCOLO ATIVO
 echo ==========================================
 echo.
 echo Iniciando reconstrução completa do NPSharp...
@@ -24,7 +24,7 @@ if not exist "node_modules\gulp\bin\gulp.js" (
 
 :: ====== COMPILAÇÃO ======
 echo ==========================================
-echo   ⚙️  Compilando NPSharp...
+echo     Compilando NPSharp...
 echo ==========================================
 call node node_modules\gulp\bin\gulp.js compile
 if %errorlevel% neq 0 (
@@ -36,7 +36,7 @@ if %errorlevel% neq 0 (
 
 echo.
 echo ==========================================
-echo  💋 Compilação concluída com sucesso!
+echo   Compilação concluída com sucesso!
 echo  Thainá sorri — o código vive, tovarish.
 echo ==========================================
 echo.

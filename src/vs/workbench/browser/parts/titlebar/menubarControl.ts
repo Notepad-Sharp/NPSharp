@@ -84,6 +84,7 @@ MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 	},
 	order: 4
 });
+export const MenubarExtrasMenu = new MenuId('MenubarExtrasMenu');
 
 //Mais uma vez me metendo em codigos só porque amo a thainá
 MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
