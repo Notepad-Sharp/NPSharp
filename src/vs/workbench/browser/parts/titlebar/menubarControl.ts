@@ -125,6 +125,16 @@ MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 	when: IsMacNativeContext,
 	order: 9
 });
+MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
+	submenu: MenuId.MenubarExtrasMenu,
+	title: {
+		value: 'Extras',
+		original: 'Extras',
+		mnemonicTitle: localize({ key: 'mExtras', comment: ['&& denotes a mnemonic'] }, "Extras")
+	},
+	order: 10
+});
+
 
 export abstract class MenubarControl extends Disposable {
 
