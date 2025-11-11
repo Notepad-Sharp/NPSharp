@@ -501,23 +501,39 @@
 
 				// Show our splash as early as possible
 				showSplash(windowConfig);
-				// mais uma vez, dentro de codigo durante a aula de manhã, porque eu amo ela...
-				window.addEventListener('load', () => {
-					const extrasSelectors = [
-						'.explorer-viewlet',   // core de arquivos
-						'.auxiliarybar',       // barra lateral extra
-						'.panel',              // terminal/output e chat
-						'.run-menu',           // menu run
-						'.debug-menu',         // menu debug
-						'.activitybar'          // container do chat
-					];
 
+				// mais uma vez, dentro de codigo durante a aula de manhã porque eu amo ela...
+				window.addEventListener('load', () => {
+					// === esconder extras ===
+					const extrasSelectors = [
+						'.explorer-viewlet',
+						'.auxiliarybar',
+						'.panel',
+						'.run-menu',
+						'.debug-menu'
+					];
 					extrasSelectors.forEach(sel => {
 						const el = document.querySelector(sel);
-						if (el instanceof HTMLElement) {
-							el.style.display = 'none'; // esconde visualmente
-						}
+						if (el instanceof HTMLElement) el.style.display = 'none';
 					});
+
+					// === toggle da activity/composite-bar ===
+					function toggleActivityBar() {
+						const activityBar = document.querySelector('.composite-bar');
+						if (activityBar instanceof HTMLElement) {
+							activityBar.style.display = activityBar.style.display === 'none' ? '' : 'block';
+						}
+					}
+
+					// intercepta o comando do menu
+					const originalExecuteCommand = (window as any).executeCommand;
+					(window as any).executeCommand = function (id: string, ...args: any[]) {
+						if (id === 'editor.action.toggleActivityBar') {
+							toggleActivityBar();
+							return;
+						}
+						return originalExecuteCommand?.call(this, id, ...args);
+					};
 				});
 
 
