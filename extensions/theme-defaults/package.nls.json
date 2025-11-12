@@ -1,6 +1,6 @@
 {
-	"displayName": "Default Themes",
-	"description": "The default Visual Studio light and dark themes",
+	"displayName": "Temas Padrão",
+	"description": "O visual padrão escuro e claro do notepadshar",
 	"darkPlusColorThemeLabel": "Dark+",
 	"darkModernThemeLabel": "Dark Modern",
 	"lightPlusColorThemeLabel": "Light+",
