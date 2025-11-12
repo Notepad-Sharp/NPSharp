@@ -32,8 +32,8 @@
         "path": "./themes/light_modern.json"
       },
       {
-        "id": "Notepadsharpthaina",
-        "label": "VoidLove (thainá especial)",
+        "id": "Notepadsharpvoidlove",
+        "label": "VoidLove",
         "uiTheme": "vs-dark",
         "path": "./themes/hc_black.json"
       },
