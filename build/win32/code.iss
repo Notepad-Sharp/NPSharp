@@ -1,17 +1,3 @@
-#define AppId "NPSharp"
-#define NameLong "NPSharp"
-#define NameShort "NPSharp"
-#define Version "1.0.0"
-#define DirName "NPSharp"
-#define NameVersion "NPSharp"
-#define OutputDir "dist"
-#define ExeBasename "NPSharp"
-#define RepoDir "C:\Users\Administrator\Desktop\NPSharp"
-#define SourceDir "C:\Users\Administrator\Desktop\NPSharp\out"
-#define ProductJsonPath "C:\Users\Administrator\Desktop\NPSharp\product.json"
-#define AppMutex "notepadsharp"
-
-
 
 #define RootLicenseFileName FileExists(RepoDir + '\LICENSE.rtf') ? 'LICENSE.rtf' : 'LICENSE.txt'
 #define LocalizedLanguageFile(Language = "") \
