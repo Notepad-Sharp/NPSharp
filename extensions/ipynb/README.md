@@ -4,6 +4,6 @@
 
 ## Features
 
-This extension provides the following Jupyter-related features for VS Code:
+This extension provides the following Jupyter-related features for Notepad#:
 
 - Open, edit and save .ipynb files

@@ -511,7 +511,7 @@ export interface IShellLaunchConfig {
 
 	/**
 	 * A custom environment for the terminal, if this is not set the environment will be inherited
-	 * from the VS Code process.
+	 * from the Notepad# process.
 	 */
 	env?: ITerminalEnvironment;
 
@@ -581,7 +581,7 @@ export interface IShellLaunchConfig {
 	strictEnv?: boolean;
 
 	/**
-	 * Whether the terminal process environment will inherit VS Code's "shell environment" that may
+	 * Whether the terminal process environment will inherit Notepad#'s "shell environment" that may
 	 * get sourced from running a login shell depnding on how the application was launched.
 	 * Consumers that rely on development tools being present in the $PATH should set this to true.
 	 * This will overwrite the value of the inheritEnv setting.
@@ -605,7 +605,7 @@ export interface IShellLaunchConfig {
 
 	/**
 	 * Whether this terminal is not a terminal that the user directly created and uses, but rather
-	 * a terminal used to drive some VS Code feature.
+	 * a terminal used to drive some Notepad# feature.
 	 */
 	isFeatureTerminal?: boolean;
 
@@ -658,7 +658,7 @@ export interface IShellLaunchConfig {
 	 */
 	tabActions?: ITerminalTabAction[];
 	/**
-	 * Report terminal's shell environment variables to VS Code and extensions
+	 * Report terminal's shell environment variables to Notepad# and extensions
 	 */
 	shellIntegrationEnvironmentReporting?: boolean;
 
@@ -1004,7 +1004,7 @@ export const enum ShellIntegrationStatus {
 	Off,
 	/** Final term shell integration sequences have been encountered. */
 	FinalTerm,
-	/** VS Code shell integration sequences have been encountered. Supercedes FinalTerm. */
+	/** Notepad# shell integration sequences have been encountered. Supercedes FinalTerm. */
 	VSCode
 }
 

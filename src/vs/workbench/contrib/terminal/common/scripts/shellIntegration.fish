@@ -85,7 +85,7 @@ if not set -q VSCODE_PYTHON_AUTOACTIVATE_GUARD
 		set __vsc_activation_status $status
 
 		if test $__vsc_activation_status -ne 0
-			builtin printf '\x1b[0m\x1b[7m * \x1b[0;103m VS Code Python fish activation failed with exit code %d \x1b[0m \n' "$__vsc_activation_status"
+			builtin printf '\x1b[0m\x1b[7m * \x1b[0;103m Notepad# Python fish activation failed with exit code %d \x1b[0m \n' "$__vsc_activation_status"
 		end
 	end
 end
@@ -97,7 +97,7 @@ if set -q VSCODE_NONCE
 end
 
 # Helper function
-function __vsc_esc -d "Emit escape sequences for VS Code shell integration"
+function __vsc_esc -d "Emit escape sequences for Notepad# shell integration"
 	builtin printf "\e]633;%s\a" (string join ";" -- $argv)
 end
 

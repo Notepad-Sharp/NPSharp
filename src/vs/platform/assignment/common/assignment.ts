@@ -79,7 +79,7 @@ export enum Filters {
 	ExtensionVersion = 'X-VSCode-ExtensionVersion',
 
 	/**
-	 * The language in use by VS Code
+	 * The language in use by Notepad#
 	 */
 	Language = 'X-VSCode-Language',
 

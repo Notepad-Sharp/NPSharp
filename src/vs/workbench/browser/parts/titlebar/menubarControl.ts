@@ -45,29 +45,6 @@ import { ActivityBarPosition } from '../../../services/layout/browser/layoutServ
 
 export type IOpenRecentAction = IAction & { uri: URI; remoteAuthority?: string };
 
-registerAction2(class ToggleActivityBarAction extends Action2 {
-	constructor() {
-		super({
-			id: 'editor.action.toggleActivityBar',
-			title: localize('toggleActivityBar', 'Show Icons'),
-			f1: false
-		});
-	}
-
-	run() {
-		// Pega o elemento principal
-		const el = document.querySelector<HTMLElement>('.composite-bar');
-		if (!el) return;
-
-		// Descobre se está escondido
-		const isHidden = el.style.display === 'none';
-
-		// Toggle da barra de atividades
-		el.style.display = isHidden ? 'flex' : 'none';
-
-		// Toggle dos ícones de conta e config
-	}
-});
 
 MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 	submenu: MenuId.MenubarFileMenu,
@@ -107,57 +84,6 @@ MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
 		mnemonicTitle: localize({ key: 'mView', comment: ['&& denotes a mnemonic'] }, "&&View")
 	},
 	order: 4
-});
-
-//Mais uma vez me metendo em codigos só porque amo a thainá
-export const MenubarExtrasMenu = new MenuId('MenubarExtrasMenu');
-MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {
-	submenu: MenubarExtrasMenu,
-	title: {
-		value: localize('mExtras', 'Extras'),
-		original: 'Extras',
-		mnemonicTitle: localize({ key: 'mExtrasMnemonic', comment: ['&& denotes a mnemonic'] }, '&&Extras')
-	},
-	order: 10 // define a posição — entre Go (9) e Terminal (10), por exemplo
-});
-
-// 3. Adiciona ações dentro dele
-MenuRegistry.appendMenuItem(MenubarExtrasMenu, {
-	command: {
-		id: 'workbench.action.toggleSidebarVisibility',
-		title: localize('toggleSidebar', 'Show File Tree')
-	},
-	order: 1
-});
-
-MenuRegistry.appendMenuItem(MenubarExtrasMenu, {
-	command: {
-		id: 'workbench.action.toggleAuxiliaryBar',
-		title: localize('toggleAuxBar', 'Show More')
-	},
-	order: 2
-});
-
-MenuRegistry.appendMenuItem(MenubarExtrasMenu, {
-	command: {
-		id: 'editor.action.toggleMinimap',
-		title: localize('toggleMinimap', 'Show Minimap')
-	},
-	order: 3
-});
-MenuRegistry.appendMenuItem(MenubarExtrasMenu, {
-	command: {
-		id: 'editor.action.toggleActivityBar',
-		title: localize('toggleActivityBar', 'Show icons')
-	},
-	order: 4
-});
-MenuRegistry.appendMenuItem(MenubarExtrasMenu, {
-	command: {
-		id: 'editor.action.toggleEverything',
-		title: localize('toggleEverything', 'Ativar/desativar tudo')
-	},
-	order: 5
 });
 
 MenuRegistry.appendMenuItem(MenuId.MenubarMainMenu, {

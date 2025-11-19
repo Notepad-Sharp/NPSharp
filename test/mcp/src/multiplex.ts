@@ -31,7 +31,7 @@ export async function getServer(): Promise<Server> {
 		{
 			name: 'VS Code Automation + Playwright Server',
 			version: '1.0.0',
-			title: 'Contains tools that can interact with a local build of VS Code. Used for verifying UI behavior.'
+			title: 'Contains tools that can interact with a local build of Notepad#. Used for verifying UI behavior.'
 		}
 	);
 

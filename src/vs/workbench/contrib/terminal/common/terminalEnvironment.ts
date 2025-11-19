@@ -290,7 +290,7 @@ export async function createTerminalEnvironment(
 			}
 		}
 
-		// Sanitize the environment, removing any undesirable VS Code and Electron environment
+		// Sanitize the environment, removing any undesirable Notepad# and Electron environment
 		// variables
 		sanitizeProcessEnvironment(env, 'VSCODE_IPC_HOOK_CLI');
 

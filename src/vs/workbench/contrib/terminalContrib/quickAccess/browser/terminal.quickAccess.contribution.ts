@@ -24,8 +24,8 @@ quickAccessRegistry.registerQuickAccessProvider({
 	ctor: TerminalQuickAccessProvider,
 	prefix: TerminalQuickAccessProvider.PREFIX,
 	contextKey: inTerminalsPicker,
-	placeholder: nls.localize('tasksQuickAccessPlaceholder', "Type the name of a terminal to open."),
-	helpEntries: [{ description: nls.localize('tasksQuickAccessHelp', "Show All Opened Terminals"), commandId: TerminalQuickAccessCommandId.QuickOpenTerm }]
+	placeholder: nls.localize('tasksQuickAccessPlaceholder', "Escreva o nome de um terminal para abri-lo"),
+	helpEntries: [{ description: nls.localize('tasksQuickAccessHelp', "Mostrar todos os Terminais abertos"), commandId: TerminalQuickAccessCommandId.QuickOpenTerm }]
 });
 const quickAccessNavigateNextInTerminalPickerId = 'workbench.action.quickOpenNavigateNextInTerminalPicker';
 CommandsRegistry.registerCommand({ id: quickAccessNavigateNextInTerminalPickerId, handler: getQuickNavigateHandler(quickAccessNavigateNextInTerminalPickerId, true) });

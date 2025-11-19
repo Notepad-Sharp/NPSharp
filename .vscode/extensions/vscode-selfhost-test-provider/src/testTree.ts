@@ -19,7 +19,7 @@ export const itemData = new WeakMap<vscode.TestItem, VSCodeTest>();
 export const clearFileDiagnostics = (uri: vscode.Uri) => diagnosticCollection.delete(uri);
 
 /**
- * Tries to guess which workspace folder VS Code is in.
+ * Tries to guess which workspace folder Notepad# is in.
  */
 export const guessWorkspaceFolder = async () => {
 	if (!vscode.workspace.workspaceFolders) {
@@ -58,7 +58,7 @@ export class TestFile {
 	constructor(
 		public readonly uri: vscode.Uri,
 		public readonly workspaceFolder: vscode.WorkspaceFolder
-	) {}
+	) { }
 
 	public getId() {
 		return this.uri.toString().toLowerCase();
@@ -169,8 +169,8 @@ export abstract class TestConstruct {
 	}
 }
 
-export class TestSuite extends TestConstruct {}
+export class TestSuite extends TestConstruct { }
 
-export class TestCase extends TestConstruct {}
+export class TestCase extends TestConstruct { }
 
 export type VSCodeTest = TestFile | TestSuite | TestCase;

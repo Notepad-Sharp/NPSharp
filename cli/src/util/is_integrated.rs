@@ -6,7 +6,7 @@
 use std::{env, io};
 
 /// Gets whether the current CLI seems like it's running in integrated mode,
-/// by looking at the location of the exe and known VS Code files.
+/// by looking at the location of the exe and known Notepad# files.
 pub fn is_integrated_cli() -> io::Result<bool> {
 	let exe = env::current_exe()?;
 

@@ -387,7 +387,7 @@ suite('Render Functions', () => {
 			assert.ok(result.includes('Translated Description'));
 		});
 
-		test('should include VS Code specific URLs', () => {
+		test('should include Notepad# specific URLs', () => {
 			const result = renderProfileManifest('VS Code', 'com.microsoft.vscode', ['1.0'], [mockCategory], [mockPolicy]);
 
 			assert.ok(result.includes('https://code.visualstudio.com/'));
@@ -503,7 +503,7 @@ suite('Render Functions', () => {
 			</dict>
 		</array>
 		<key>PayloadDescription</key>
-		<string>This profile manages VS Code. For more information see https://code.visualstudio.com/docs/setup/enterprise</string>
+		<string>This profile manages Notepad#. For more information see https://code.visualstudio.com/docs/setup/enterprise</string>
 		<key>PayloadDisplayName</key>
 		<string>VS Code</string>
 		<key>PayloadIdentifier</key>

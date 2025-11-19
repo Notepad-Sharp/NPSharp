@@ -24,7 +24,7 @@ suite('PolicyExport Integration Tests', () => {
 			this.skip();
 		}
 
-		// This test launches VS Code with --export-policy-data flag, so it takes longer
+		// This test launches Notepad# with --export-policy-data flag, so it takes longer
 		this.timeout(60000);
 
 		// Get the repository root (FileAccess.asFileUri('') points to the 'out' directory)
@@ -33,7 +33,7 @@ suite('PolicyExport Integration Tests', () => {
 		const tempFile = join(os.tmpdir(), `policyData-test-${Date.now()}.jsonc`);
 
 		try {
-			// Launch VS Code with --export-policy-data flag
+			// Launch Notepad# with --export-policy-data flag
 			const scriptPath = isWindows
 				? join(rootPath, 'scripts', 'code.bat')
 				: join(rootPath, 'scripts', 'code.sh');

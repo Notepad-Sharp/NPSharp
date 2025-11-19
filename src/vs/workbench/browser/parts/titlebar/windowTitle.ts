@@ -293,7 +293,7 @@ export class WindowTitle extends Disposable {
 	 * {rootPath}: e.g. /Users/Development
 	 * {folderName}: e.g. myFolder
 	 * {folderPath}: e.g. /Users/Development/myFolder
-	 * {appName}: e.g. VS Code
+	 * {appName}: e.g. Notepad#
 	 * {remoteName}: e.g. SSH
 	 * {dirty}: indicator
 	 * {focusedView}: e.g. Terminal

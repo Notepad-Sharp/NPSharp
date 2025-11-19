@@ -223,7 +223,7 @@
 		{
 			"type": "chrome",
 			"request": "attach",
-			"name": "Attach to VS Code",
+			"name": "Attach to Notepad#",
 			"browserAttachLocation": "workspace",
 			"port": 9222,
 			"outFiles": [
@@ -237,7 +237,7 @@
 		{
 			"type": "chrome",
 			"request": "launch",
-			"name": "Launch VS Code Internal",
+			"name": "Launch Notepad# Internal",
 			"windows": {
 				"runtimeExecutable": "${workspaceFolder}/scripts/code.bat"
 			},
@@ -282,7 +282,7 @@
 			// To debug observables you also need the extension "ms-vscode.debug-value-editor"
 			"type": "chrome",
 			"request": "launch",
-			"name": "Launch VS Code Internal (Dev Debug)",
+			"name": "Launch Notepad# Internal (Dev Debug)",
 			"windows": {
 				"runtimeExecutable": "${workspaceFolder}/scripts/code.bat"
 			},
@@ -517,7 +517,7 @@
 				"${workspaceFolder}/out/**/*.js"
 			],
 			"cascadeTerminateToConfigurations": [
-				"Attach to VS Code"
+				"Attach to Notepad#"
 			],
 			"env": {
 				"MOCHA_COLORS": "true"
@@ -539,7 +539,7 @@
 				"runtimeExecutable": "${workspaceFolder}/.build/electron/code-oss"
 			},
 			"cascadeTerminateToConfigurations": [
-				"Attach to VS Code"
+				"Attach to Notepad#"
 			],
 			"outputCapture": "std",
 			"args": [
@@ -604,7 +604,7 @@
 			"name": "VS Code",
 			"stopAll": true,
 			"configurations": [
-				"Launch VS Code Internal",
+				"Launch Notepad# Internal",
 				"Attach to Main Process",
 				"Attach to Extension Host",
 				"Attach to Shared Process",
@@ -619,7 +619,7 @@
 			"name": "VS Code (Debug Observables)",
 			"stopAll": true,
 			"configurations": [
-				"Launch VS Code Internal (Dev Debug)",
+				"Launch Notepad# Internal (Dev Debug)",
 				"Attach to Main Process",
 				"Attach to Extension Host",
 				"Attach to Shared Process",
@@ -633,7 +633,7 @@
 		{
 			"name": "Search, Renderer, and Main processes",
 			"configurations": [
-				"Launch VS Code Internal",
+				"Launch Notepad# Internal",
 				"Attach to Main Process",
 				"Attach to Search Process"
 			],
@@ -645,7 +645,7 @@
 		{
 			"name": "Renderer, Extension Host, and Main processes",
 			"configurations": [
-				"Launch VS Code Internal",
+				"Launch Notepad# Internal",
 				"Attach to Main Process",
 				"Attach to Extension Host"
 			],
@@ -657,7 +657,7 @@
 		{
 			"name": "Debug Unit Tests",
 			"configurations": [
-				"Attach to VS Code",
+				"Attach to Notepad#",
 				"Run Unit Tests"
 			],
 			"presentation": {
@@ -668,7 +668,7 @@
 		{
 			"name": "Debug Unit Tests (Current File)",
 			"configurations": [
-				"Attach to VS Code",
+				"Attach to Notepad#",
 				"Run Unit Tests For Current File"
 			],
 			"presentation": {
@@ -680,7 +680,7 @@
 			"name": "Renderer and Main processes",
 			"stopAll": true,
 			"configurations": [
-				"Launch VS Code Internal",
+				"Launch Notepad# Internal",
 				"Attach to Main Process"
 			],
 			"preLaunchTask": "Ensure Prelaunch Dependencies"

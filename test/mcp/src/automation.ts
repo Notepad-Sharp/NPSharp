@@ -13,12 +13,12 @@ export async function getServer(appService: ApplicationService): Promise<Server>
 	const server = new McpServer({
 		name: 'VS Code Automation Server',
 		version: '1.0.0',
-		title: 'An MCP Server that can interact with a local build of VS Code. Used for verifying UI behavior.'
+		title: 'An MCP Server that can interact with a local build of Notepad#. Used for verifying UI behavior.'
 	}, { capabilities: { logging: {} } });
 
 	server.tool(
 		'vscode_automation_start',
-		'Start VS Code Build',
+		'Start Notepad# Build',
 		{
 			recordVideo: z.boolean().optional()
 		},
@@ -28,13 +28,13 @@ export async function getServer(appService: ApplicationService): Promise<Server>
 			return {
 				content: [{
 					type: 'text' as const,
-					text: app ? `VS Code started successfully` : `Failed to start VS Code`
+					text: app ? `VS Code started successfully` : `Failed to start Notepad#`
 				}]
 			};
 		}
 	);
 
-	// Apply all VS Code automation tools using the modular structure
+	// Apply all Notepad# automation tools using the modular structure
 	const registeredTools = applyAllTools(server, appService);
 	const app = appService.application;
 	if (app) {

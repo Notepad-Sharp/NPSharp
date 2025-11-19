@@ -178,7 +178,7 @@ const policies: ExportedPolicyDataDto = {
 					},
 					{
 						key: 'chat.mcp.access.registry',
-						value: 'Allows access to MCP servers installed from the registry that VS Code is connected to.'
+						value: 'Allows access to MCP servers installed from the registry that Notepad# is connected to.'
 					},
 					{
 						key: 'chat.mcp.access.any',

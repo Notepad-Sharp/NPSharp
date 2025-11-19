@@ -105,7 +105,7 @@ impl StatusError {
 	}
 }
 
-// When the provided connection token doesn't match the one used to set up the original VS Code Server
+// When the provided connection token doesn't match the one used to set up the original Notepad# Server
 // This is most likely due to a new user joining.
 #[derive(Debug)]
 pub struct MismatchConnectionToken(pub String);
@@ -116,7 +116,7 @@ impl std::fmt::Display for MismatchConnectionToken {
 	}
 }
 
-// When the VS Code server has an unrecognized extension (rather than zip or gz)
+// When the Notepad# server has an unrecognized extension (rather than zip or gz)
 #[derive(Debug)]
 pub struct InvalidServerExtensionError(pub String);
 
@@ -435,7 +435,7 @@ impl Display for DbusConnectFailedError {
 	}
 }
 
-/// Internal errors in the VS Code CLI.
+/// Internal errors in the Notepad# CLI.
 /// Note: other error should be migrated to this type gradually
 #[derive(Error, Debug)]
 pub enum CodeError {

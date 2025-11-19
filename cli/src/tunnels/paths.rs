@@ -62,7 +62,7 @@ impl ServerPaths {
 		})
 	}
 
-	// VS Code Server pid
+	// Notepad# Server pid
 	pub fn write_pid(&self, pid: u32) -> Result<(), WrappedError> {
 		write(&self.pidfile, format!("{pid}")).map_err(|e| {
 			wrap(

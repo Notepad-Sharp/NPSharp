@@ -94,7 +94,7 @@
 			"problemMatcher": "$tsc"
 		},
 		{
-			"label": "Kill VS Code - Build",
+			"label": "Kill Notepad# - Build",
 			"dependsOn": [
 				"Kill Core - Build",
 				"Kill Ext - Build"
@@ -103,9 +103,9 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Restart VS Code - Build",
+			"label": "Restart Notepad# - Build",
 			"dependsOn": [
-				"Kill VS Code - Build",
+				"Kill Notepad# - Build",
 				"VS Code - Build"
 			],
 			"group": "build",
@@ -113,9 +113,9 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Kill VS Code - Build, Npm, VS Code - Build",
+			"label": "Kill Notepad# - Build, Npm, Notepad# - Build",
 			"dependsOn": [
-				"Kill VS Code - Build",
+				"Kill Notepad# - Build",
 				"npm: install",
 				"VS Code - Build"
 			],

@@ -28,7 +28,7 @@ import { applyChatTools } from './chat.js';
 import { ApplicationService } from '../application';
 
 /**
- * Apply all VS Code automation tools to the MCP server
+ * Apply all Notepad# automation tools to the MCP server
  * @param server - The MCP server instance
  * @param appService - The application service instance
  * @returns The registered tools from the server

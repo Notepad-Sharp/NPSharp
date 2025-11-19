@@ -4,7 +4,7 @@
 
 ## Features
 
-This extension provides the following GitHub-related features for VS Code:
+This extension provides the following GitHub-related features for Notepad#:
 
 - `Publish to GitHub` command
 - `Clone from GitHub` participant to the `Git: Clone` command
