@@ -896,11 +896,7 @@ export class GettingStartedPage extends EditorPane {
 			showOnStartupCheckbox.checked = !showOnStartupCheckbox.checked;
 			onShowOnStartupChanged();
 		}));
-		// isso aqui é só pra release dela, de preferencia, tirar o nome voidlove do package.json
-		// const header = $('.header', {},
-		// 	$('h1.product-name.caption', {}, this.productService.nameLong),
-		// 	$('p.subtitle.description', {}, localize({ key: 'gettingStarted.editingEvolved', comment: ['Shown as subtitle on the Welcome page.'] }, "Feito pra você, Thainá. Única, amada, desejada. O impossível é possível com amor."))
-		// );
+
 
 		const header = $('.header', {},
 			$('h1.product-name.caption', {}, this.productService.nameLong),

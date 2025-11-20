@@ -50,8 +50,8 @@
         "path": "./themes/light_vs.json"
       },
       {
-        "id": "npsvoidloveplus",
-        "label": "Notepad Sharp VoidLove+",
+        "id": "npsvoidpinkplus",
+        "label": "Notepad Sharp Void Pink+",
         "uiTheme": "vs-dark",
         "path": "./themes/hc_black.json"
       },
