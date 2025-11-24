@@ -1,0 +1,63 @@
+# Run on a schedule
+trigger: none
+pr: none
+
+schedules:
+  - cron: '0 9 * * Mon-Thu'
+    displayName: Nightly Release Schedule
+    branches:
+      include:
+        - main
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: microsoft/vscode-engineering
+      ref: main
+      endpoint: Monaco
+
+parameters:
+  - name: publishExtension
+    displayName: 🚀 Publish Extension
+    type: boolean
+    default: false
+
+extends:
+  template: azure-pipelines/extension/pre-release.yml@templates
+  parameters:
+    workingDirectory: $(Build.SourcesDirectory)
+    l10nSourcePaths: $(Build.SourcesDirectory)/src
+    vscePackageArgs: --no-dependencies
+    buildSteps:
+      - task: AzureCLI@2
+        displayName: 'Azure CLI: Set token for packaging registry'
+        inputs:
+          azureSubscription: 'vscode-devdiv-packaging'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            set -e
+            TOKEN_BASE64=$(az account get-access-token --query accessToken --resource 499b84ac-1321-427f-aa17-267ca6975798 -o tsv)
+            npm set "//devdiv.pkgs.visualstudio.com/DevDiv/_packaging/vscode-internal/npm/:username=devdiv"
+            npm set "//devdiv.pkgs.visualstudio.com/DevDiv/_packaging/vscode-internal/npm/:email=unset"
+            npm set "//devdiv.pkgs.visualstudio.com/DevDiv/_packaging/vscode-internal/npm/:_password=$TOKEN_BASE64"
+
+      - script: npm install --frozen-lockfile
+        displayName: Install dependencies
+
+      - script: node build/nightlyVersionBump.js
+        displayName: Bump Nightly version
+
+      - script: npm run package-web
+        displayName: Compile
+
+    ghCreateTag: false
+
+    tsa:
+      config:
+        serviceTreeID: '5d36a4a8-78dc-40d8-8942-b64fc69a8756'
+        areaPath: 'Visual Studio Code Remote Extensions'
+      enabled: true
+
+    publishExtension: ${{ parameters.publishExtension }}

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SqlToolsResourceProviderService</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.SqlTools.ResourceProvider.Program">
+            <summary>
+            Main application class for the executable that supports the resource provider and identity services
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ResourceProvider.Program.Main(System.String[])">
+            <summary>
+            Main entry point into the Credentials Service Host
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ResourceProvider.ResourceProviderHostLoader">
+            <summary>
+            Provides support for starting up a service host. This is a common responsibility
+            for both the main service program and test driver that interacts with it
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ResourceProvider.ResourceProviderHostLoader.InitializeHostedServices(Microsoft.SqlTools.Extensibility.RegisteredServiceProvider,Microsoft.SqlTools.Hosting.Protocol.IProtocolEndpoint)">
+            <summary>
+            Internal to support testing. Initializes <see cref="T:Microsoft.SqlTools.Hosting.IHostedService"/> instances in the service,
+            and registers them for their preferred service type
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,1062 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MicrosoftSqlToolsMigration</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationProgressParams">
+            <summary>
+            Parameters for the certificate migration progress event
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationProgressParams.Name">
+            <summary>
+            Database name
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationProgressParams.Message">
+            <summary>
+            Message related to the success status. true should describe a positive outcome. false should have an error.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationProgressParams.Success">
+            <summary>
+            Result of migration.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationProgressParams.StatusCode">
+            <summary>
+            Status code returned by migration.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationProgressEvent">
+            <summary>
+            Create a certificate migration request. This should be register at the client.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationProgressEvent.Type">
+            <summary>
+            Name and parameters for the event definition.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams">
+            <summary>
+            Parameters for the certificate migration operation
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams.EncryptedDatabases">
+            <summary>
+            List of databses to migrate the certificates
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams.SourceSqlConnectionString">
+            <summary>
+            Source connection string to the server
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams.TargetSubscriptionId">
+            <summary>
+            Target subscription id
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams.TargetResourceGroupName">
+            <summary>
+            Target resource group name
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams.TargetManagedInstanceName">
+            <summary>
+            Target manages instance name
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams.NetworkSharePath">
+            <summary>
+            Place where certificates will be exported
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams.NetworkShareDomain">
+            <summary>
+            Domain for the user credentials able to read from the shared path
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams.NetworkShareUserName">
+            <summary>
+            Username for the credentials able to read from the shared path
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams.NetworkSharePassword">
+            <summary>
+            Password for the credentials able to read from the shared path
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams.AccessToken">
+            <summary>
+            Access token for the ARM client
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationResult">
+            <summary>
+            Result for the certificate migration operation
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationResult.MigrationStatuses">
+            <summary>
+            List of the status of each certificate migration result attempted.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationEntryResult">
+            <summary>
+            Result for an individual database certificate migration
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationEntryResult.DbName">
+            <summary>
+            The name of the database this result represent
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationEntryResult.Success">
+            <summary>
+            The result of the migration.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationEntryResult.Message">
+            <summary>
+            Description of the success status or the error message encountered when the migration was not successful.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationEntryResult.StatusCode">
+            <summary>
+            Status code returned by migration.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationRequest">
+            <summary>
+            Certificate migration request definition
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.CertificateMigrationRequest.Type">
+            <summary>
+            Name, parameter and return type for the certicate migration operation
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.DataFolder">
+            <summary>
+            Folder from which collected performance data will be read from
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.PerfQueryIntervalInSec">
+            <summary>
+            Interval at which collected performance data was originally queried at, in seconds
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.TargetPlatforms">
+            <summary>
+            List of target platforms to consider when generating recommendations
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.TargetSqlInstance">
+            <summary>
+            Name of the SQL instance to generate recommendations for
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.TargetPercentile">
+            <summary>
+            Target percentile to use when performing perf data aggregation
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.ScalingFactor">
+            <summary>
+            Scaling ("comfort") factor when evalulating performance requirements
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.StartTime">
+            <summary>
+            Start time of collected data points to consider 
+            
+            TO-DO: do we really need this? it's pretty safe to assume that most users would want us to evaluate all the collected data and not just part of it
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.EndTime">
+            <summary>
+            End time of collected data points to consider
+            
+            TO-DO: do we really need this? it's pretty safe to assume that most users would want us to evaluate all the collected data and not just part of it
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.IncludePreviewSkus">
+            <summary>
+            Whether or not to consider preview SKUs when generating SKU recommendations
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.DatabaseAllowList">
+            <summary>
+            List of databases to consider when generating recommendations
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.IsPremiumSSDV2Enabled">
+            <summary>
+            Whether or not PremiumSSDV2 as a feature is enabled.
+            Defaults to false if not explicitly provided.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams.IsNextGenGPEnabled">
+            <summary>
+            Whether or not NextGenGeneralPurpose as a feature is enabled.
+            Defaults to false if not explicitly provided.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.SqlDbRecommendationResults">
+            <summary>
+            List of SQL DB recommendation results, if applicable
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.SqlDbRecommendationDurationInMs">
+            <summary>
+            How long the SQL DB recommendations took to generate, in milliseconds. Equal to -1 if SQL DB recommendations are not applicable.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.SqlMiRecommendationResults">
+            <summary>
+            List of SQL MI recommendation results, if applicable
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.SqlMiRecommendationDurationInMs">
+            <summary>
+            How long the SQL MI recommendations took to generate, in milliseconds. Equal to -1 if SQL MI recommendations are not applicable.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.SqlVmRecommendationResults">
+            <summary>
+            List of SQL VM recommendation results, if applicable
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.SqlVmRecommendationDurationInMs">
+            <summary>
+            How long the SQL VM recommendations took to generate, in milliseconds. Equal to -1 if SQL VM recommendations are not applicable.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.ElasticSqlDbRecommendationResults">
+            <summary>
+            List of SQL DB recommendation results generated by the elastic model, if applicable
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.ElasticSqlDbRecommendationDurationInMs">
+            <summary>
+            How long the SQL DB recommendations took to generate using the elastic model, in milliseconds. Equal to -1 if SQL DB elastic recommendations are not applicable.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.ElasticSqlMiRecommendationResults">
+            <summary>
+            List of SQL MI recommendation results generated by the elastic model, if applicable
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.ElasticSqlMiRecommendationDurationInMs">
+            <summary>
+            How long the SQL MI recommendations took to generate using the elastic model, in milliseconds. Equal to -1 if SQL MI elastic recommendations are not applicable.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.ElasticSqlVmRecommendationResults">
+            <summary>
+            List of SQL VM recommendation results generated by the elastic model, if applicable
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.ElasticSqlVmRecommendationDurationInMs">
+            <summary>
+            How long the SQL VM recommendations took to generate using the elastic model, in milliseconds. Equal to -1 if SQL VM elastic recommendations are not applicable.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.InstanceRequirements">
+            <summary>
+            SQL instance requirements, representing an aggregated view of the performance requirements of the source instance
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.SkuRecommendationReportPaths">
+            <summary>
+            File paths where the recommendation reports were saved
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult.ElasticSkuRecommendationReportPaths">
+            <summary>
+            File paths where the recommendation reports generated by the elastic model were saved
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.ImpactedObjectInfo">
+            <summary>
+            Describes an item returned by SQL Assessment RPC methods
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo">
+            <summary>
+            Describes an item returned by SQL Assessment RPC methods
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.RulesetVersion">
+            <summary>
+            Gets or sets assessment ruleset version.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.RulesetName">
+            <summary>
+            Gets or sets assessment ruleset name
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.RuleId">
+            <summary>
+            Gets or sets assessment ruleset name
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.TargetType">
+            <summary>
+            Gets or sets the assessed object's name. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.DatabaseName">
+            <summary>
+            Gets or sets the database name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.ServerName">
+            <summary>
+            Gets or sets the server name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.CheckId">
+            <summary>
+            Gets or sets check's ID.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.Tags">
+            <summary>
+            Gets or sets tags assigned to this item.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.DisplayName">
+            <summary>
+            Gets or sets a display name for this item.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.Description">
+            <summary>
+            Gets or sets a brief description of the item's purpose.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.HelpLink">
+            <summary>
+            Gets or sets a <see cref="T:System.String"/> containing
+            an link to a page providing detailed explanation
+            of the best practice.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.Level">
+            <summary>
+            Gets or sets a <see cref="T:System.String"/> indicating
+            severity level assigned to this items.
+            Values are: "Information", "Warning", "Critical".
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentInfo.DatabaseRestoreFails">
+            <summary>
+            This flag is set if the assessment result is a blocker for migration to Target Platform.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentsParams.ConnectionString">
+            <summary>
+            Owner URI
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentsParams.Databases">
+            <summary>
+            List of databases to assess
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentsParams.XEventsFilesFolderPath">
+            <summary>
+            Folder path to XEvents files to be assessed, if applicable. Empty string to disable XEvents assessment.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentsParams.collectAdhocQueries">
+            <summary>
+            Bool to enable ad-hoc query collection and extraction through QDS. False if not set.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentResult.Errors">
+            <summary>
+            Errors that happen while running the assessment
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentResult.AssessmentResult">
+            <summary>
+            Result of the assessment
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentResult.StartTime">
+            <summary>
+            Start time of the assessment
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentResult.EndedTime">
+            <summary>
+            End time of the assessment
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentResult.RawAssessmentResult">
+            <summary>
+            Contains the raw assessment response 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentResult.AssessmentReportPath">
+            <summary>
+            File path where the assessment report was saved
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentsRequest">
+            <summary>
+            Retreive metadata for the table described in the TableMetadataParams value
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.Name">
+            <summary>
+            Name of the server
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.CpuCoreCount">
+            <summary>
+            Cpu cores for the server host
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.PhysicalServerMemory">
+            <summary>
+            Server host physical memory size
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.ServerHostPlatform">
+            <summary>
+            Host operating system of the SQL server
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.ServerVersion">
+            <summary>
+            Version of the SQL server
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.ServerEngineEdition">
+            <summary>
+            SQL server engine edition
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.ServerEdition">
+            <summary>
+            SQL server edition
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.IsClustered">
+            <summary>
+            We use this flag to indicate if the SQL server is part of the failover cluster
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.NumberOfUserDatabases">
+            <summary>
+            Returns the total number of dbs assessed
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.SqlAssessmentStatus">
+            <summary>
+            Returns the assessment status
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.AssessedDatabaseCount">
+            <summary>
+            Count of Dbs assessed
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.SQLManagedInstanceTargetReadiness">
+            <summary>
+            Give assessed server stats for SQL MI compatibility
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.Items">
+            <summary>
+            Server assessment results
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.Errors">
+            <summary>
+            Server assessment errors
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ServerAssessmentProperties.Databases">
+            <summary>
+            List of databases that are assessed
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.DatabaseAssessmentProperties.Name">
+            <summary>
+            Name of the database
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.DatabaseAssessmentProperties.CompatibilityLevel">
+            <summary>
+            Compatibility level of the database
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.DatabaseAssessmentProperties.DatabaseSize">
+            <summary>
+            Size of the database
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.DatabaseAssessmentProperties.IsReplicationEnabled">
+            <summary>
+            Flag that indicates if the database is replicated
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.DatabaseAssessmentProperties.AssessmentTimeInMilliseconds">
+            <summary>
+            Time taken for assessing the database
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.DatabaseAssessmentProperties.Items">
+            <summary>
+            Database Assessment Results
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.DatabaseAssessmentProperties.Errors">
+            <summary>
+            Database assessment errors
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.DatabaseAssessmentProperties.SQLManagedInstanceTargetReadiness">
+            <summary>
+            Flags that indicate if the database is ready for migration
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ErrorModel.ErrorId">
+            <summary>
+            Id of the assessment error
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ErrorModel.Message">
+            <summary>
+            Error message
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ErrorModel.ErrorSummary">
+            <summary>
+            Summary of the Error
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ErrorModel.PossibleCauses">
+            <summary>
+            Possible causes for the error
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.ErrorModel.Guidance">
+            <summary>
+            Possible mitigation for the error
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.StartPerfDataCollectionParams.ConnectionString">
+            <summary>
+            connection string for the database connection
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.StartPerfDataCollectionParams.DataFolder">
+            <summary>
+            Folder from which collected performance data will be written to
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.StartPerfDataCollectionParams.PerfQueryIntervalInSec">
+            <summary>
+            Interval at which performance data will be collected, in seconds
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.StartPerfDataCollectionParams.StaticQueryIntervalInSec">
+            <summary>
+            Interval at which static (common) data will be collected, in seconds
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.StartPerfDataCollectionParams.NumberOfIterations">
+            <summary>
+            Number of iterations of performance data collection to run before aggregating and saving to disk
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.RefreshPerfDataCollectionParams.LastRefreshedTime">
+            <summary>
+            The last time data collection status was refreshed
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.StartPerfDataCollectionResult.DateTimeStarted">
+            <summary>
+            The time data collection started
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.StopPerfDataCollectionResult.DateTimeStopped">
+            <summary>
+            The time data collection stopped
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.RefreshPerfDataCollectionResult.Messages">
+            <summary>
+            List of status messages captured during data collection
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.RefreshPerfDataCollectionResult.Errors">
+            <summary>
+            List of error messages captured during data collection
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.RefreshPerfDataCollectionResult.RefreshTime">
+            <summary>
+            The last time data collecton status was refreshed
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.RefreshPerfDataCollectionResult.IsCollecting">
+            <summary>
+            Whether or not data collection is currently running
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationStep">
+            <summary>
+            Represents the steps in pre validation.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationStep.SysAdminValidation">
+            <summary>
+            Run Sys Admin validations
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationStep.AADDomainNameValidation">
+            <summary>
+            Run AAD Domain name validations
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationStep.UserMappingValidation">
+            <summary>
+            Run User Mapping validations
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationStep.LoginEligibilityValidation">
+            <summary>
+            Run Login Eligibility validations
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.LoginMigrationStep">
+            <summary>
+            Represents the steps in login migration.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.LoginMigrationStep.StartValidations">
+            <summary>
+            Run pre-migration validations 
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.LoginMigrationStep.MigrateLogins">
+            <summary>
+            Step to hash passwords and migrate logins
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.LoginMigrationStep.EstablishUserMapping">
+            <summary>
+            Step to establish users and logins from source to target
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.LoginMigrationStep.MigrateServerRoles">
+            <summary>
+            Step to migrate server roles
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.LoginMigrationStep.EstablishServerRoleMapping">
+            <summary>
+            Step to establish roles
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.LoginMigrationStep.SetLoginPermissions">
+            <summary>
+            Step to map all the grant/deny permissions for logins
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Migration.Contracts.LoginMigrationStep.SetServerRolePermissions">
+            <summary>
+            Step to map all server roles grant/deny permissions
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams">
+            <summary>
+            Represents the parameters for start login migration.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams.SourceConnectionString">
+            <summary>
+            Connection string to connect to source 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams.TargetConnectionString">
+            <summary>
+            Connection string to connect to target
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams.LoginList">
+            <summary>
+            List of logins to migrate
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams.AADDomainName">
+            <summary>
+            Microsoft Entra domain name (required for Windows Auth)
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.LoginMigrationResult">
+            <summary>
+            Represents the contents of the Login migration result.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.LoginMigrationResult.ExceptionMap">
+            <summary>
+            Exceptions per logins
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.LoginMigrationResult.CompletedStep">
+            <summary>
+            The login migration step that just completed
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.LoginMigrationResult.ElapsedTime">
+            <summary>
+            How long this step took
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationResult">
+            <summary>
+            Represents the contents of the Login migration pre validation result.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationResult.ExceptionMap">
+            <summary>
+            Exceptions per logins
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationResult.CompletedStep">
+            <summary>
+            The login migration pre validation step that just completed
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationResult.ElapsedTime">
+            <summary>
+            How long this step took
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationRequest">
+            <summary>
+            Defines a request sent from the client to start login migration.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.ValidateLoginMigrationRequest">
+            <summary>
+            Defines a request sent from the client to validate login migration.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.ValidateSysAdminPermissionRequest">
+            <summary>
+            Defines a request sent from the client to validate Sys Admin Permission.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.ValidateUserMappingRequest">
+            <summary>
+            Defines a request sent from the client to validate user mapping.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.ValidateAADDomainNameRequest">
+            <summary>
+            Defines a request sent from the client to validate AAD domain name.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.ValidateLoginEligibilityRequest">
+            <summary>
+            Defines a request sent from the client to validate Login Eligibility.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.MigrateLoginsRequest">
+            <summary>
+            Defines a request sent from the client to migrate logins.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.EstablishUserMappingRequest">
+            <summary>
+            Defines a request sent from the client to establish user mapping.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.MigrateServerRolesAndSetPermissionsRequest">
+            <summary>
+            Defines a request sent from the client to migrate server roles and set permissions.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.LoginMigrationNotification">
+            <summary>
+            Defines a notification sent to the client to provide progress notification of the login migration.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Contracts.LoginMigrationProgressEvent">
+            <summary>
+            Represents a status update that is triggered during the progress of a login migration.
+            This status update is specific to individual logins and is sent to the client to provide updates on the migration process.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.TdeValidationParams.SourceSqlConnectionString">
+            <summary>
+            Source connection string for SQL Server.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.Contracts.TdeValidationParams.NetworkSharePath">
+            <summary>
+            Location where certificates will be exported.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.MigrationService.Instance">
+            <summary>
+            Gets the singleton instance object
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:Microsoft.SqlTools.Migration.MigrationService.Engine" -->
+        <member name="P:Microsoft.SqlTools.Migration.MigrationService.ServiceHost">
+            <summary>
+            Service host object for sending/receiving requests/events.
+            Internal for testing purposes.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Migration.MigrationService.DataCollectionController">
+            <summary>
+            Controller for collecting performance data for SKU recommendation
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.InitializeService(Microsoft.SqlTools.Hosting.Protocol.IProtocolEndpoint)">
+            <summary>
+            Initializes the Migration Service instance
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleMigrationAssessmentsRequest(Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentsParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.MigrationAssessmentResult})">
+            <summary>
+            Handle request to start a migration session
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleStartPerfDataCollectionRequest(Microsoft.SqlTools.Migration.Contracts.StartPerfDataCollectionParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.StartPerfDataCollectionResult})">
+            <summary>
+            Handle request to start performance data collection process
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleStopPerfDataCollectionRequest(Microsoft.SqlTools.Migration.Contracts.StopPerfDataCollectionParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.StopPerfDataCollectionResult})">
+            <summary>
+            Handle request to stop performance data collection process
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleRefreshPerfDataCollectionRequest(Microsoft.SqlTools.Migration.Contracts.RefreshPerfDataCollectionParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.RefreshPerfDataCollectionResult})">
+            <summary>
+            Handle request to refresh performance data collection status
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleGetSkuRecommendationsRequest(Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.GetSkuRecommendationsResult})">
+            <summary>
+            Handle request to generate SKU recommendations
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleStartLoginMigration(Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.LoginMigrationResult})">
+            <summary>
+            Handle request to start login migration.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleSysAdminPermissionValidation(Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationResult})">
+            <summary>
+            Handle request to validate sysadmin permissions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleUserMappingValidation(Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationResult})">
+            <summary>
+            Handle request to validate user mapping.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleLoginEligibilityValidation(Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationResult})">
+            <summary>
+            Handle request to validate login eligibility.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleAADDomainNameValidation(Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.LoginMigrationPreValidationResult})">
+            <summary>
+            Handle request to validate AAD domain name.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleValidateLoginMigration(Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.LoginMigrationResult})">
+            <summary>
+            Handle request to validate login migration.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleMigrateLogins(Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.LoginMigrationResult})">
+            <summary>
+            Handle request to migrate logins.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleEstablishUserMapping(Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.LoginMigrationResult})">
+            <summary>
+            Handle request to establish user mapping.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleGetArmTemplateRequest(System.String,Microsoft.SqlTools.Hosting.Protocol.RequestContext{System.Collections.Generic.List{System.String}})">
+            <summary>
+            Handle request generate the ARM template.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleMigrateServerRolesAndSetPermissions(Microsoft.SqlTools.Migration.Contracts.StartLoginMigrationParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.LoginMigrationResult})">
+            <summary>
+            Handle request to migrate server roles and set permissions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleLoginMigrationProgressNotification(System.Object,Microsoft.SqlServer.Migration.Logins.Models.LoginMigrationNotificationEventArgs)">
+            <summary>
+            Handles the login migration progress notification event.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">A LoginMigrationNotificationEventArgs that contains the event data.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.HandleTdeCertificateMigrationRequest(Microsoft.SqlTools.Migration.Contracts.CertificateMigrationParams,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Migration.Contracts.CertificateMigrationResult})">
+            <summary>
+            Request handler for the certifica migration operation
+            </summary>
+            <param name="parameters">Parameters for the operation, as register during the type definition</param>
+            <param name="requestContext">Context provided by the framework</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.MigrateCertificate(Microsoft.SqlServer.Migration.Tde.TdeMigration,System.String)">
+            <summary>
+            Individual certificate migration operation
+            </summary>
+            <param name="tdeMigrationClient">Instance of the migration client</param>
+            <param name="dbName">Name of the database to migrate</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.MigrationService.Dispose">
+            <summary>
+            Disposes the Migration Service
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.Models.StaticTokenCredential">
+            <summary>
+            Temp token creadentials to interact with ArmClient class. 
+            The token passed to this class should be a newly request token, because this class doesn't renew the token.
+            Once MSAL is rolled out on ADS, we will implement a way to use the same ADS token cache configured by ADS. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.Models.StaticTokenCredential.#ctor(System.String)">
+            <summary>
+            Build credentials using a token that will not change.
+            </summary>
+            <param name="accessToken">Newly created token that should last for the duration of the whole operation.</param>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.SqlDataQueryController">
+            <summary>
+            Controller to manage the collection, aggregation, and persistence of SQL performance and static data for SKU recommendation.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlDataQueryController.#ctor(System.String,System.String,System.Int32,System.Int32,System.Int32,Microsoft.SqlServer.DataCollection.Common.Contracts.ErrorHandling.ISqlAssessmentLogger)">
+            <summary>
+            Create a new SqlDataQueryController.
+            </summary>
+            <param name="connectionString">SQL connection string</param>
+            <param name="outputFolder">Output folder to save results to</param>
+            <param name="perfQueryIntervalInSec">Interval, in seconds, at which perf counters are collected</param>
+            <param name="numberOfIterations">Number of iterations of perf counter collection before aggreagtion</param>
+            <param name="staticQueryIntervalInSec">Interval, in seconds, at which static/common counters are colltected</param>
+            <param name="logger">Logger</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlDataQueryController.Start">
+            <summary>
+            Start this SqlDataQueryController.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlDataQueryController.IsRunning">
+            <summary>
+            Returns whether or not this SqlDataQueryController is currently running.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlDataQueryController.PerfDataQueryEvent">
+            <summary>
+            Collect performance data, adding the collected points to the cache.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlDataQueryController.PerfDataAggregateAndPersistEvent">
+            <summary>
+            Aggregate and persist the cached points, saving the aggregated points to disk.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlDataQueryController.StaticDataQueryAndPersistEvent">
+            <summary>
+            Collect and persist static data, saving the collected points to disk.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlDataQueryController.Logging(System.Exception)">
+            <summary>
+            Log exceptions to file.
+            </summary>
+            <param name="ex">Exception to log</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlDataQueryController.Logging(Microsoft.SqlServer.DataCollection.Common.Contracts.ErrorHandling.IErrorModel)">
+            <summary>
+            Log errors to file.
+            </summary>
+            <param name="error">Error to log</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlDataQueryController.FetchLatestMessages(System.DateTime)">
+            <summary>
+            Fetches the latest messages, and then clears the message list.
+            </summary>
+            <param name="startTime">Only return messages from after this time</param>
+            <returns>List of queued messages</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlDataQueryController.FetchLatestErrors(System.DateTime)">
+            <summary>
+            Fetches the latest messages, and then clears the message list.
+            </summary>
+            <param name="startTime">Only return messages from after this time</param>
+            <returns>List of queued errors</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlDataQueryController.Dispose">
+            <summary>
+            Dispose of this SqlDataQueryController.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Migration.SqlPerfDataPointsCache">
+            <summary>
+            Cache to store intermediate SQL performance data before it is aggregated and persisted for SKU recommendation.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlPerfDataPointsCache.#ctor(System.String,Microsoft.SqlServer.DataCollection.Common.Contracts.ErrorHandling.ISqlAssessmentLogger)">
+            <summary>
+            Create a new SqlPerfDataPointsCache.
+            </summary>
+            <param name="outputFolder">Output folder to save results to</param>
+            <param name="logger">Logger</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlPerfDataPointsCache.AddingPerfData(System.Collections.Generic.IList{Microsoft.SqlServer.DataCollection.Common.Contracts.SqlQueries.ISqlPerfDataPoints})">
+            <summary>
+            Add the collected data points to the cache.
+            </summary>
+            <param name="result">Collected data points</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlPerfDataPointsCache.GetRawDataPointsCount">
+            <summary>
+            Return the number of raw data points.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlPerfDataPointsCache.GetAggregatedDataPointsCount">
+            <summary>
+            Return the number of aggregated data points.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlPerfDataPointsCache.AggregatingPerfData">
+            <summary>
+            Aggregate the cached data points.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Migration.SqlPerfDataPointsCache.PersistingCacheAsCsv">
+            <summary>
+            Save the cached and aggregated data points to disk.
+            </summary>
+        </member>
+    </members>
+</doc>

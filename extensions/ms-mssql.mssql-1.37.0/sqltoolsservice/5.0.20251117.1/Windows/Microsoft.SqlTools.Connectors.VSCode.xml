@@ -1,0 +1,1888 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.SqlTools.Connectors.VSCode</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionParameter">
+            <summary>
+            Represents a function parameter that can be passed to an OpenAI function tool call.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionParameter.Name">
+            <summary>Gets the name of the parameter.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionParameter.Description">
+            <summary>Gets a description of the parameter.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionParameter.IsRequired">
+            <summary>Gets whether the parameter is required vs optional.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionParameter.ParameterType">
+            <summary>Gets the <see cref="T:System.Type"/> of the parameter, if known.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionParameter.Schema">
+            <summary>Gets a JSON schema for the parameter, if known.</summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunctionReturnParameter">
+            <summary>
+            Represents a function return parameter that can be returned by a tool call to OpenAI.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunctionReturnParameter.Description">
+            <summary>Gets a description of the return parameter.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunctionReturnParameter.ParameterType">
+            <summary>Gets the <see cref="T:System.Type"/> of the return parameter, if known.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunctionReturnParameter.Schema">
+            <summary>Gets a JSON schema for the return parameter, if known.</summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction">
+            <summary>
+            Represents a function that can be passed to the OpenAI API
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.s_zeroFunctionParametersSchema">
+            <summary>
+            Cached <see cref="T:System.BinaryData"/> storing the JSON for a function with no parameters.
+            </summary>
+            <remarks>
+            This is an optimization to avoid serializing the same JSON Schema over and over again
+            for this relatively common case.
+            </remarks>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.s_stringNoDescriptionSchema">
+            <summary>
+            Cached schema for a descriptionless string.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.#ctor(System.String,System.String,System.String,System.Collections.Generic.IReadOnlyList{Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionParameter},Microsoft.SqlTools.Connectors.VSCode.OpenAIFunctionReturnParameter)">
+            <summary>Initializes the OpenAIFunction.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.NameSeparator">
+            <summary>Gets the separator used between the plugin name and the function name, if a plugin name is present.</summary>
+            <remarks>This separator was previously <c>_</c>, but has been changed to <c>-</c> to better align to the behavior elsewhere in SK and in response
+            to developers who want to use underscores in their function or plugin names. We plan to make this setting configurable in the future.</remarks>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.PluginName">
+            <summary>Gets the name of the plugin with which the function is associated, if any.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.FunctionName">
+            <summary>Gets the name of the function.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.FullyQualifiedName">
+            <summary>Gets the fully-qualified name of the function.</summary>
+            <remarks>
+            This is the concatenation of the <see cref="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.PluginName"/> and the <see cref="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.FunctionName"/>,
+            separated by <see cref="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.NameSeparator"/>. If there is no <see cref="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.PluginName"/>, this is
+            the same as <see cref="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.FunctionName"/>.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.Description">
+            <summary>Gets a description of the function.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.Parameters">
+            <summary>Gets a list of parameters to the function, if any.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.ReturnParameter">
+            <summary>Gets the return parameter of the function, if any.</summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.ToFunctionDefinition">
+            <summary>
+            Converts the <see cref="T:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction"/> representation to the OpenAI SDK's
+            <see cref="T:OpenAI.Chat.ChatTool"/> representation.
+            </summary>
+            <returns>A <see cref="T:OpenAI.Chat.ChatTool"/> containing all the function information.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.GetDefaultSchemaForTypelessParameter(System.String)">
+            <summary>Gets a <see cref="T:Microsoft.SemanticKernel.KernelJsonSchema"/> for a typeless parameter with the specified description, defaulting to typeof(string)</summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContentPart">
+            <summary>
+            VSCodeChatMessageContentPart
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContentPart.Text">
+            <summary>
+            The text content.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent">
+            <summary>
+            OpenAI specialized chat message content
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent.ToolIdProperty">
+            <summary>
+            Gets the metadata key for the tool id.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent.FunctionToolCallsProperty">
+            <summary>
+            Gets the metadata key for the list of <see cref="T:OpenAI.Chat.ChatToolCall"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent.#ctor(Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion,System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent.#ctor(OpenAI.Chat.ChatMessageRole,System.String,System.String,System.Collections.Generic.IReadOnlyList{OpenAI.Chat.ChatToolCall},System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent.#ctor(Microsoft.SemanticKernel.ChatCompletion.AuthorRole,System.String,System.String,System.Collections.Generic.IReadOnlyList{OpenAI.Chat.ChatToolCall},System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent.#ctor(OpenAI.Chat.ChatMessageRole,System.String,System.String,OpenAI.Chat.ChatTool,System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent.ToolCalls">
+            <summary>
+            A list of the tools called by the model.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent.ResponseTool">
+            <summary>
+            ResponseTool
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent.ResponseToolParameters">
+            <summary>
+            ResponseToolParameters
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatMessageContent.GetOpenAIFunctionToolCalls">
+            <summary>
+            Retrieve the resulting function from the chat result.
+            </summary>
+            <returns>The <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall"/>, or null if no function was returned by the model.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore">
+            <summary>
+            Base class for AI clients that provides common functionality for interacting with OpenAI services.
+            </summary>
+            <summary>
+            Base class for AI clients that provides common functionality for interacting with OpenAI services.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.s_jsonSchemaMapperConfiguration">
+            <summary>
+            <see cref="T:JsonSchemaMapper.JsonSchemaMapperConfiguration"/> for JSON schema format for structured outputs.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.MaxInflightAutoInvokes">
+            <summary>
+            The maximum number of auto-invokes that can be in-flight at any given time as part of the current
+            asynchronous chain of execution.
+            </summary>
+            <remarks>
+            This is a fail-safe mechanism. If someone accidentally manages to set up execution settings in such a way that
+            auto-invocation is invoked recursively, and in particular where a prompt function is able to auto-invoke itself,
+            we could end up in an infinite loop. This const is a backstop against that happening. We should never come close
+            to this limit, but if we do, auto-invoke will be disabled for the current flow in order to prevent runaway execution.
+            With the current setup, the way this could possibly happen is if a prompt function is configured with built-in
+            execution settings that opt-in to auto-invocation of everything in the kernel, in which case the invocation of that
+            prompt function could advertize itself as a candidate for auto-invocation. We don't want to outright block that,
+            if that's something a developer has asked to do (e.g. it might be invoked with different arguments than its parent
+            was invoked with), but we do want to limit it. This limit is arbitrary and can be tweaked in the future and/or made
+            configurable should need arise.
+            </remarks>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.s_nonInvocableFunctionTool">
+            <summary>Singleton tool used when tool call count drops to 0 but we need to supply tools to keep the service happy.</summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.s_inflightAutoInvokes">
+            <summary>Tracking <see cref="T:System.Threading.AsyncLocal`1"/> for <see cref="F:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.MaxInflightAutoInvokes"/>.</summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.s_meter">
+            <summary>
+            Instance of <see cref="T:System.Diagnostics.Metrics.Meter"/> for metrics.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.s_promptTokensCounter">
+            <summary>
+            Instance of <see cref="T:System.Diagnostics.Metrics.Counter`1"/> to keep track of the number of prompt tokens used.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.s_completionTokensCounter">
+            <summary>
+            Instance of <see cref="T:System.Diagnostics.Metrics.Counter`1"/> to keep track of the number of completion tokens used.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.s_totalTokensCounter">
+            <summary>
+            Instance of <see cref="T:System.Diagnostics.Metrics.Counter`1"/> to keep track of the total number of tokens used.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.GetChatMessageContentsAsync(System.String,Microsoft.SemanticKernel.ChatCompletion.ChatHistory,Microsoft.SemanticKernel.PromptExecutionSettings,Microsoft.SemanticKernel.Kernel,System.Threading.CancellationToken)">
+            <summary>
+            Generate a new chat message
+            </summary>
+            <param name="targetModel">Model identifier</param>
+            <param name="chat">Chat history</param>
+            <param name="executionSettings">Execution settings for the completion API.</param>
+            <param name="kernel">The <see cref="T:Microsoft.SemanticKernel.Kernel"/> containing services, plugins, and other state for use throughout the operation.</param>
+            <param name="cancellationToken">Async cancellation token</param>
+            <returns>Generated chat message in string format</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.GetSpecializedExecutionSettings(Microsoft.SemanticKernel.PromptExecutionSettings)">
+            <summary>
+            Returns a specialized execution settings object for the OpenAI chat completion service.
+            </summary>
+            <param name="executionSettings">Potential execution settings infer specialized.</param>
+            <returns>Specialized settings</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.StartCompletionActivity(Microsoft.SemanticKernel.ChatCompletion.ChatHistory,Microsoft.SemanticKernel.PromptExecutionSettings)">
+            <summary>
+            Start a chat completion activity for a given model.
+            The activity will be tagged with the a set of attributes specified by the semantic conventions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.GetResponseFormat(Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings)">
+            <summary>
+            Retrieves the response format based on the provided settings.
+            </summary>
+            <param name="executionSettings">Execution settings.</param>
+            <returns>Chat response format</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.GetJsonSchemaResponseFormat(System.Type)">
+            <summary>
+            Gets instance of <see cref="T:OpenAI.Chat.ChatResponseFormat"/> object for JSON schema format for structured outputs.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.IsRequestableTool(OpenAI.Chat.ChatCompletionOptions,Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall)">
+            <summary>Checks if a tool call is for a function that was defined.</summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.CreateNewChat(System.String,Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings)">
+            <summary>
+            Create a new empty chat instance
+            </summary>
+            <param name="text">Optional chat instructions for the AI service</param>
+            <param name="executionSettings">Execution settings</param>
+            <returns>Chat object</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.LogUsage(OpenAI.Chat.ChatTokenUsage)">
+            <summary>
+            Captures usage details, including token information.
+            </summary>
+            <param name="usage">Instance of <see cref="T:OpenAI.Chat.ChatTokenUsage"/> with token usage details.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.ProcessFunctionResult(System.Object,Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior)">
+            <summary>
+            Processes the function result.
+            </summary>
+            <param name="functionResult">The result of the function call.</param>
+            <param name="toolCallBehavior">The ToolCallBehavior object containing optional settings like JsonSerializerOptions.TypeInfoResolver.</param>
+            <returns>A string representation of the function result.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.OnAutoFunctionInvocationAsync(Microsoft.SemanticKernel.Kernel,Microsoft.SemanticKernel.AutoFunctionInvocationContext,System.Func{Microsoft.SemanticKernel.AutoFunctionInvocationContext,System.Threading.Tasks.Task})">
+            <summary>
+            Executes auto function invocation filters and/or function itself.
+            This method can be moved to <see cref="T:Microsoft.SemanticKernel.Kernel"/> when auto function invocation logic will be extracted to common place.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.InvokeFilterOrFunctionAsync(System.Collections.Generic.IList{Microsoft.SemanticKernel.IAutoFunctionInvocationFilter},System.Func{Microsoft.SemanticKernel.AutoFunctionInvocationContext,System.Threading.Tasks.Task},Microsoft.SemanticKernel.AutoFunctionInvocationContext,System.Int32)">
+            <summary>
+            This method will execute auto function invocation filters and function recursively.
+            If there are no registered filters, just function will be executed.
+            If there are registered filters, filter on <paramref name="index"/> position will be executed.
+            Second parameter of filter is callback. It can be either filter on <paramref name="index"/> + 1 position or function if there are no remaining filters to execute.
+            Function will be always executed as last step after all filters.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.Logger">
+            <summary>
+            Logger instance
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.#ctor(Microsoft.SqlTools.Connectors.VSCode.ILanguageModelEndpoint)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore"/> class.
+            </summary>
+            <param name="modelEndpoint">Model name.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.RunRequestAsync``1(System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Invokes the specified request and handles exceptions.
+            </summary>
+            <typeparam name="T">Type of the response.</typeparam>
+            <param name="request">Request to invoke.</param>
+            <returns>Returns the response.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeClientCore.RunRequest``1(System.Func{``0})">
+            <summary>
+            Invokes the specified request and handles exceptions.
+            </summary>
+            <typeparam name="T">Type of the response.</typeparam>
+            <param name="request">Request to invoke.</param>
+            <returns>Returns the response.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion">
+            <summary>
+            Language model chat completion object
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion.ResultText">
+            <summary>
+            Result text
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion.ContentUpdate">
+            <summary>
+            ContentUpdate
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion.ToolCallUpdates">
+            <summary>
+            ToolCallUpdates
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion.Role">
+            <summary>
+            Role of the author of the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion.FinishReason">
+            <summary>
+            The reason why the completion finished.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion.ToolCalls">
+            <summary>
+            ToolCalls
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion.Content">
+            <summary>
+            Content
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion.ResponseTool">
+            <summary>
+            ResponseTool
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion.ResponseToolParameters">
+            <summary>
+            ResponseToolParameters
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.ILanguageModelEndpoint">
+            <summary>
+            Language model endpoint
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.ILanguageModelEndpoint.SendChatRequest(Microsoft.SemanticKernel.ChatCompletion.ChatHistory,System.Collections.Generic.IList{OpenAI.Chat.ChatTool})">
+            <summary>
+            Sends a request to the language model
+            </summary>
+            <param name="chatHistory"></param>
+            <param name="tools"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.ILanguageModelEndpoint.SendChatRequestStreamingAsync(Microsoft.SemanticKernel.ChatCompletion.ChatHistory,System.Collections.Generic.IList{OpenAI.Chat.ChatTool})">
+            <summary>
+            Sends a request and streams results
+            </summary>
+            <param name="chatHistory"></param>
+            <param name="tools"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall">
+            <summary>
+            Represents an OpenAI function tool call with deserialized function name and arguments.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.#ctor(OpenAI.Chat.ChatToolCall)">
+            <summary>Initialize the <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall"/> from a <see cref="T:OpenAI.Chat.ChatToolCall"/>.</summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.#ctor(OpenAI.Chat.ChatTool,System.String)">
+            <summary>Initialize the <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall"/> from a <see cref="T:OpenAI.Chat.ChatToolCall"/>.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.Id">
+            <summary>Gets the ID of the tool call.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.PluginName">
+            <summary>Gets the name of the plugin with which this function is associated, if any.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.FunctionName">
+            <summary>Gets the name of the function.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.Arguments">
+            <summary>Gets a name/value collection of the arguments to the function, if any.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.FullyQualifiedName">
+            <summary>Gets the fully-qualified name of the function.</summary>
+            <remarks>
+            This is the concatenation of the <see cref="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.PluginName"/> and the <see cref="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.FunctionName"/>,
+            separated by <see cref="P:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction.NameSeparator"/>. If there is no <see cref="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.PluginName"/>,
+            this is the same as <see cref="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.FunctionName"/>.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.TrackStreamingToolingUpdate(System.Collections.Generic.IReadOnlyList{OpenAI.Chat.StreamingChatToolCallUpdate},System.Collections.Generic.Dictionary{System.Int32,System.String}@,System.Collections.Generic.Dictionary{System.Int32,System.String}@,System.Collections.Generic.Dictionary{System.Int32,System.Text.StringBuilder}@)">
+            <summary>
+            Tracks tooling updates from streaming responses.
+            </summary>
+            <param name="updates">The tool call updates to incorporate.</param>
+            <param name="toolCallIdsByIndex">Lazily-initialized dictionary mapping indices to IDs.</param>
+            <param name="functionNamesByIndex">Lazily-initialized dictionary mapping indices to names.</param>
+            <param name="functionArgumentBuildersByIndex">Lazily-initialized dictionary mapping indices to arguments.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.ConvertToolCallUpdatesToFunctionToolCalls(System.Collections.Generic.Dictionary{System.Int32,System.String}@,System.Collections.Generic.Dictionary{System.Int32,System.String}@,System.Collections.Generic.Dictionary{System.Int32,System.Text.StringBuilder}@)">
+            <summary>
+            Converts the data built up by <see cref="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall.TrackStreamingToolingUpdate(System.Collections.Generic.IReadOnlyList{OpenAI.Chat.StreamingChatToolCallUpdate},System.Collections.Generic.Dictionary{System.Int32,System.String}@,System.Collections.Generic.Dictionary{System.Int32,System.String}@,System.Collections.Generic.Dictionary{System.Int32,System.Text.StringBuilder}@)"/> into an array of <see cref="T:OpenAI.Chat.ChatToolCall"/>s.
+            </summary>
+            <param name="toolCallIdsByIndex">Dictionary mapping indices to IDs.</param>
+            <param name="functionNamesByIndex">Dictionary mapping indices to names.</param>
+            <param name="functionArgumentBuildersByIndex">Dictionary mapping indices to arguments.</param>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeJsonSchemaTransformer">
+            <summary>
+            JSON Schema transformer to apply OpenAI conditions for structured outputs.
+            <para>
+            - "additionalProperties" property must always be set to <see langword="false"/> in objects.
+            More information here: <see href="https://platform.openai.com/docs/guides/structured-outputs/additionalproperties-false-must-always-be-set-in-objects"/>.
+            </para>
+            <para>
+            - All fields must be "required".
+            More information here: <see href="https://platform.openai.com/docs/guides/structured-outputs/all-fields-must-be-required"/>.
+            </para>
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeStreamingChatMessageContent">
+            <summary>
+            VS Code specialized streaming chat message content.
+            </summary>
+            <remarks>
+            Represents a chat message content chunk that was streamed from the remote model.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeStreamingChatMessageContent.FinishReason">
+            <summary>
+            The reason why the completion finished.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeStreamingChatMessageContent.#ctor(Microsoft.SqlTools.Connectors.VSCode.LanguageModelChatCompletion,System.Int32,System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
+            <summary>
+            Create a new instance of the <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeStreamingChatMessageContent"/> class.
+            </summary>
+            <param name="chatUpdate">Internal OpenAI SDK Message update representation</param>
+            <param name="choiceIndex">Index of the choice</param>
+            <param name="modelId">The model ID used to generate the content</param>
+            <param name="metadata">Additional metadata</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeStreamingChatMessageContent.#ctor(System.Nullable{Microsoft.SemanticKernel.ChatCompletion.AuthorRole},System.String,System.Collections.Generic.IReadOnlyList{OpenAI.Chat.StreamingChatToolCallUpdate},System.Nullable{OpenAI.Chat.ChatFinishReason},System.Int32,System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
+            <summary>
+            Create a new instance of the <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeStreamingChatMessageContent"/> class.
+            </summary>
+            <param name="authorRole">Author role of the message</param>
+            <param name="content">Content of the message</param>
+            <param name="toolCallUpdates">Tool call updates</param>
+            <param name="completionsFinishReason">Completion finish reason</param>
+            <param name="choiceIndex">Index of the choice</param>
+            <param name="modelId">The model ID used to generate the content</param>
+            <param name="metadata">Additional metadata</param>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeStreamingChatMessageContent.ToolCallUpdates">
+            <summary>Gets any update information in the message about a tool call.</summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeStreamingChatMessageContent.ToByteArray">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeStreamingChatMessageContent.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeKernelFunctionMetadataExtensions">
+            <summary>
+            Extensions for <see cref="T:Microsoft.SemanticKernel.KernelFunctionMetadata"/> specific to the OpenAI connector.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeKernelFunctionMetadataExtensions.ToOpenAIFunction(Microsoft.SemanticKernel.KernelFunctionMetadata)">
+            <summary>
+            Convert a <see cref="T:Microsoft.SemanticKernel.KernelFunctionMetadata"/> to an <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionParameter"/>.
+            </summary>
+            <param name="metadata">The <see cref="T:Microsoft.SemanticKernel.KernelFunctionMetadata"/> object to convert.</param>
+            <returns>An <see cref="T:Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction"/> object.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.VSCodePluginCollectionExtensions">
+            <summary>
+            Extension methods for <see cref="T:Microsoft.SemanticKernel.IReadOnlyKernelPluginCollection"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodePluginCollectionExtensions.TryGetFunctionAndArguments(Microsoft.SemanticKernel.IReadOnlyKernelPluginCollection,OpenAI.Chat.ChatToolCall,Microsoft.SemanticKernel.KernelFunction@,Microsoft.SemanticKernel.KernelArguments@)">
+            <summary>
+            Given an <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall"/> object, tries to retrieve the corresponding <see cref="T:Microsoft.SemanticKernel.KernelFunction"/> and populate <see cref="T:Microsoft.SemanticKernel.KernelArguments"/> with its parameters.
+            </summary>
+            <param name="plugins">The plugins.</param>
+            <param name="functionToolCall">The <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall"/> object.</param>
+            <param name="function">When this method returns, the function that was retrieved if one with the specified name was found; otherwise, <see langword="null"/></param>
+            <param name="arguments">When this method returns, the arguments for the function; otherwise, <see langword="null"/></param>
+            <returns><see langword="true"/> if the function was found; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodePluginCollectionExtensions.TryGetFunctionAndArguments(Microsoft.SemanticKernel.IReadOnlyKernelPluginCollection,Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall,Microsoft.SemanticKernel.KernelFunction@,Microsoft.SemanticKernel.KernelArguments@)">
+            <summary>
+            Given an <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall"/> object, tries to retrieve the corresponding <see cref="T:Microsoft.SemanticKernel.KernelFunction"/> and populate <see cref="T:Microsoft.SemanticKernel.KernelArguments"/> with its parameters.
+            </summary>
+            <param name="plugins">The plugins.</param>
+            <param name="functionToolCall">The <see cref="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeFunctionToolCall"/> object.</param>
+            <param name="function">When this method returns, the function that was retrieved if one with the specified name was found; otherwise, <see langword="null"/></param>
+            <param name="arguments">When this method returns, the arguments for the function; otherwise, <see langword="null"/></param>
+            <returns><see langword="true"/> if the function was found; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatCompletionService">
+            <summary>
+            OpenAI chat completion service.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatCompletionService._client">
+            <summary>Core implementation shared by OpenAI clients.</summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatCompletionService.#ctor(Microsoft.SqlTools.Connectors.VSCode.ILanguageModelEndpoint)">
+            <summary>
+            Create an instance of the OpenAI chat completion connector
+            </summary>
+            <param name="languageModelEndpoint">languageModelEndpoint</param>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatCompletionService.Attributes">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatCompletionService.GetChatMessageContentsAsync(Microsoft.SemanticKernel.ChatCompletion.ChatHistory,Microsoft.SemanticKernel.PromptExecutionSettings,Microsoft.SemanticKernel.Kernel,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatCompletionService.GetStreamingChatMessageContentsAsync(Microsoft.SemanticKernel.ChatCompletion.ChatHistory,Microsoft.SemanticKernel.PromptExecutionSettings,Microsoft.SemanticKernel.Kernel,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatCompletionService.GetTextContentsAsync(System.String,Microsoft.SemanticKernel.PromptExecutionSettings,Microsoft.SemanticKernel.Kernel,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodeChatCompletionService.GetStreamingTextContentsAsync(System.String,Microsoft.SemanticKernel.PromptExecutionSettings,Microsoft.SemanticKernel.Kernel,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings">
+            <summary>
+            Execution settings for an OpenAI completion request.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.Temperature">
+            <summary>
+            Temperature controls the randomness of the completion.
+            The higher the temperature, the more random the completion.
+            Default is 1.0.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.TopP">
+            <summary>
+            TopP controls the diversity of the completion.
+            The higher the TopP, the more diverse the completion.
+            Default is 1.0.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.PresencePenalty">
+            <summary>
+            Number between -2.0 and 2.0. Positive values penalize new tokens
+            based on whether they appear in the text so far, increasing the
+            model's likelihood to talk about new topics.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.FrequencyPenalty">
+            <summary>
+            Number between -2.0 and 2.0. Positive values penalize new tokens
+            based on their existing frequency in the text so far, decreasing
+            the model's likelihood to repeat the same line verbatim.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.MaxTokens">
+            <summary>
+            The maximum number of tokens to generate in the completion.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.StopSequences">
+            <summary>
+            Sequences where the completion will stop generating further tokens.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.Seed">
+            <summary>
+            If specified, the system will make a best effort to sample deterministically such that repeated requests with the
+            same seed and parameters should return the same result. Determinism is not guaranteed.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.ResponseFormat">
+            <summary>
+            Gets or sets the response format to use for the completion.
+            </summary>
+            <remarks>
+            Possible values are: "json_object", "text", <see cref="T:OpenAI.Chat.ChatResponseFormat"/> object.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.ChatSystemPrompt">
+            <summary>
+            The system prompt to use when generating text using a chat model.
+            Defaults to "Assistant is a large language model."
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.TokenSelectionBiases">
+            <summary>
+            Modify the likelihood of specified tokens appearing in the completion.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.ToolCallBehavior">
+            <summary>
+            Gets or sets the behavior for how tool calls are handled.
+            </summary>
+            <remarks>
+            <list type="bullet">
+            <item>To disable all tool calling, set the property to null (the default).</item>
+            <item>
+            To request that the model use a specific function, set the property to an instance returned
+            from <see cref="M:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.RequireFunction(Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction,System.Boolean)"/>.
+            </item>
+            <item>
+            To allow the model to request one of any number of functions, set the property to an
+            instance returned from <see cref="M:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.EnableFunctions(System.Collections.Generic.IEnumerable{Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction},System.Boolean)"/>, called with
+            a list of the functions available.
+            </item>
+            <item>
+            To allow the model to request one of any of the functions in the supplied <see cref="T:Microsoft.SemanticKernel.Kernel"/>,
+            set the property to <see cref="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.EnableKernelFunctions"/> if the client should simply
+            send the information about the functions and not handle the response in any special manner, or
+            <see cref="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.AutoInvokeKernelFunctions"/> if the client should attempt to automatically
+            invoke the function and send the result back to the service.
+            </item>
+            </list>
+            For all options where an instance is provided, auto-invoke behavior may be selected. If the service
+            sends a request for a function call, if auto-invoke has been requested, the client will attempt to
+            resolve that function from the functions available in the <see cref="T:Microsoft.SemanticKernel.Kernel"/>, and if found, rather
+            than returning the response back to the caller, it will handle the request automatically, invoking
+            the function, and sending back the result. The intermediate messages will be retained in the
+            <see cref="T:Microsoft.SemanticKernel.ChatCompletion.ChatHistory"/> if an instance was provided.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.User">
+            <summary>
+            A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.Logprobs">
+            <summary>
+            Whether to return log probabilities of the output tokens or not.
+            If true, returns the log probabilities of each output token returned in the `content` of `message`.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.TopLogprobs">
+            <summary>
+            An integer specifying the number of most likely tokens to return at each token position, each with an associated log probability.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.Freeze">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.Clone">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.FromExecutionSettings(Microsoft.SemanticKernel.PromptExecutionSettings,System.Nullable{System.Int32})">
+            <summary>
+            Create a new settings object with the values from another settings object.
+            </summary>
+            <param name="executionSettings">Template configuration</param>
+            <param name="defaultMaxTokens">Default max tokens</param>
+            <returns>An instance of OpenAIPromptExecutionSettings</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.Clone``1">
+            <summary>
+            Clone the settings object.
+            </summary>
+            <typeparam name="T">The type of the settings object to clone.</typeparam>
+            <returns>A new instance of the settings object.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior">
+            <summary>Represents a behavior for OpenAI tool calls.</summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.DefaultMaximumAutoInvokeAttempts">
+            <summary>
+            The default maximum number of tool-call auto-invokes that can be made in a single request.
+            </summary>
+            <remarks>
+            After this number of iterations as part of a single user request is reached, auto-invocation
+            will be disabled (e.g. <see cref="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.AutoInvokeKernelFunctions"/> will behave like <see cref="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.EnableKernelFunctions"/>)).
+            This is a safeguard against possible runaway execution if the model routinely re-requests
+            the same function over and over. It is currently hardcoded, but in the future it could
+            be made configurable by the developer. Other configuration is also possible in the future,
+            such as a delegate on the instance that can be invoked upon function call failure (e.g. failure
+            to find the requested function, failure to invoke the function, etc.), with behaviors for
+            what to do in such a case, e.g. respond to the model telling it to try again. With parallel tool call
+            support, where the model can request multiple tools in a single response, it is significantly
+            less likely that this limit is reached, as most of the time only a single request is needed.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.EnableKernelFunctions">
+            <summary>
+            Gets an instance that will provide all of the <see cref="T:Microsoft.SemanticKernel.Kernel"/>'s plugins' function information.
+            Function call requests from the model will be propagated back to the caller.
+            </summary>
+            <remarks>
+            If no <see cref="T:Microsoft.SemanticKernel.Kernel"/> is available, no function information will be provided to the model.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.AutoInvokeKernelFunctions">
+            <summary>
+            Gets an instance that will both provide all of the <see cref="T:Microsoft.SemanticKernel.Kernel"/>'s plugins' function information
+            to the model and attempt to automatically handle any function call requests.
+            </summary>
+            <remarks>
+            When successful, tool call requests from the model become an implementation detail, with the service
+            handling invoking any requested functions and supplying the results back to the model.
+            If no <see cref="T:Microsoft.SemanticKernel.Kernel"/> is available, no function information will be provided to the model.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.EnableFunctions(System.Collections.Generic.IEnumerable{Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction},System.Boolean)">
+            <summary>Gets an instance that will provide the specified list of functions to the model.</summary>
+            <param name="functions">The functions that should be made available to the model.</param>
+            <param name="autoInvoke">true to attempt to automatically handle function call requests; otherwise, false.</param>
+            <returns>
+            The <see cref="T:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior"/> that may be set into <see cref="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.ToolCallBehavior"/>
+            to indicate that the specified functions should be made available to the model.
+            </returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.RequireFunction(Microsoft.SqlTools.Connectors.VSCode.OpenAIFunction,System.Boolean)">
+            <summary>Gets an instance that will request the model to use the specified function.</summary>
+            <param name="function">The function the model should request to use.</param>
+            <param name="autoInvoke">true to attempt to automatically handle function call requests; otherwise, false.</param>
+            <returns>
+            The <see cref="T:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior"/> that may be set into <see cref="P:Microsoft.SqlTools.Connectors.VSCode.VSCodePromptExecutionSettings.ToolCallBehavior"/>
+            to indicate that the specified function should be requested by the model.
+            </returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.#ctor(System.Boolean)">
+            <summary>Initializes the instance; prevents external instantiation.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.ToolCallResultSerializerOptions">
+            <summary>
+            Options to control tool call result serialization behavior.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.MaximumUseAttempts">
+            <summary>Gets how many requests are part of a single interaction should include this tool in the request.</summary>
+            <remarks>
+            This should be greater than or equal to <see cref="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.MaximumAutoInvokeAttempts"/>. It defaults to <see cref="F:System.Int32.MaxValue"/>.
+            Once this limit is reached, the tools will no longer be included in subsequent retries as part of the operation, e.g.
+            if this is 1, the first request will include the tools, but the subsequent response sending back the tool's result
+            will not include the tools for further use.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.MaximumAutoInvokeAttempts">
+            <summary>Gets how many tool call request/response roundtrips are supported with auto-invocation.</summary>
+            <remarks>
+            To disable auto invocation, this can be set to 0.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.AllowAnyRequestedKernelFunction">
+            <summary>
+            Gets whether validation against a specified list is required before allowing the model to request a function from the kernel.
+            </summary>
+            <value>true if it's ok to invoke any kernel function requested by the model if it's found; false if a request needs to be validated against an allow list.</value>
+        </member>
+        <member name="M:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.ConfigureOptions(Microsoft.SemanticKernel.Kernel)">
+            <summary>Returns list of available tools and the way model should use them.</summary>
+            <param name="kernel">The <see cref="T:Microsoft.SemanticKernel.Kernel"/> used for the operation. This can be queried to determine what tools to return.</param>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.KernelFunctions">
+            <summary>
+            Represents a <see cref="T:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior"/> that will provide to the model all available functions from a
+            <see cref="T:Microsoft.SemanticKernel.Kernel"/> provided by the client. Setting this will have no effect if no <see cref="T:Microsoft.SemanticKernel.Kernel"/> is provided.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.EnabledFunctions">
+            <summary>
+            Represents a <see cref="T:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior"/> that provides a specified list of functions to the model.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.RequiredFunction">
+            <summary>Represents a <see cref="T:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior"/> that requests the model use a specific function.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.RequiredFunction.MaximumUseAttempts">
+            <summary>Gets how many requests are part of a single interaction should include this tool in the request.</summary>
+            <remarks>
+            Unlike <see cref="T:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.EnabledFunctions"/> and <see cref="T:Microsoft.SqlTools.Connectors.VSCode.ToolCallBehavior.KernelFunctions"/>, this must use 1 as the maximum
+            use attempts. Otherwise, every call back to the model _requires_ it to invoke the function (as opposed
+            to allows it), which means we end up doing the same work over and over and over until the maximum is reached.
+            Thus for "requires", we must send the tool information only once.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.OpenAIChatHistoryExtensions">
+            <summary>
+            Chat history extensions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.OpenAIChatHistoryExtensions.AddStreamingMessageAsync(Microsoft.SemanticKernel.ChatCompletion.ChatHistory,System.Collections.Generic.IAsyncEnumerable{Microsoft.SqlTools.Connectors.VSCode.VSCodeStreamingChatMessageContent})">
+            <summary>
+            Add a message to the chat history at the end of the streamed message
+            </summary>
+            <param name="chatHistory">Target chat history</param>
+            <param name="streamingMessageContents"><see cref="T:System.Collections.Generic.IAsyncEnumerator`1"/> list of streaming message contents</param>
+            <returns>Returns the original streaming results with some message processing</returns>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.VSCodeKernelBuilderExtensions">
+            <summary>
+            Sponsor extensions class for <see cref="T:Microsoft.SemanticKernel.IKernelBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.VSCodeKernelBuilderExtensions.AddVSCodeChatCompletion(Microsoft.SemanticKernel.IKernelBuilder,Microsoft.SqlTools.Connectors.VSCode.ILanguageModelEndpoint,System.String)">
+            <summary>
+            Adds the OpenAI chat completion service to the list.
+            </summary>
+            <param name="builder">The <see cref="T:Microsoft.SemanticKernel.IKernelBuilder"/> instance to augment.</param>
+            <param name="languageModelEndpoint">Language model endpoint</param>
+            <param name="serviceId">serviceId</param>
+            <returns>The same instance as <paramref name="builder"/>.</returns>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.VSCodeServiceCollectionExtensions">
+            <summary>
+            Sponsor extensions class for <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.VSCodeServiceCollectionExtensions.AddVSCodeChatCompletion(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.SqlTools.Connectors.VSCode.ILanguageModelEndpoint,System.String)">
+            <summary>
+            Adds the OpenAI chat completion service to the list.
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance to augment.</param>
+            <param name="languageModelEndpoint">languageModelEndpoint</param>
+            <param name="serviceId">serviceId</param>
+            <returns>The same instance as <paramref name="services"/>.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ActivityExtensions.StartActivityWithTags(System.Diagnostics.ActivitySource,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Diagnostics.ActivityKind)">
+            <summary>
+            Starts an activity with the specified name and tags.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ActivityExtensions.SetTags(System.Diagnostics.Activity,System.ReadOnlySpan{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
+            <summary>
+            Adds tags to the activity.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ActivityExtensions.AttachSensitiveDataAsEvent(System.Diagnostics.Activity,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
+            <summary>
+            Adds an event to the activity. Should only be used for events that contain sensitive data.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ActivityExtensions.SetError(System.Diagnostics.Activity,System.Exception)">
+            <summary>
+            Sets the error status and type on the activity.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics">
+            <summary>
+            Model diagnostics helper class that provides a set of methods to trace model activities with the OTel semantic conventions.
+            This class contains experimental features and may change in the future.
+            To enable these features, set one of the following switches to true:
+                `Microsoft.SemanticKernel.Experimental.GenAI.EnableOTelDiagnostics`
+                `Microsoft.SemanticKernel.Experimental.GenAI.EnableOTelDiagnosticsSensitive`
+            Or set the following environment variables to true:
+               `SEMANTICKERNEL_EXPERIMENTAL_GENAI_ENABLE_OTEL_DIAGNOSTICS`
+               `SEMANTICKERNEL_EXPERIMENTAL_GENAI_ENABLE_OTEL_DIAGNOSTICS_SENSITIVE`
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.StartCompletionActivity``1(System.Uri,System.String,System.String,System.String,``0)">
+            <summary>
+            Start a text completion activity for a given model.
+            The activity will be tagged with the a set of attributes specified by the semantic conventions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.StartCompletionActivity``1(System.Uri,System.String,System.String,Microsoft.SemanticKernel.ChatCompletion.ChatHistory,``0)">
+            <summary>
+            Start a chat completion activity for a given model.
+            The activity will be tagged with the a set of attributes specified by the semantic conventions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.SetCompletionResponse(System.Diagnostics.Activity,System.Collections.Generic.IEnumerable{Microsoft.SemanticKernel.TextContent},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Set the text completion response for a given activity.
+            The activity will be enriched with the response attributes specified by the semantic conventions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.SetCompletionResponse(System.Diagnostics.Activity,System.Collections.Generic.IEnumerable{Microsoft.SemanticKernel.ChatMessageContent},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Set the chat completion response for a given activity.
+            The activity will be enriched with the response attributes specified by the semantic conventions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.EndStreaming(System.Diagnostics.Activity,System.Collections.Generic.IEnumerable{Microsoft.SemanticKernel.StreamingKernelContent},System.Collections.Generic.IEnumerable{Microsoft.SemanticKernel.FunctionCallContent},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Notify the end of streaming for a given activity.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.SetResponseId(System.Diagnostics.Activity,System.String)">
+            <summary>
+            Set the response id for a given activity.
+            </summary>
+            <param name="activity">The activity to set the response id</param>
+            <param name="responseId">The response id</param>
+            <returns>The activity with the response id set for chaining</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.SetPromptTokenUsage(System.Diagnostics.Activity,System.Int32)">
+            <summary>
+            Set the prompt token usage for a given activity.
+            </summary>
+            <param name="activity">The activity to set the prompt token usage</param>
+            <param name="promptTokens">The number of prompt tokens used</param>
+            <returns>The activity with the prompt token usage set for chaining</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.SetCompletionTokenUsage(System.Diagnostics.Activity,System.Int32)">
+            <summary>
+            Set the completion token usage for a given activity.
+            </summary>
+            <param name="activity">The activity to set the completion token usage</param>
+            <param name="completionTokens">The number of completion tokens used</param>
+            <returns>The activity with the completion token usage set for chaining</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.IsModelDiagnosticsEnabled">
+            <summary>
+            Check if model diagnostics is enabled
+            Model diagnostics is enabled if either EnableModelDiagnostics or EnableSensitiveEvents is set to true and there are listeners.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.IsSensitiveEventsEnabled">
+            <summary>
+            Check if sensitive events are enabled.
+            Sensitive events are enabled if EnableSensitiveEvents is set to true and there are listeners.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.ToOpenAIFormat(System.Collections.Generic.IEnumerable{Microsoft.SemanticKernel.ChatMessageContent})">
+            <summary>
+            Convert chat history to a string aligned with the OpenAI format
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.ToOpenAIFormat(System.Text.StringBuilder,Microsoft.SemanticKernel.ChatCompletion.ChatMessageContentItemCollection)">
+            <summary>
+            Helper method to convert tool calls to a string aligned with the OpenAI format
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.StartCompletionActivity``2(System.Uri,System.String,System.String,``0,``1,System.Func{``0,System.String})">
+            <summary>
+            Start a completion activity and return the activity.
+            The `formatPrompt` delegate won't be invoked if events are disabled.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.SetCompletionResponse``1(System.Diagnostics.Activity,``0,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Func{``0,System.String})">
+            <summary>
+            Set the completion response for a given activity.
+            The `formatCompletions` delegate won't be invoked if events are disabled.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.SetCompletionResponse(System.Diagnostics.Activity,System.Collections.Generic.Dictionary{System.Int32,System.Collections.Generic.List{Microsoft.SemanticKernel.StreamingKernelContent}},System.Collections.Generic.IEnumerable{Microsoft.SemanticKernel.FunctionCallContent},System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Set the streaming completion response for a given activity.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.OrganizeStreamingContent(System.Collections.Generic.IEnumerable{Microsoft.SemanticKernel.StreamingKernelContent})">
+            <summary>
+            Organize streaming content by choice index
+            </summary>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Diagnostics.ModelDiagnostics.ModelDiagnosticsTags">
+            <summary>
+            Tags used in model diagnostics
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Verify.AsciiLettersDigitsUnderscoresRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>^[0-9A-Za-z_]*$</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match if at the beginning of the string.<br/>
+            ○ Match a character in the set [0-9A-Z_a-z] atomically any number of times.<br/>
+            ○ Match if at the end of the string or if before an ending newline.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Verify.FilenameRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>^[^.]+\\.[^.]+$</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match if at the beginning of the string.<br/>
+            ○ Match a character other than '.' atomically at least once.<br/>
+            ○ Match '.'.<br/>
+            ○ Match a character other than '.' greedily at least once.<br/>
+            ○ Match if at the end of the string or if before an ending newline.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Verify.NotNull(System.Object,System.String)">
+            <summary>
+            Equivalent of ArgumentNullException.ThrowIfNull
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Verify.ParametersUniqueness(System.Collections.Generic.IReadOnlyList{Microsoft.SemanticKernel.KernelParameterMetadata})">
+            <summary>
+            Make sure every function parameter name is unique
+            </summary>
+            <param name="parameters">List of parameters</param>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.FunctionName">
+            <summary>
+            Represents a function name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.FunctionName.PluginName">
+            <summary>
+            The plugin name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.FunctionName.Name">
+            <summary>
+            The function name.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.FunctionName.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.SemanticKernel.FunctionName"/> class.
+            </summary>
+            <param name="name">The function name.</param>
+            <param name="pluginName">The plugin name.</param>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.FunctionName.ToFullyQualifiedName(System.String,System.String,System.String)">
+            <summary>
+            Gets the fully-qualified name of the function.
+            </summary>
+            <param name="functionName">The function name.</param>
+            <param name="pluginName">The plugin name.</param>
+            <param name="functionNameSeparator">The function name separator.</param>
+            <returns>Fully-qualified name of the function.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.FunctionName.Parse(System.String,System.String)">
+            <summary>
+            Creates a new instance of the <see cref="T:Microsoft.SemanticKernel.FunctionName"/> class.
+            </summary>
+            <param name="fullyQualifiedName">Fully-qualified name of the function.</param>
+            <param name="functionNameSeparator">The function name separator.</param>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpClientExtensions.SendWithSuccessCheckAsync(System.Net.Http.HttpClient,System.Net.Http.HttpRequestMessage,System.Net.Http.HttpCompletionOption,System.Threading.CancellationToken)">
+            <summary>
+            Sends an HTTP request using the provided <see cref="T:System.Net.Http.HttpClient"/> instance and checks for a successful response.
+            If the response is not successful, it logs an error and throws an <see cref="T:Microsoft.SemanticKernel.HttpOperationException"/>.
+            </summary>
+            <param name="client">The <see cref="T:System.Net.Http.HttpClient"/> instance to use for sending the request.</param>
+            <param name="request">The <see cref="T:System.Net.Http.HttpRequestMessage"/> to send.</param>
+            <param name="completionOption">Indicates if HttpClient operations should be considered completed either as soon as a response is available,
+            or after reading the entire response message including the content.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/> for canceling the request.</param>
+            <returns>The <see cref="T:System.Net.Http.HttpResponseMessage"/> representing the response.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpClientExtensions.SendWithSuccessCheckAsync(System.Net.Http.HttpClient,System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Sends an HTTP request using the provided <see cref="T:System.Net.Http.HttpClient"/> instance and checks for a successful response.
+            If the response is not successful, it logs an error and throws an <see cref="T:Microsoft.SemanticKernel.HttpOperationException"/>.
+            </summary>
+            <param name="client">The <see cref="T:System.Net.Http.HttpClient"/> instance to use for sending the request.</param>
+            <param name="request">The <see cref="T:System.Net.Http.HttpRequestMessage"/> to send.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/> for canceling the request.</param>
+            <returns>The <see cref="T:System.Net.Http.HttpResponseMessage"/> representing the response.</returns>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Http.HttpClientProvider">
+            <summary>
+            Provides functionality for retrieving instances of HttpClient.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpClientProvider.GetHttpClient">
+            <summary>
+            Retrieves an instance of HttpClient.
+            </summary>
+            <returns>An instance of HttpClient.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpClientProvider.GetHttpClient(System.Net.Http.HttpClient)">
+            <summary>
+            Retrieves an instance of HttpClient.
+            </summary>
+            <returns>An instance of HttpClient.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpClientProvider.GetHttpClient(System.IServiceProvider)">
+            <summary>
+            Retrieves an instance of HttpClient.
+            </summary>
+            <returns>An instance of HttpClient.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpClientProvider.GetHttpClient(System.Net.Http.HttpClient,System.IServiceProvider)">
+            <summary>
+            Retrieves an instance of HttpClient.
+            </summary>
+            <returns>An instance of HttpClient.</returns>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Http.HttpClientProvider.NonDisposableHttpClientHandler">
+            <summary>
+            Represents a singleton implementation of <see cref="T:System.Net.Http.HttpClientHandler"/> that is not disposable.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpClientProvider.NonDisposableHttpClientHandler.#ctor">
+            <summary>
+            Private constructor to prevent direct instantiation of the class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Http.HttpClientProvider.NonDisposableHttpClientHandler.Instance">
+            <summary>
+            Gets the singleton instance of <see cref="T:Microsoft.SemanticKernel.Http.HttpClientProvider.NonDisposableHttpClientHandler"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpClientProvider.NonDisposableHttpClientHandler.Dispose(System.Boolean)">
+            <summary>
+            Disposes the underlying resources held by the <see cref="T:Microsoft.SemanticKernel.Http.HttpClientProvider.NonDisposableHttpClientHandler"/>.
+            This implementation does nothing to prevent unintended disposal, as it may affect all references.
+            </summary>
+            <param name="disposing">True if called from <see cref="M:Microsoft.SemanticKernel.Http.HttpClientProvider.NonDisposableHttpClientHandler.Dispose(System.Boolean)"/>, false if called from a finalizer.</param>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Http.HttpContentExtensions">
+            <summary>
+            Provides extension methods for working with HTTP content in a way that translates HttpRequestExceptions into HttpOperationExceptions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpContentExtensions.ReadAsStringWithExceptionMappingAsync(System.Net.Http.HttpContent)">
+            <summary>
+            Reads the content of the HTTP response as a string and translates any HttpRequestException into an HttpOperationException.
+            </summary>
+            <param name="httpContent">The HTTP content to read.</param>
+            <returns>A string representation of the HTTP content.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpContentExtensions.ReadAsStreamAndTranslateExceptionAsync(System.Net.Http.HttpContent)">
+            <summary>
+            Reads the content of the HTTP response as a stream and translates any HttpRequestException into an HttpOperationException.
+            </summary>
+            <param name="httpContent">The HTTP content to read.</param>
+            <returns>A stream representing the HTTP content.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpContentExtensions.ReadAsByteArrayAndTranslateExceptionAsync(System.Net.Http.HttpContent)">
+            <summary>
+            Reads the content of the HTTP response as a byte array and translates any HttpRequestException into an HttpOperationException.
+            </summary>
+            <param name="httpContent">The HTTP content to read.</param>
+            <returns>A byte array representing the HTTP content.</returns>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Http.HttpHeaderConstant">
+            <summary>Provides HTTP header names and values for common purposes.</summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Http.HttpHeaderConstant.Names.SemanticKernelVersion">
+            <summary>HTTP header name to use to include the Semantic Kernel package version in all HTTP requests issued by Semantic Kernel.</summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Http.HttpHeaderConstant.Values.UserAgent">
+            <summary>User agent string to use for all HTTP requests issued by Semantic Kernel.</summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpHeaderConstant.Values.GetAssemblyVersion(System.Type)">
+            <summary>
+            Gets the version of the <see cref="T:System.Reflection.Assembly"/> in which the specific type is declared.
+            </summary>
+            <param name="type">Type for which the assembly version is returned.</param>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Http.HttpResponseStream">
+            <summary>
+            Associate a response stream with its parent response for parity in life-cycle management.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Http.HttpResponseStream.#ctor(System.IO.Stream,System.Net.Http.HttpResponseMessage)">
+            <summary>
+            Associate a response stream with its parent response for parity in life-cycle management.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.AppContextSwitchHelper">
+            <summary>
+            Helper class to get app context switch value
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.AppContextSwitchHelper.GetConfigValue(System.String,System.String)">
+            <summary>
+            Returns the value of the specified app switch or environment variable if it is set.
+            If the switch or environment variable is not set, return false.
+            The app switch value takes precedence over the environment variable.
+            </summary>
+            <param name="appContextSwitchName">The name of the app switch.</param>
+            <param name="envVarName">The name of the environment variable.</param>
+            <returns>The value of the app switch or environment variable if it is set; otherwise, false.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.IListExtensions.AddRange``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Adds a range of elements from the specified <see cref="T:System.Collections.Generic.IEnumerable`1"/> source to the target <see cref="T:System.Collections.Generic.IList`1"/>.
+            </summary>
+            <typeparam name="T">The type of elements in the list.</typeparam>
+            <param name="target">The target <see cref="T:System.Collections.Generic.IList`1"/> to add elements to.</param>
+            <param name="source">The source <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing elements to add to the target <see cref="T:System.Collections.Generic.IList`1"/>.</param>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.InternalTypeConverter">
+            <summary>
+            Provides internal utility methods for converting types to strings with consideration for CultureInfo.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.InternalTypeConverter.ConvertToString(System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts the given object value to a string representation using the appropriate CultureInfo.
+            </summary>
+            <param name="value">The object to convert.</param>
+            <param name="culture">The CultureInfo to consider during conversion.</param>
+            <returns>A string representation of the object value, considering the specified CultureInfo.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.InternalTypeConverter.GetTypeToStringConverterDelegate(System.Type)">
+            <summary>
+            Retrieves a type-to-string converter delegate for the specified source type.
+            </summary>
+            <param name="sourceType">The source Type for which to retrieve the type-to-string converter delegate.</param>
+            <returns>A Func delegate for converting the source type to a string, considering CultureInfo, or null if no suitable converter is found.</returns>
+        </member>
+        <member name="F:Microsoft.SemanticKernel.InternalTypeConverter.s_converters">
+            <summary>Converter functions for converting types to strings.</summary>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.NonNullCollection`1">
+            <summary>
+            Provides a collection of non-null items.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SemanticKernel.NonNullCollection`1._items">
+            <summary>
+            The underlying list of items.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.NonNullCollection`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.SemanticKernel.NonNullCollection`1"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.NonNullCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.SemanticKernel.NonNullCollection`1"/> class.
+            </summary>
+            <param name="items">The initial collection of items to populate this collection.</param>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.NonNullCollection`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the item at the specified index in the collection.
+            </summary>
+            <param name="index">The index of the item to get or set.</param>
+            <returns>The item at the specified index.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="value"/> is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">The <paramref name="index"/> was not valid for this collection.</exception>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.NonNullCollection`1.Count">
+            <summary>
+            Gets the number of items in the collection.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.NonNullCollection`1.Add(`0)">
+            <summary>
+            Adds an item to the collection.
+            </summary>
+            <param name="item">The item to add.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="item"/> is null.</exception>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.NonNullCollection`1.Clear">
+            <summary>
+            Removes all items from the collection.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.NonNullCollection`1.Contains(`0)">
+            <summary>
+            Determines whether an item is in the collection.
+            </summary>
+            <param name="item">The item to locate.</param>
+            <returns>True if the item is found in the collection; otherwise, false.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="item"/> is null.</exception>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.NonNullCollection`1.CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies all of the items in the collection to an array, starting at the specified destination array index.
+            </summary>
+            <param name="array">The destination array into which the items should be copied.</param>
+            <param name="arrayIndex">The zero-based index into <paramref name="array"/> at which copying should begin.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array"/> is null.</exception>
+            <exception cref="T:System.ArgumentException">The number of items in the collection is greater than the available space from <paramref name="arrayIndex"/> to the end of <paramref name="array"/>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="arrayIndex"/> is less than 0.</exception>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.NonNullCollection`1.IndexOf(`0)">
+            <summary>
+            Searches for the specified item and returns the index of the first occurrence.
+            </summary>
+            <param name="item">The item to locate.</param>
+            <returns>The index of the first found occurrence of the specified item; -1 if the item could not be found.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.NonNullCollection`1.Insert(System.Int32,`0)">
+            <summary>
+            Inserts an item into the collection at the specified index.
+            </summary>
+            <param name="index">The index at which the item should be inserted.</param>
+            <param name="item">The item to insert.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="item"/> is null.</exception>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.NonNullCollection`1.Remove(`0)">
+            <summary>
+            Removes the first occurrence of the specified item from the collection.
+            </summary>
+            <param name="item">The item to remove from the collection.</param>
+            <returns>True if the item was successfully removed; false if it wasn't located in the collection.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="item"/> is null.</exception>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.NonNullCollection`1.RemoveAt(System.Int32)">
+            <summary>
+            Removes the item at the specified index from the collection.
+            </summary>
+            <param name="index">The index of the item to remove.</param>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.TypeConverterFactory">
+            <summary>
+            Factory for creating TypeConverter instances based on a provided type.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.TypeConverterFactory.GetTypeConverter(System.Type)">
+            <summary>
+            Returns a TypeConverter instance for the specified type.
+            </summary>
+            <param name="type">The Type of the object to convert.</param>
+            <returns>A TypeConverter instance if a suitable converter is found, otherwise null.</returns>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Text.DataUriParser">
+            <summary>
+            Data Uri Scheme Parser based on RFC 2397.
+            https://datatracker.ietf.org/doc/html/rfc2397
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.DataUriParser.IsBase64String(System.String)">
+            <summary>
+            Extension method to test whether the value is a base64 string
+            </summary>
+            <param name="value">Value to test</param>
+            <returns>Boolean value, true if the string is base64, otherwise false</returns>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Text.DataUriParser.DataUri">
+            <summary>
+            Represents the data URI parts.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.DataUriParser.DataUri.MimeType">
+            <summary>
+            The mime type of the data.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.DataUriParser.DataUri.Parameters">
+            <summary>
+            The optional parameters of the data.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.DataUriParser.DataUri.DataFormat">
+            <summary>
+            The optional format of the data. Most common is "base64".
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.DataUriParser.DataUri.Data">
+            <summary>
+            The data content.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Text.JsonOptionsCache">
+            <summary>Caches common configurations of <see cref="T:System.Text.Json.JsonSerializerOptions"/>.</summary>\
+            <remarks>
+            All of the instances include a converter for <see cref="T:System.ReadOnlyMemory`1"/>.
+            Once the System.Text.Json package is upgraded to 8.0+, this will no longer be
+            necessary and the actual default can be used.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.JsonOptionsCache.ReadOnlyMemoryConverter">
+            <summary>Singleton for <see cref="P:Microsoft.SemanticKernel.Text.JsonOptionsCache.ReadOnlyMemoryConverter"/>.</summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.JsonOptionsCache.Default">
+            <summary>
+            Cached <see cref="T:System.Text.Json.JsonSerializerOptions"/> instance for reading and writing JSON using the default settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.JsonOptionsCache.WriteIndented">
+            <summary>
+            Cached <see cref="T:System.Text.Json.JsonSerializerOptions"/> instance for writing JSON with indentation.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.JsonOptionsCache.ReadPermissive">
+            <summary>
+            Cached <see cref="T:System.Text.Json.JsonSerializerOptions"/> instance for reading JSON in a permissive way,
+            including support for trailing commas, case-insensitive property names, and comments.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Text.ReadOnlyMemoryConverter">
+            <summary>Provides a converter for <see cref="T:System.ReadOnlyMemory`1"/>.</summary>
+        </member>
+        <member name="F:Microsoft.SemanticKernel.Text.ReadOnlyMemoryConverter.s_arrayConverter">
+            <summary>An instance of a converter for float[] that all operations delegate to.</summary>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Text.SseData">
+            <summary>
+            Represents a single Server-Sent Events (SSE) data object.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.SseData.EventName">
+            <summary>
+            The name of the sse event.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.SseData.DataType">
+            <summary>
+            Represents the type of data parsed from SSE message.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.SseData.Data">
+            <summary>
+            Represents the data parsed from SSE message.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.SseData.#ctor(System.String,System.Object)">
+            <summary>
+            Represents a single Server-Sent Events (SSE) data object.
+            </summary>
+            <param name="eventName">The name of the sse event.</param>
+            <param name="data">The data parsed from SSE message.</param>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Text.SseJsonParser">
+            <summary>
+            Internal class for parsing Server-Sent Events (SSE) data from a stream.
+            </summary>
+            <remarks>
+            This is specialized parser for Server-Sent Events (SSE) data that is formatted as JSON.<br/>
+            If you need to parse non-structured json streaming data, use <see cref="T:Microsoft.SemanticKernel.Text.StreamJsonParser"/> instead.<br/>
+            <a href="https://html.spec.whatwg.org/multipage/server-sent-events.html#parsing-an-event-stream">SSE specification</a><br/>
+            This class is thread-safe.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.SseJsonParser.ParseAsync(System.IO.Stream,System.Func{Microsoft.SemanticKernel.Text.SseLine,Microsoft.SemanticKernel.Text.SseData},System.Threading.CancellationToken)">
+            <summary>
+            Parses Server-Sent Events (SSE) data asynchronously from a stream.
+            </summary>
+            <param name="stream">The stream containing the SSE data.</param>
+            <param name="parser">The function to parse each <see cref="T:Microsoft.SemanticKernel.Text.SseLine"/> into an <see cref="T:Microsoft.SemanticKernel.Text.SseData"/> object.</param>
+            <param name="cancellationToken">A cancellation token to stop the parsing process.</param>
+            <remarks><paramref name="stream"/> will be disposed immediately once enumeration is complete.</remarks>
+            <returns>An asynchronous enumerable sequence of <see cref="T:Microsoft.SemanticKernel.Text.SseData"/> objects.</returns>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.SseJsonParser.ParseAsync``1(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Parses Server-Sent Events (SSE) data asynchronously from a stream and deserializes the data into the specified type.
+            </summary>
+            <typeparam name="T">The type to deserialize the data into.</typeparam>
+            <param name="stream">The stream containing the SSE data.</param>
+            <param name="cancellationToken">A cancellation token to stop the parsing process.</param>
+            <returns>An asynchronous enumerable sequence of deserialized objects of type <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Text.SseLine">
+            <summary>
+            Represents a line of a Server-Sent Events (SSE) stream.
+            </summary>
+            <remarks>
+            <a href="https://html.spec.whatwg.org/multipage/server-sent-events.html#parsing-an-event-stream">SSE specification</a>
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.SseLine.Empty">
+            <summary>
+            Represents an empty SSE line.
+            </summary>
+            <remarks>
+            The <see cref="P:Microsoft.SemanticKernel.Text.SseLine.Empty"/> property is a static instance of the <see cref="T:Microsoft.SemanticKernel.Text.SseLine"/> struct.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.SseLine.EventName">
+            <summary>
+            The name of the last event for the Server-Sent Events (SSE) line.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.SseLine.IsEmpty">
+            <summary>
+            Determines whether the SseLine is empty.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.SseLine.IsValueEmpty">
+            <summary>
+            Gets a value indicating whether the value of the SseLine is empty.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.SseLine.IsComment">
+            <summary>
+            Determines whether the SseLine is comment line.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.SseLine.FieldName">
+            <summary>
+            Represents a field name in a Server-Sent Events (SSE) line.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SemanticKernel.Text.SseLine.FieldValue">
+            <summary>
+            Represents a field value in Server-Sent Events (SSE) format.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.SseLine.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.SseLine.Equals(Microsoft.SemanticKernel.Text.SseLine)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.SseLine.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.SseLine.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.SseLine.op_Equality(Microsoft.SemanticKernel.Text.SseLine,Microsoft.SemanticKernel.Text.SseLine)">
+            <summary>
+            Defines the equality operator for comparing two instances of the SseLine class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.SseLine.op_Inequality(Microsoft.SemanticKernel.Text.SseLine,Microsoft.SemanticKernel.Text.SseLine)">
+            <summary>
+            Represents the inequality operator for comparing two SseLine objects.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Text.SseReader">
+            <summary>
+            Provides a reader for Server-Sent Events (SSE) data.
+            </summary>
+            <remarks>
+            <a href="https://html.spec.whatwg.org/multipage/server-sent-events.html#parsing-an-event-stream">SSE specification</a>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.SseReader.#ctor(System.IO.Stream)">
+            <summary>
+            Provides a reader for Server-Sent Events (SSE) data.
+            </summary>
+            <remarks>
+            <a href="https://html.spec.whatwg.org/multipage/server-sent-events.html#parsing-an-event-stream">SSE specification</a>
+            </remarks>
+        </member>
+        <member name="T:Microsoft.SemanticKernel.Text.StreamJsonParser">
+            <summary>
+            Internal class for parsing a stream of text which contains a series of discrete JSON strings into en enumerable containing each separate JSON string.
+            </summary>
+            <remarks>
+            This is universal parser for parsing stream of text which contains a series of discrete JSON.<br/>
+            If you need a specialized SSE parser, use <see cref="T:Microsoft.SemanticKernel.Text.SseJsonParser"/> instead.<br/>
+            This class is thread-safe.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SemanticKernel.Text.StreamJsonParser.ParseAsync(System.IO.Stream,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Parses a Stream containing JSON data and yields the individual JSON objects.
+            </summary>
+            <param name="stream">The Stream containing the JSON data.</param>
+            <param name="validateJson">Set to true to enable checking json chunks are well-formed. Default is false.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>An enumerable collection of string representing the individual JSON objects.</returns>
+            <remarks>Stream will be disposed after parsing.</remarks>
+        </member>
+        <member name="T:ClientResultExceptionExtensions">
+            <summary>
+            Provides extension methods for the <see cref="T:System.ClientModel.ClientResultException"/> class.
+            </summary>
+        </member>
+        <member name="M:ClientResultExceptionExtensions.ToHttpOperationException(System.ClientModel.ClientResultException)">
+            <summary>
+            Converts a <see cref="T:System.ClientModel.ClientResultException"/> to an <see cref="T:Microsoft.SemanticKernel.HttpOperationException"/>.
+            </summary>
+            <param name="exception">The original <see cref="T:System.ClientModel.ClientResultException"/>.</param>
+            <returns>An <see cref="T:Microsoft.SemanticKernel.HttpOperationException"/> instance.</returns>
+        </member>
+        <member name="T:GenericActionPipelinePolicy">
+            <summary>
+            Generic action pipeline policy for processing messages.
+            </summary>
+        </member>
+        <member name="T:System.ExceptionExtensions">
+            <summary>
+            Exception extension methods.
+            </summary>
+        </member>
+        <member name="M:System.ExceptionExtensions.IsCriticalException(System.Exception)">
+            <summary>
+            Check if an exception is of a type that should not be caught by the kernel.
+            </summary>
+            <param name="ex">Exception.</param>
+            <returns>True if <paramref name="ex"/> is a critical exception and should not be caught.</returns>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.IsExternalInit">
+            <summary>
+            Reserved to be used by the compiler for tracking metadata.
+            This class should not be used by developers in source code.
+            </summary>
+        </member>
+        <member name="M:System.Linq.AsyncEnumerable.AnyAsync``1(System.Collections.Generic.IAsyncEnumerable{``0},System.Func{``0,System.Boolean},System.Threading.CancellationToken)">
+            <summary>
+            Determines whether any element of an async-enumerable sequence satisfies a condition.
+            </summary>
+            <typeparam name="TSource">The type of the elements in the source sequence.</typeparam>
+            <param name="source">An async-enumerable sequence whose elements to apply the predicate to.</param>
+            <param name="predicate">A function to test each element for a condition.</param>
+            <param name="cancellationToken">The optional cancellation token to be used for cancelling the sequence at any time.</param>
+            <returns>An async-enumerable sequence containing a single element determining whether any elements in the source sequence pass the test in the specified predicate.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="predicate"/> is null.</exception>
+            <remarks>The return type of this operator differs from the corresponding operator on IEnumerable in order to retain asynchronous behavior.</remarks>
+        </member>
+        <member name="M:System.EnvExtensions.GetBoolEnvVar(System.String)">
+            <summary>
+            Source: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/src/DiagnosticsOptions.cs
+            Values: https://learn.microsoft.com/en-us/dotnet/api/azure.core.diagnosticsoptions.istelemetryenabled?view=azure-dotnet
+            </summary>
+        </member>
+        <member name="T:System.TypeExtensions">
+            <summary>
+            Extensions methods for <see cref="T:System.Type"/>.
+            </summary>
+        </member>
+        <member name="M:System.TypeExtensions.TryGetGenericResultType(System.Type,System.Type@)">
+            <summary>
+            Tries to get the result type from a generic parameter.
+            </summary>
+            <param name="returnType">Return type.</param>
+            <param name="resultType">The result type of the Nullable generic parameter.</param>
+            <returns><c>true</c> if the result type was successfully retrieved; otherwise, <c>false</c>.</returns>
+            TODO [@teresaqhoang]: Issue #4202 Cache Generic Types Extraction - Handlebars
+        </member>
+        <member name="M:System.TypeExtensions.GetFriendlyTypeName(System.Type)">
+            <summary>
+            Returns a string with the type's name. If the type is generic, it also includes the type parameters in a readable format.
+            </summary>
+            <param name="type">Target type.</param>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.AsciiLettersDigitsUnderscoresRegex_0">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the AsciiLettersDigitsUnderscoresRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.AsciiLettersDigitsUnderscoresRegex_0.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.AsciiLettersDigitsUnderscoresRegex_0.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.AsciiLettersDigitsUnderscoresRegex_0.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.AsciiLettersDigitsUnderscoresRegex_0.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.AsciiLettersDigitsUnderscoresRegex_0.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.AsciiLettersDigitsUnderscoresRegex_0.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.AsciiLettersDigitsUnderscoresRegex_0.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.AsciiLettersDigitsUnderscoresRegex_0.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.FilenameRegex_1">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the FilenameRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.FilenameRegex_1.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.FilenameRegex_1.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.FilenameRegex_1.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.FilenameRegex_1.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.FilenameRegex_1.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.FilenameRegex_1.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.FilenameRegex_1.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.FilenameRegex_1.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.Utilities">
+            <summary>Helper methods used by generated <see cref="T:System.Text.RegularExpressions.Regex"/>-derived implementations.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout">
+            <summary>Default timeout value set in <see cref="T:System.AppContext"/>, or <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout"/> if none was set.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_hasTimeout">
+            <summary>Whether <see cref="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout"/> is non-infinite.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_asciiWordChars">
+            <summary>Supports searching for characters in or not in "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="T:JsonSchemaMapper.JsonSchemaGenerationContext">
+            <summary>
+            Defines the context in which a JSON schema within a type graph is being generated.
+            </summary>
+        </member>
+        <member name="P:JsonSchemaMapper.JsonSchemaGenerationContext.TypeInfo">
+            <summary>
+            The <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo"/> for the type being processed.
+            </summary>
+        </member>
+        <member name="P:JsonSchemaMapper.JsonSchemaGenerationContext.DeclaringType">
+            <summary>
+            The declaring type of the property or parameter being processed.
+            </summary>
+        </member>
+        <member name="P:JsonSchemaMapper.JsonSchemaGenerationContext.PropertyInfo">
+            <summary>
+            The <see cref="T:System.Text.Json.Serialization.Metadata.JsonPropertyInfo"/> if the schema is being generated for a property.
+            </summary>
+        </member>
+        <member name="P:JsonSchemaMapper.JsonSchemaGenerationContext.ParameterInfo">
+            <summary>
+            The <see cref="T:System.Reflection.ParameterInfo"/> if a constructor parameter
+            has been associated with the accompanying <see cref="P:JsonSchemaMapper.JsonSchemaGenerationContext.PropertyInfo"/>.
+            </summary>
+        </member>
+        <member name="P:JsonSchemaMapper.JsonSchemaGenerationContext.PropertyAttributeProvider">
+            <summary>
+            The <see cref="T:System.Reflection.ICustomAttributeProvider"/> corresponding to the property or field being processed.
+            </summary>
+        </member>
+        <member name="M:JsonSchemaMapper.JsonSchemaGenerationContext.IsDefined``1(System.Boolean)">
+            <summary>
+            Checks if the type, property, or parameter has the specified attribute applied.
+            </summary>
+            <typeparam name="TAttribute">The type of the attribute to resolve.</typeparam>
+            <param name="inherit">Whether to look up the hierarchy chain for the inherited custom attribute.</param>
+            <returns>True if the attribute is defined by the current context.</returns>
+        </member>
+        <member name="M:JsonSchemaMapper.JsonSchemaGenerationContext.GetAttribute``1(System.Boolean)">
+            <summary>
+            Checks if the type, property, or parameter has the specified attribute applied.
+            </summary>
+            <typeparam name="TAttribute">The type of the attribute to resolve.</typeparam>
+            <param name="inherit">Whether to look up the hierarchy chain for the inherited custom attribute.</param>
+            <returns>The first attribute resolved from the current context, or null.</returns>
+        </member>
+        <member name="M:JsonSchemaMapper.JsonSchemaGenerationContext.GetCustomAttributes(System.Type,System.Boolean)">
+            <summary>
+            Resolves any custom attributes that might have been applied to the type, property, or parameter.
+            </summary>
+            <param name="type">The attribute type to resolve.</param>
+            <param name="inherit">Whether to look up the hierarchy chain for the inherited custom attribute.</param>
+            <returns>An enumerable of all custom attributes defined by the context.</returns>
+        </member>
+        <member name="T:JsonSchemaMapper.JsonSchemaMapper">
+            <summary>
+            Maps .NET types to JSON schema objects using contract metadata from <see cref="T:System.Text.Json.Serialization.Metadata.JsonTypeInfo"/> instances.
+            </summary>
+        </member>
+        <member name="F:JsonSchemaMapper.JsonSchemaMapper.SchemaVersion">
+            <summary>
+            The JSON schema draft version used by the generated schemas.
+            </summary>
+        </member>
+        <member name="M:JsonSchemaMapper.JsonSchemaMapper.GetJsonSchema(System.Text.Json.JsonSerializerOptions,System.Type,JsonSchemaMapper.JsonSchemaMapperConfiguration)">
+            <summary>
+            Generates a JSON schema corresponding to the contract metadata of the specified type.
+            </summary>
+            <param name="options">The options instance from which to resolve the contract metadata.</param>
+            <param name="type">The root type for which to generate the JSON schema.</param>
+            <param name="configuration">The configuration object controlling the schema generation.</param>
+            <returns>A new <see cref="T:System.Text.Json.Nodes.JsonNode"/> instance defining the JSON schema for <paramref name="type"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">One of the specified parameters is <see langword="null" />.</exception>
+            <exception cref="T:System.NotSupportedException">The <paramref name="options"/> parameter contains unsupported configuration.</exception>
+        </member>
+        <member name="M:JsonSchemaMapper.JsonSchemaMapper.GetJsonSchema(System.Text.Json.JsonSerializerOptions,System.Reflection.MethodBase,JsonSchemaMapper.JsonSchemaMapperConfiguration)">
+            <summary>
+            Generates a JSON object schema with properties corresponding to the specified method parameters.
+            </summary>
+            <param name="options">The options instance from which to resolve the contract metadata.</param>
+            <param name="method">The method from whose parameters to generate the JSON schema.</param>
+            <param name="configuration">The configuration object controlling the schema generation.</param>
+            <returns>A new <see cref="T:System.Text.Json.Nodes.JsonNode"/> instance defining the JSON schema for <paramref name="method"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">One of the specified parameters is <see langword="null" />.</exception>
+            <exception cref="T:System.NotSupportedException">The <paramref name="options"/> parameter contains unsupported configuration.</exception>
+        </member>
+        <member name="M:JsonSchemaMapper.JsonSchemaMapper.GetJsonSchema(System.Text.Json.Serialization.Metadata.JsonTypeInfo,JsonSchemaMapper.JsonSchemaMapperConfiguration)">
+            <summary>
+            Generates a JSON schema corresponding to the specified contract metadata.
+            </summary>
+            <param name="typeInfo">The contract metadata for which to generate the schema.</param>
+            <param name="configuration">The configuration object controlling the schema generation.</param>
+            <returns>A new <see cref="T:System.Text.Json.Nodes.JsonNode"/> instance defining the JSON schema for <paramref name="typeInfo"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">One of the specified parameters is <see langword="null" />.</exception>
+            <exception cref="T:System.NotSupportedException">The <paramref name="typeInfo"/> parameter contains unsupported configuration.</exception>
+        </member>
+        <member name="M:JsonSchemaMapper.JsonSchemaMapper.ToJsonString(System.Text.Json.Nodes.JsonNode,System.Boolean)">
+            <summary>
+            Renders the specified <see cref="T:System.Text.Json.Nodes.JsonNode"/> instance as a JSON string.
+            </summary>
+            <param name="node">The node to serialize.</param>
+            <param name="writeIndented">Whether to indent the resultant JSON text.</param>
+            <returns>The JSON node rendered as a JSON string.</returns>
+        </member>
+        <member name="M:JsonSchemaMapper.JsonSchemaMapper.GenerationState.TryPushType(System.Text.Json.Serialization.Metadata.JsonTypeInfo,System.Text.Json.Serialization.Metadata.JsonPropertyInfo,System.String@)">
+            <summary>
+            Pushes the current type/property to the generation stack or returns a JSON pointer if the type is recursive.
+            </summary>
+        </member>
+        <member name="T:JsonSchemaMapper.JsonSchemaMapperConfiguration">
+            <summary>
+            Controls the behavior of the <see cref="T:JsonSchemaMapper.JsonSchemaMapper"/> class.
+            </summary>
+        </member>
+        <member name="P:JsonSchemaMapper.JsonSchemaMapperConfiguration.Default">
+            <summary>
+            Gets the default configuration object used by <see cref="T:JsonSchemaMapper.JsonSchemaMapper"/>.
+            </summary>
+        </member>
+        <member name="P:JsonSchemaMapper.JsonSchemaMapperConfiguration.IncludeSchemaVersion">
+            <summary>
+            Determines whether the '$schema' property should be included in the root schema document.
+            </summary>
+            <remarks>
+            Defaults to true.
+            </remarks>
+        </member>
+        <member name="P:JsonSchemaMapper.JsonSchemaMapperConfiguration.ResolveDescriptionAttributes">
+            <summary>
+            Determines whether the <see cref="T:System.ComponentModel.DescriptionAttribute"/> should be resolved for types and properties.
+            </summary>
+            <remarks>
+            Defaults to true.
+            </remarks>
+        </member>
+        <member name="P:JsonSchemaMapper.JsonSchemaMapperConfiguration.IncludeTypeInEnums">
+            <summary>
+            Specifies whether the type keyword should be included in enum type schemas.
+            </summary>
+            <remarks>
+            Defaults to false.
+            </remarks>
+        </member>
+        <member name="P:JsonSchemaMapper.JsonSchemaMapperConfiguration.TreatNullObliviousAsNonNullable">
+            <summary>
+            Determines whether non-nullable schemas should be generated for null oblivious reference types.
+            </summary>
+            <remarks>
+            Defaults to <see langword="false"/>. Due to restrictions in the run-time representation of nullable reference types
+            most occurrences are null oblivious and are treated as nullable by the serializer. A notable exception to that rule
+            are nullability annotations of field, property and constructor parameters which are represented in the contract metadata.
+            </remarks>
+        </member>
+        <member name="P:JsonSchemaMapper.JsonSchemaMapperConfiguration.TransformSchemaNode">
+            <summary>
+            Defines a callback that is invoked for every schema that is generated within the type graph.
+            </summary>
+        </member>
+    </members>
+</doc>

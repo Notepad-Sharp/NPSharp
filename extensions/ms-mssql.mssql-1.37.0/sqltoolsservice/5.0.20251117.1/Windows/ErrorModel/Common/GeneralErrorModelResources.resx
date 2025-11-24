@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CertificateNotTrustedErrorSummary" xml:space="preserve">
+    <value>A connection was successfully established, but a trusted certificate is not installed on the computer running SQL Server.</value>
+  </data>
+  <data name="CertificateNotTrustedGuidance" xml:space="preserve">
+    <value>Please set up a trusted certificate on the server. &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153616"&gt;Learn more&lt;/a&gt;  
+Alternatively selecting the 'Trust server certificate' check box in the appliance configuration will connect to the server, however this may not be secure and therefore is not recommended.</value>
+  </data>
+  <data name="CertificateNotTrustedPossibleCauses" xml:space="preserve">
+    <value>A connection was successfully established, but a trusted certificate is not installed on the computer running SQL Server. Please set up a trusted certificate on the server</value>
+  </data>
+  <data name="DatabaseMissingErrorSummary" xml:space="preserve">
+    <value>Unable to find the specific database from this SQL Server instance.</value>
+  </data>
+  <data name="DatabaseMissingGuidance" xml:space="preserve">
+    <value>Please check if the selected server instance has this specific database. Assessment engine only assesses user databases.</value>
+  </data>
+  <data name="DatabaseMissingPossibleCauses" xml:space="preserve">
+    <value>Unable to find the specific database from the selected server instance.</value>
+  </data>
+  <data name="UserDatabasesNotFoundErrorSummary" xml:space="preserve">
+    <value>Unable to find any user databases that are associated with this SQL Server instance.</value>
+  </data>
+  <data name="UserDatabasesNotFoundGuidance" xml:space="preserve">
+    <value>Please check if the selected server instance has any user databases besides master, tempdb, msdb and model. Assessment engine only assesses user databases.</value>
+  </data>
+  <data name="UserDatabasesNotFoundPossibleCauses" xml:space="preserve">
+    <value>Unable to find any user databases from the selected server instance.</value>
+  </data>
+  <data name="SqlConnectivityExceptionGuidance" xml:space="preserve">
+    <value>SQL Server connection failed. Please use &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153317"&gt;this&lt;/a&gt; interactive user guide to troubleshoot the connectivity issue.</value>
+  </data>
+  <data name="InvalidServerErrorSummary" xml:space="preserve">
+    <value>Error {0} - An error has occurred while establishing a connection to the server. When connecting to SQL Server, this failure may be caused by the fact that under the default settings SQL Server does not allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server) (.Net SqlClient Data Provider)</value>
+  </data>
+  <data name="InvalidServerGuidance" xml:space="preserve">
+    <value>Not able to resolve the SQL Server name, this failure may be caused by the fact that under the default settings SQL Server does not allow remote connections.
+To check TCP/IP name resolution, you can use the ping command in the Windows operating system. If the error still persists, please contact Microsoft support. 
+&lt;a href="https://go.microsoft.com/fwlink/?linkid=2153316"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="InvalidServerPossibleCauses" xml:space="preserve">
+    <value>The SQL Server client cannot connect to the server. This error could occur because either the client cannot resolve the name of the server or the name of the server is incorrect.</value>
+  </data>
+  <data name="LoginFailed18452ErrorSummary" xml:space="preserve">
+    <value>Error {0} - Login failed. The login is a SQL Server login and cannot be used with Windows Authentication.</value>
+  </data>
+  <data name="LoginFailed18452Guidance" xml:space="preserve">
+    <value>If you are trying to connect using SQL Server Authentication, verify that SQL Server is configured in Mixed Authentication Mode and SQL Server login exists. If you are trying to connect using Windows Authentication, verify that you are properly logged into the correct domain. &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153421"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="LoginFailed18452PossibleCauses" xml:space="preserve">
+    <value>1. The login may be a SQL Server login but the server only accepts Windows Authentication. 
+2. You are trying to connect using SQL Server Authentication but the login used does not exist on SQL Server. 
+3. The login may use Windows Authentication but the login is an unrecognized Windows principal. An unrecognized Windows principal means that the login cannot be verified by Windows. This could be because the Windows login is from an untrusted domain.</value>
+  </data>
+  <data name="LoginFailed18456ErrorSummary" xml:space="preserve">
+    <value>Invalid User name or Password provided.</value>
+  </data>
+  <data name="LoginFailed18456Guidance" xml:space="preserve">
+    <value>Please provide a credential with a valid Username and Password. &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153315"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses" xml:space="preserve">
+    <value>The SQL Server client cannot connect to the server. This error could occur because of an authentication failure that involves a bad password or username.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State1" xml:space="preserve">
+    <value>Error information isn't available. This state usually means you don't have permission to receive the error details. Contact your SQL Server administrator for more information.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State2" xml:space="preserve">
+    <value>Invalid User name provided. Could not find a login matching the name provided.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State5" xml:space="preserve">
+    <value>Invalid User name provided. The login does not exist in SQL Server, and the login attempt came from the local machine.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State6" xml:space="preserve">
+    <value>An attempt was made to use a Windows login name with SQL Server Authentication.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State7" xml:space="preserve">
+    <value>Login is disabled, and the password is incorrect.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State8" xml:space="preserve">
+    <value>The password is incorrect.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State9" xml:space="preserve">
+    <value>Password isn't valid. The password violated a password policy check.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State10" xml:space="preserve">
+    <value>Password checking could not be performed because the login is disabled or locked on the domain controller.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State11" xml:space="preserve">
+    <value>Login is valid, but server access failed. One possible cause of this error is when the Windows user has access to SQL Server as a member of the local administrators' group, but Windows isn't providing administrator credentials. To connect, start the connecting program using the Run as administrator option, and then add the Windows user to SQL Server as a specific login.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State12" xml:space="preserve">
+    <value>Login is valid login, but server access failed. Token-based server access validation failed with an infrastructure error.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State13" xml:space="preserve">
+    <value>SQL Server service is paused. No new connections can be accepted at this time.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State16" xml:space="preserve">
+    <value>The default database was inaccessible. This could be because the database has been removed, renamed, or is offline.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State18" xml:space="preserve">
+    <value>The error indicates that the user needs to change their password.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State23" xml:space="preserve">
+    <value>Access to server validation failed while revalidating the login on the connection.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State27" xml:space="preserve">
+    <value>It means that the database specified in the connection string has been removed, renamed, or is offline.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State28" xml:space="preserve">
+    <value>It is caused due to overloaded connection pooling and connection resets.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State38" xml:space="preserve">
+	<value>Couldn't find database requested by user.The database specified in the connection string is is no longer valid or online.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State40" xml:space="preserve">
+	<value>Failed to open the connection to explicitly specified database.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State46" xml:space="preserve">
+	<value>Failed to open connection to the database configured in the login object while revalidating the login on the connection.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State50" xml:space="preserve">
+	<value>default collation for the login is incompatible with the collation of their default database.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State51" xml:space="preserve">
+    <value>Failed to send an environment change notification to a log shipping partner node while revalidating the login.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State56" xml:space="preserve">
+    <value>Failed attempted retry of token-based server access validation.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State58" xml:space="preserve">
+    <value>It occurs when SQL Server is set to use Windows Authentication only, and a client attempts to log in using SQL authentication. Another cause is when SIDs don't match.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State62" xml:space="preserve">
+	<value>It occurs when a Windows Authentication account tries to access a contained database, and the contained database exists, but the SIDs do not match.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State65" xml:space="preserve">
+	<value>It ocuurs when contained user exists, the database is correct, but the password is invalid.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State102_111" xml:space="preserve">
+	<value>It ocuurs due to Azure Active Directory login failures.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State122_124" xml:space="preserve">
+	<value>Failure due to empty user name or password.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State126" xml:space="preserve">
+	<value>It occurs because the database requested by user doesn't exist.</value>
+  </data>
+  <data name="LoginFailed18456PossibleCauses_State132_133" xml:space="preserve">
+	<value>It ocuurs due to Azure Active Directory login failures.</value>
+  </data>
+  <data name="LoginFailed4064ErrorSummary" xml:space="preserve">
+    <value>Error {0} - Login failed. Cannot open user default database.</value>
+  </data>
+  <data name="LoginFailed4064Guidance" xml:space="preserve">
+    <value>Use ALTER LOGIN to set the default database to master database. Grant CONNECT permission to the login. &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153615"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="LoginFailed4064PossibleCauses" xml:space="preserve">
+    <value>The SQL Server login was unable to connect because of a problem with its default  master database. Either the database itself is invalid or the login lacks CONNECT permission on the master database.</value>
+  </data>
+  <data name="PasswordExpiredErrorSummary" xml:space="preserve">
+    <value>Error {0} - Password for the provided credential has expired.</value>
+  </data>
+  <data name="PasswordExpiredGuidance" xml:space="preserve">
+    <value>The SQL Server login password may have expired, re-set the password and or extend the password expiration expiry date. &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153419"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="PasswordExpiredPossibleCauses" xml:space="preserve">
+    <value>The password of the account has expired.</value>
+  </data>
+  <data name="PasswordMustBeChangedErrorSummary" xml:space="preserve">
+    <value>Error {0} - The password for the account the provided credential must be changed.</value>
+  </data>
+  <data name="PasswordMustBeChangedGuidance" xml:space="preserve">
+    <value>Change the password of the credential provided for SQL Server discovery. &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153318"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="PasswordMustBeChangedPossibleCauses" xml:space="preserve">
+    <value>The password of the account must be changed.</value>
+  </data>
+  <data name="PermissionErrorSummary" xml:space="preserve">
+    <value>Error {0} - No permission to perform this action.</value>
+  </data>
+  <data name="PermissionGuidance" xml:space="preserve">
+    <value>Grant VIEW SERVER STATE permission to the SQL server user. &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153511"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="PermissionPossibleCauses" xml:space="preserve">
+    <value>This error could occur because of lack of VIEW SERVER STATE permissions to login provided for SQL Server.</value>
+  </data>
+  <data name="TimeoutExpiredErrorSummary" xml:space="preserve">
+    <value>Error {0} - SQL Connection failed due to a timeout.</value>
+  </data>
+  <data name="TimeoutExpiredGuidance" xml:space="preserve">
+    <value>SQL Server timeout is expired. Make sure that you have configured the firewall on the server instance of SQL Server to accept connections. &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153611"&gt;Learn more.&lt;/a&gt; 
+
+If the error persists, please contact Microsoft support.</value>
+  </data>
+  <data name="TimeoutExpiredPossibleCauses" xml:space="preserve">
+    <value>The SQL Server client cannot connect to the server. This error could occur because the firewall on the server has refused the connection.</value>
+  </data>
+  <data name="TLSConnectErrorGuidance" xml:space="preserve">
+    <value>Enable connections using TLS 1.0 and 1.1 security protocol (Not recommended) at the appliance machine due to your legacy system still use the old TLS protocols. Or patch your sql server with latest patch. Otherwise, the legacy system will not be assessed. &lt;a href="https://go.microsoft.com/fwlink/?linkid=2118721 "&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="TLSConnectErrorPossibleCauses" xml:space="preserve">
+    <value>If user’s appliance environment enables TLS 1.2 only protocol, then it may cause issue to connect to the TLS1.0/1.1 environments. However, appliance’s image  does not have enforce TLS1.2 only environment, hence this will NOT happen. If user downloads applianace and install manually, iti s possible that machine has TLS 1.2 only.</value>
+  </data>
+  <data name="TLSConnectErrorSummary" xml:space="preserve">
+    <value>Error {0} - A connection was successfully established with the server, but then an error occurred during the login process. (provider: SSL Provider, error: 0 - The client and server cannot communicate, because they do not possess a common algorithm.)</value>
+  </data>
+  <data name="UnhandledSqlExceptionErrorSummary" xml:space="preserve">
+    <value>Unhandled Sql exceptions occur.</value>
+  </data>
+  <data name="UnhandledSqlExceptionGuidance" xml:space="preserve">
+    <value>Please contact Microsoft if the issue persists.</value>
+  </data>
+  <data name="InvalidConnection87Guidance" xml:space="preserve">
+    <value>SQL Server connection failed. Please use &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153317"&gt;this&lt;/a&gt; interactive user guide to troubleshoot the connectivity issue.</value>
+  </data>
+  <data name="RemoteComputerRefusedNetworkConnectionErrorSummary" xml:space="preserve">
+    <value>Error {0} - The remote computer refused the network connection.</value>
+  </data>
+  <data name="RemoteComputerRefusedNetworkConnectionGuidance" xml:space="preserve">
+    <value>Please check the SQL server TCP port configuration and retry the connection, or please follow the link &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153317"&gt;here&lt;/a&gt;</value>
+  </data>
+  <data name="RemoteComputerRefusedNetworkConnectionPossibleCauses" xml:space="preserve">
+    <value>This error could occur when a process is trying to connect to a port which is not configured for listening.</value>
+  </data>
+  <data name="WaitOperationTimedOutGuidance" xml:space="preserve">
+    <value>Please check the network connectivity to the server and retry the connection, or please follow the link &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153317"&gt;here&lt;/a&gt;</value>
+  </data>
+  <data name="WaitOperationTimedOutPossibleCauses" xml:space="preserve">
+    <value>This could be due to multiple network-related issues, e.g. network down, server stopped responding, etc.</value>
+  </data>
+  <data name="WaitOperationTimeoutWin32ErrorSummary" xml:space="preserve">
+    <value> Win32 wait timeout occur.</value>
+  </data>
+  <data name="WaitOperationTimeoutWin32Guidance" xml:space="preserve">
+    <value>Please follow the link &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153317"&gt;here&lt;/a&gt; to troubleshoot this issue. Please contact Microsoft if the issue persists.</value>
+  </data>
+  <data name="RemoteConnectionNotAllowedGuidance" xml:space="preserve">
+    <value>To resolve this error, try one of the following actions: 
+1. Check the spelling of the SQL Server instance name that is specified in the connection string. 
+2. Use the SQL Server Configuration Manager tool to enable SQL Server to accept remote connections over the TCP or named pipes protocols. For more information about the accepting remote connections, see Enable or Disable a Server Network Protocol. 
+3. Make sure that you have configured the firewall on the server instance of SQL Server to open ports for SQL Server and the SQL Server Browser port (UDP 1434). 
+4. Make sure that the SQL Server Browser service is started on the server. 
+&lt;a href="https://go.microsoft.com/fwlink/?linkid=2163509"&gt;Learn more&lt;/a&gt;</value>
+  </data>
+  <data name="RemoteConnectionNotAllowedPossibleCauses" xml:space="preserve">
+    <value>The SQL Server client cannot connect to the server. This error could be caused by one of the following reasons:
+1. A specified SQL Server instance name is not valid.
+2. The TCP, or named pipes protocols are not enabled.
+3. The firewall on the server has refused the connection.
+4. The SQL Server Browser service (sqlbrowser) is not started.</value>
+  </data>
+  <data name="SQLAGDatabaseConnectivityGuidance" xml:space="preserve">
+    <value>SQL Server connection failed. Please use &lt;a href="https://learn.microsoft.com/en-us/troubleshoot/sql/availability-groups/troubleshooting-alwayson-issues#i-am-having-issues-connecting-to-always-on-availability-groups"&gt;this&lt;/a&gt; interactive user guide to troubleshoot the connectivity issue.</value>
+  </data>
+  <data name="WindowsNTUserNotFoundErrorSummary" xml:space="preserve">
+    <value>Error {0} - Windows NT user or group not found. Check the name again.</value>
+  </data>
+  <data name="WindowsNTUserNotFoundGuidance" xml:space="preserve">
+    <value>Please follow the link &lt;a href="https://go.microsoft.com/fwlink/?linkid=2153511"&gt;Learn more&lt;/a&gt; for possible causes and guidance to troubleshoot this issue. Please contact Microsoft if the issue persists.</value>
+  </data>
+  <data name="ServerPrincipalAlreadyExistsErrorSummary" xml:space="preserve">
+    <value>Error {0} - The server principal already exists. This means that the user login name is already mapped to a server login name.</value>
+  </data>
+  <data name="ServerPrincipalAlreadyExistsGuidance" xml:space="preserve">
+    <value>Please verify if the login name is mapped to SQL Server or not. Try dropping the login if it exists.</value>
+  </data>
+  <data name="Permission15247ErrorSummary" xml:space="preserve">
+    <value>Error {0} - User does not have permission to perform this action. This can happen when the user tries to create a new login or access a database without having the security admin or db_accessadmin roles.</value>
+  </data>
+  <data name="Permission15247Guidance" xml:space="preserve">
+    <value>Please try to provide db_admin roles to the user. Or try to use a high-privileged(sysadmin) login account.</value>
+  </data>
+</root>

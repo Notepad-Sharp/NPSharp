@@ -1,0 +1,1630 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.SqlTools.Hosting</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.SqlTools.Extensibility.ExportStandardMetadataAttribute">
+            <summary>
+            Base attribute class for all export definitions. 
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExportStandardMetadataAttribute.#ctor(System.Type,System.String,System.String)">
+            <summary>
+            Base class for DAC extensibility exports
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.ExportStandardMetadataAttribute.Version">
+            <summary>
+            The version of this extension
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.ExportStandardMetadataAttribute.Id">
+            <summary>
+            The id of the extension
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.ExportStandardMetadataAttribute.DisplayName">
+            <summary>
+            The display name for the extension
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Extensibility.ExtensionServiceHost.ShutdownCallback">
+            <summary>
+            Delegate definition for the host shutdown event
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Extensibility.ExtensionServiceHost.InitializeCallback">
+            <summary>
+            Delegate definition for the host initialization event
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceHost.RegisterShutdownTask(Microsoft.SqlTools.Extensibility.ExtensionServiceHost.ShutdownCallback)">
+            <summary>
+            Adds a new callback to be called when the shutdown request is submitted
+            </summary>
+            <param name="callback">Callback to perform when a shutdown request is submitted</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceHost.RegisterInitializeTask(Microsoft.SqlTools.Extensibility.ExtensionServiceHost.InitializeCallback)">
+            <summary>
+            Add a new method to be called when the initialize request is submitted
+            </summary>
+            <param name="callback">Callback to perform when an initialize request is submitted</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceHost.HandleShutdownRequest(System.Object,Microsoft.SqlTools.Hosting.Protocol.RequestContext{System.Object})">
+            <summary>
+            Handles the shutdown event for the Language Server
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceHost.HandleInitializeRequest(Microsoft.SqlTools.Hosting.Contracts.InitializeRequest,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Hosting.Contracts.InitializeResult})">
+            <summary>
+            Handles the initialization request
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceHost.HandleVersionRequest(System.Object,Microsoft.SqlTools.Hosting.Protocol.RequestContext{System.String})">
+            <summary>
+            Handles the version request. Sends back the server version as result.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceHost.LoadAndIntializeServicesFromAssesmblies(System.String[])">
+            <summary>
+            Loads and initializes the services from the given assemblies
+            </summary>
+            <param name="assemblyPaths">path of the dll files</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceHost.RegisterService(Microsoft.SqlTools.Hosting.IHostedService)">
+            <summary>
+            Registers and initializes the given service
+            </summary>
+            <param name="service">service to be initialized</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceHost.RegisterAndInitializedServices(System.Collections.Generic.IEnumerable{Microsoft.SqlTools.Hosting.IHostedService})">
+            <summary>
+            Registers and initializes the given services
+            </summary>
+            <param name="services">services to be initalized</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceHost.RegisterAndInitializeService(Microsoft.SqlTools.Hosting.IHostedService)">
+            <summary>
+            Register and initializes the given service
+            </summary>
+            <param name="service">service to be initialized</param>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.ExtensibleServiceHostOptions.ExtensionServiceAssemblyDirectory">
+            <summary>
+            The folder where the extension service assemblies are located. By default it is
+            the folder where the current server assembly is located.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.ExtensibleServiceHostOptions.ExtensionServiceAssemblyDllFileNames">
+            <summary>
+            The dlls that contain the extension services.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.ExtensibleServiceHostOptions.HostName">
+            <summary>
+            Host name for the services.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.ExtensibleServiceHostOptions.HostProfileId">
+            <summary>
+             Gets the profile ID of the host, used to determine the
+             host-specific profile path.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.ExtensibleServiceHostOptions.HostVersion">
+            <summary>
+            Gets the version of the host.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.ExtensibleServiceHostOptions.ServerCapabilities">
+            <summary>
+            Data protocol capabilities that the server supports.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.ExtensibleServiceHostOptions.ShutdownTimeoutInSeconds">
+            <summary>
+            Timeout in seconds for the shutdown request. Default is 120 seconds.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.ExtensibleServiceHostOptions.InitializeServiceCallback">
+            <summary>
+            Service initialization callback. The caller must define this callback to initialize the service.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceProvider.CreateFromAssembliesInDirectory(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a service provider by loading a set of named assemblies, expected to be in the current working directory
+            </summary>
+            <param name="inclusionList">full DLL names, as a string enumerable</param>
+            <returns><see cref="T:Microsoft.SqlTools.Extensibility.ExtensionServiceProvider"/> instance</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceProvider.AddAssembliesToConfiguration``1(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
+            <summary>
+            Merges in new assemblies to the existing container configuration.
+            </summary>
+            <typeparam name="T">Type of the service present in the assemblies</typeparam>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionServiceProvider.CreateFromAssembliesInDirectory(System.String,System.Collections.Generic.IList{System.String})">
+            <summary>
+            Creates a service provider by loading a set of named assemblies, expected to be <paramref name="directory"/>
+            </summary>
+            <param name="directory">Directory to search for included assemblies</param>
+            <param name="inclusionList">full DLL names, case insensitive, of assemblies to include</param>
+            <returns><see cref="T:Microsoft.SqlTools.Extensibility.ExtensionServiceProvider"/> instance</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Extensibility.ExtensionStore">
+            <summary>
+            A store for MEF exports of a specific type. Provides basic wrapper functionality around MEF to standarize how
+            we lookup types and return to callers.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionStore.#ctor(System.Type,System.Func{System.Composition.Convention.ConventionBuilder,System.Composition.Hosting.ContainerConfiguration})">
+            <summary>
+            Initializes the store with a type to lookup exports of, and a function that configures the
+            lookup parameters.
+            </summary>
+            <param name="contractType">Type to use as a base for all extensions being looked up</param>
+            <param name="configure">Function that returns the configuration to be used</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ExtensionStore.CreateDefaultLoader``1">
+            <summary>
+            Loads extensions from the current assembly
+            </summary>
+            <returns>ExtensionStore</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Extensibility.IComposableService">
+            <summary>
+            A Service that expects to lookup other services. Using this interface on an exported service
+            will ensure the <see cref="M:Microsoft.SqlTools.Extensibility.IComposableService.SetServiceProvider(Microsoft.SqlTools.Extensibility.IMultiServiceProvider)"/> method is called during
+            service initialization
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.IComposableService.SetServiceProvider(Microsoft.SqlTools.Extensibility.IMultiServiceProvider)">
+            <summary>
+            Supports settings the service provider being used to initialize the service.
+            This is useful to look up other services and use them in your own service.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.IMultiServiceProvider.GetService``1">
+            <summary>
+            Gets a service of a specific type. It is expected that only 1 instance of this type will be
+            available
+            </summary>
+            <typeparam name="T">Type of service to be found</typeparam>
+            <returns>Instance of T or null if not found</returns>
+            <exception cref="T:System.InvalidOperationException">The input sequence contains more than one element.-or-The input sequence is empty.</exception>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.IMultiServiceProvider.GetService``1(System.Predicate{``0})">
+            <summary>
+            Gets a service of a specific type. The first service matching the specified filter will be returned
+            available
+            </summary>
+            <typeparam name="T">Type of service to be found</typeparam>
+            <param name="filter">Filter to use in </param>
+            <returns>Instance of T or null if not found</returns>
+            <exception cref="T:System.InvalidOperationException">The input sequence contains more than one element.-or-The input sequence is empty.</exception>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.IMultiServiceProvider.GetServices``1">
+            <summary>
+            Gets multiple services of a given type
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>An enumerable of matching services</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.IMultiServiceProvider.GetServices``1(System.Predicate{``0})">
+            <summary>
+            Gets multiple services of a given type, where they match a filter
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.ServiceProviderBase.GetServicesImpl``1">
+            <summary>
+            Gets all services using the build in implementation
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Extensibility.IStandardMetadata">
+            <summary>
+            Standard Metadata needed for extensions.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.IStandardMetadata.Version">
+            <summary>
+            Extension version. Should be in the format "1.0.0.0" or similar
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.IStandardMetadata.Id">
+            <summary>
+            Unique Id used to identify the export.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Extensibility.IStandardMetadata.DisplayName">
+            <summary>
+            Optional Display name describing the export type 
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Extensibility.RegisteredServiceProvider">
+            <summary>
+            A service provider implementation that allows registering of specific services
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.RegisteredServiceProvider.RegisterSingleService``1(``0)">
+            <summary>
+            Registers a singular service to be returned during lookup
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>this provider, to simplify fluent declarations</returns>
+            <exception cref="T:System.ArgumentNullException">If service is null</exception>
+            <exception cref="T:System.InvalidOperationException">If an existing service is already registered</exception>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.RegisteredServiceProvider.RegisterSingleService(System.Type,System.Object)">
+            <summary>
+            Registers a singular service to be returned during lookup
+            </summary>
+            <param name="type">
+            Type or interface this service should be registed as. Any <see cref="M:Microsoft.SqlTools.Extensibility.IMultiServiceProvider.GetServices``1"/> request
+            for that type will return this service
+            </param>
+            <param name="service">service object to be added</param>
+            <returns>this provider, to simplify fluent declarations</returns>
+            <exception cref="T:System.ArgumentNullException">If service is null</exception>
+            <exception cref="T:System.InvalidOperationException">If an existing service is already registered</exception>
+        </member>
+        <member name="M:Microsoft.SqlTools.Extensibility.RegisteredServiceProvider.Register``1(System.Func{System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            Registers a function that can look up multiple services
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>this provider, to simplify fluent declarations</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="serviceLookup"/> is null</exception>
+            <exception cref="T:System.InvalidOperationException">If an existing service is already registered</exception>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Contracts.AdminServicesProviderOptions">
+            <summary>
+            Defines the admin services provider options that the DMP server implements. 
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Contracts.CapabilitiesRequest">
+            <summary>
+            Defines a message that is sent from the client to request
+            the version of the server.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Contracts.ClientCapabilities">
+            <summary>
+            Defines a class that describes the capabilities of a language
+            client.  At this time no specific capabilities are listed for
+            clients.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Contracts.ConnectionProviderOptions">
+            <summary>
+            Defines the connection provider options that the DMP server
+            implements.  This includes metadata regarding supported connection
+            properties.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.ConnectionOption.SpecialValueType">
+            <summary>
+            Determines if the parameter is one of the 'special' known values.
+            Can be either Server Name, Database Name, Authentication Type,
+            User Name, or Password
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.ConnectionOption.IsIdentity">
+            <summary>
+            Flag to indicate that this option is part of the connection identity
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Contracts.DmpServerCapabilities">
+            <summary>
+            Defines the DMP server capabilities
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.DmpServerCapabilities.Features">
+            <summary>
+            List of features
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Contracts.Error">
+            <summary>
+            Defines the message contract for errors returned via SendError.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.Error.Code">
+            <summary>
+            Error code. If omitted will default to 0
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.Error.Message">
+            <summary>
+            Error message
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.Error.Data">
+            <summary>
+            Additional data.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Contracts.HostingErrorParams">
+            <summary>
+            Parameters to be used for reporting hosting-level errors, such as protocol violations
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.HostingErrorParams.Message">
+            <summary>
+            The message of the error
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.InitializeRequest.RootPath">
+            <summary>
+            Gets or sets the root path of the editor's open workspace.
+            If null it is assumed that a file was opened without having
+            a workspace open.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.InitializeRequest.Capabilities">
+            <summary>
+            Gets or sets the capabilities provided by the client (editor).
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.InitializeResult.Capabilities">
+            <summary>
+            Gets or sets the capabilities provided by the language server.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.InitializeError.Retry">
+            <summary>
+            Gets or sets a boolean indicating whether the client should retry
+            sending the Initialize request after showing the error to the user.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Contracts.TextDocumentSyncKind">
+            <summary>
+            Defines the document synchronization strategies that a server may support.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Hosting.Contracts.TextDocumentSyncKind.None">
+            <summary>
+            Indicates that documents should not be synced at all.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Hosting.Contracts.TextDocumentSyncKind.Full">
+            <summary>
+            Indicates that document changes are always sent with the full content.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Hosting.Contracts.TextDocumentSyncKind.Incremental">
+            <summary>
+            Indicates that document changes are sent as incremental changes after
+            the initial document content has been sent.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.ServiceOption.ValueType">
+            <summary>
+            Type of the parameter.  Can be either string, number, or category.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.ServiceOption.CategoryValues">
+            <summary>
+            Set of permitted values if ValueType is category.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Contracts.ServiceOption.IsRequired">
+            <summary>
+            Flag to indicate that this option is required
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Contracts.ShutdownRequest">
+            <summary>
+            Defines a message that is sent from the client to request
+            that the server shut down.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Contracts.ExitNotification">
+            <summary>
+            Defines an event that is sent from the client to notify that
+            the client is exiting and the server should as well.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Contracts.VersionRequest">
+            <summary>
+            Defines a message that is sent from the client to request
+            the version of the server.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Hosting.Contracts.FeatureMetadataProvider">
+            <summary>
+            Includes the metadata for a feature
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Hosting.Contracts.FeatureMetadataProvider.Enabled">
+            <summary>
+            Indicates whether the feature is enabled 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Hosting.Contracts.FeatureMetadataProvider.FeatureName">
+            <summary>
+            Feature name
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Hosting.Contracts.FeatureMetadataProvider.OptionsMetadata">
+            <summary>
+            The options metadata avaialble for this feature
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.IHostedService">
+            <summary>
+            Defines a hosted service that communicates with external processes via
+            messages passed over the <see cref="!:ServiceHost"/>. The service defines
+            a standard initialization method where it can hook up to the host.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.IHostedService.InitializeService(Microsoft.SqlTools.Hosting.Protocol.IProtocolEndpoint)">
+            <summary>
+            Callback to initialize this service
+            </summary>
+            <param name="serviceHost"><see cref="T:Microsoft.SqlTools.Hosting.Protocol.IProtocolEndpoint"/> which supports registering
+            event handlers and other callbacks for messages passed to external callers</param>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.IHostedService.ServiceType">
+            <summary>
+            What is the service type that you wish to register?
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.HostedService`1">
+            <summary>
+            Base class for <see cref="T:Microsoft.SqlTools.Hosting.IHostedService"/> implementations that handles defining the <see cref="P:Microsoft.SqlTools.Hosting.HostedService`1.ServiceType"/>
+            being registered. This simplifies service registration. This also implements <see cref="T:Microsoft.SqlTools.Extensibility.IComposableService"/> which
+            allows injection of the service provider for lookup of other services.
+            
+            Extending classes should implement per below code example
+            <code>
+            [Export(typeof(IHostedService)]
+            MyService : HostedService&lt;MyService&gt;
+            {
+                public override void InitializeService(IProtocolEndpoint serviceHost)
+                {
+                    serviceHost.SetRequestHandler(MyRequest.Type, HandleMyRequest);
+                }
+            }
+            </code>
+            </summary>
+            <typeparam name="T">Type to be registered for lookup in the service provider</typeparam>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.Channel.ChannelBase">
+            <summary>
+            Defines a base implementation for servers and their clients over a
+            single kind of communication channel.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.Channel.ChannelBase.IsConnected">
+            <summary>
+            Gets a boolean that is true if the channel is connected or false if not.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.Channel.ChannelBase.MessageReader">
+            <summary>
+            Gets the MessageReader for reading messages from the channel.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.Channel.ChannelBase.MessageWriter">
+            <summary>
+            Gets the MessageWriter for writing messages to the channel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Channel.ChannelBase.Start(Microsoft.SqlTools.Hosting.Protocol.MessageProtocolType,System.IO.Stream,System.IO.Stream)">
+            <summary>
+            Starts the channel and initializes the MessageDispatcher.
+            </summary>
+            <param name="messageProtocolType">The type of message protocol used by the channel.</param>
+            <param name="inputStream">Optional stream to use for the input stream</param>
+            <param name="outputStream">Optional stream to use for the output stream</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Channel.ChannelBase.WaitForConnection">
+            <summary>
+            Returns a Task that allows the consumer of the ChannelBase
+            implementation to wait until a connection has been made to
+            the opposite endpoint whether it's a client or server.
+            </summary>
+            <returns>A Task to be awaited until a connection is made.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Channel.ChannelBase.Stop">
+            <summary>
+            Stops the channel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Channel.ChannelBase.Initialize(Microsoft.SqlTools.Hosting.Protocol.Serializers.IMessageSerializer,System.IO.Stream,System.IO.Stream)">
+            <summary>
+            A method to be implemented by subclasses to handle the
+            actual initialization of the channel and the creation and
+            assignment of the MessageReader and MessageWriter properties.
+            </summary>
+            <param name="messageSerializer">The IMessageSerializer to use for message serialization.</param>
+            <param name="inputStream">Optional stream to use for the input stream</param>
+            <param name="outputStream">Optional stream to use for the output stream</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Channel.ChannelBase.Shutdown">
+            <summary>
+            A method to be implemented by subclasses to handle shutdown
+            of the channel once Stop is called.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.Channel.StdioClientChannel">
+            <summary>
+            Provides a client implementation for the standard I/O channel.
+            Launches the server process and then attaches to its console
+            streams.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.Channel.StdioClientChannel.ProcessId">
+            <summary>
+            Gets the process ID of the server process.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Channel.StdioClientChannel.#ctor(System.String,System.String[])">
+            <summary>
+            Initializes an instance of the StdioClient.
+            </summary>
+            <param name="serverProcessPath">The full path to the server process executable.</param>
+            <param name="serverProcessArguments">Optional arguments to pass to the service process executable.</param>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.Channel.StdioServerChannel">
+            <summary>
+            Provides a server implementation for the standard I/O channel.
+            When started in a process, attaches to the console I/O streams
+            to communicate with the client that launched the process.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.Contracts.EventType`1">
+            <summary>
+            Defines an event type with a particular method name.
+            </summary>
+            <typeparam name="TParams">The parameter type for this event.</typeparam>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.Contracts.EventType`1.MethodName">
+            <summary>
+            Gets the method name for the event type.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Contracts.EventType`1.Create(System.String)">
+            <summary>
+            Creates an EventType instance with the given parameter type and method name.
+            </summary>
+            <param name="methodName">The method name of the event.</param>
+            <returns>A new EventType instance for the defined type.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.Contracts.MessageType">
+            <summary>
+            Defines all possible message types.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.Contracts.Message">
+            <summary>
+            Provides common details for protocol messages of any format.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.Contracts.Message.MessageType">
+            <summary>
+            Gets or sets the message type.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.Contracts.Message.Id">
+            <summary>
+            Gets or sets the message's sequence ID.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.Contracts.Message.Method">
+            <summary>
+            Gets or sets the message's method/command name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.Contracts.Message.Contents">
+            <summary>
+            Gets or sets a JToken containing the contents of the message.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.Contracts.Message.Error">
+            <summary>
+            Gets or sets a JToken containing error details.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Contracts.Message.Unknown">
+            <summary>
+            Creates a message with an Unknown type.
+            </summary>
+            <returns>A message with Unknown type.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Contracts.Message.Request(System.String,System.String,Newtonsoft.Json.Linq.JToken)">
+            <summary>
+            Creates a message with a Request type.
+            </summary>
+            <param name="id">The sequence ID of the request.</param>
+            <param name="method">The method name of the request.</param>
+            <param name="contents">The contents of the request.</param>
+            <returns>A message with a Request type.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Contracts.Message.Response(System.String,System.String,Newtonsoft.Json.Linq.JToken)">
+            <summary>
+            Creates a message with a Response type.
+            </summary>
+            <param name="id">The sequence ID of the original request.</param>
+            <param name="method">The method name of the original request.</param>
+            <param name="contents">The contents of the response.</param>
+            <returns>A message with a Response type.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Contracts.Message.ResponseError(System.String,System.String,Newtonsoft.Json.Linq.JToken)">
+            <summary>
+            Creates a message with a Response type and error details.
+            </summary>
+            <param name="id">The sequence ID of the original request.</param>
+            <param name="method">The method name of the original request.</param>
+            <param name="error">The error details of the response.</param>
+            <returns>A message with a Response type and error details.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Contracts.Message.Event(System.String,Newtonsoft.Json.Linq.JToken)">
+            <summary>
+            Creates a message with an Event type.
+            </summary>
+            <param name="method">The method name of the event.</param>
+            <param name="contents">The contents of the event.</param>
+            <returns>A message with an Event type.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.EventContext">
+            <summary>
+            Provides context for a received event so that handlers
+            can write events back to the channel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.EventContext.#ctor">
+            <summary>
+            Parameterless constructor required for mocking
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.IProtocolEndpoint">
+            <summary>
+            A ProtocolEndpoint is used for inter-process communication. Services can register to
+            respond to requests and events, send their own requests, and listen for notifications
+            sent by the other side of the endpoint
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.IProtocolEndpoint.SetRequestHandler``2(Microsoft.SqlTools.Hosting.Protocol.Contracts.RequestType{``0,``1},System.Func{``0,Microsoft.SqlTools.Hosting.Protocol.RequestContext{``1},System.Threading.Tasks.Task},System.Boolean)">
+            <summary>
+            Set a request handler
+            </summary>
+            <typeparam name="TParams">type of parameter</typeparam>
+            <typeparam name="TResult">type of result</typeparam>
+            <param name="requestType">request type</param>
+            <param name="requestHandler">request handler</param>
+            <param name="isParallelProcessingSupported">whether this handler supports parallel processing</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.IProtocolEndpoint.SetEventHandler``1(Microsoft.SqlTools.Hosting.Protocol.Contracts.EventType{``0},System.Func{``0,Microsoft.SqlTools.Hosting.Protocol.EventContext,System.Threading.Tasks.Task},System.Boolean)">
+            <summary>
+            Set an request handler
+            </summary>
+            <typeparam name="TParams">type of parameter</typeparam>
+            <param name="eventType">type of event</param>
+            <param name="eventHandler">event handler</param>
+            <param name="isParallelProcessingSupported">whether this handler supports parallel processing</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.IProtocolEndpoint.SetEventHandler``1(Microsoft.SqlTools.Hosting.Protocol.Contracts.EventType{``0},System.Func{``0,Microsoft.SqlTools.Hosting.Protocol.EventContext,System.Threading.Tasks.Task},System.Boolean,System.Boolean)">
+            <summary>
+            Set an request handler
+            </summary>
+            <typeparam name="TParams">type of parameter</typeparam>
+            <param name="eventType">type of event</param>
+            <param name="eventHandler">event handler</param>
+            <param name="overrideExisting">whether to override the existing handler for the same event type</param>
+            <param name="isParallelProcessingSupported">whether this handler supports parallel processing</param>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.MessageDispatcher.ParallelMessageProcessing">
+            <summary>
+            Whether the message should be handled without blocking the main thread.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.MessageDispatcher.ParallelMessageProcessingLimit">
+            <summary>
+            The maximum number of parallel operations that can be queued without blocking the main thread.
+            Defaults to 100. This should be optimal to maintain a healthy application runtime state.
+            If users need more parallel operations depending on if their systems support the same, they can always increase the limit.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.MessageProtocolType">
+            <summary>
+            Defines the possible message protocol types.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Hosting.Protocol.MessageProtocolType.LanguageServer">
+            <summary>
+            Identifies the language server message protocol.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Hosting.Protocol.MessageProtocolType.DebugAdapter">
+            <summary>
+            Identifies the debug adapter message protocol.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.ProtocolEndpoint">
+            <summary>
+            Provides behavior for a client or server endpoint that
+            communicates using the specified protocol.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Hosting.Protocol.ProtocolEndpoint.SendEventIgnoreExceptions">
+            <summary>
+            When true, SendEvent will ignore exceptions and write them
+            to the log instead. Intended to be used for test scenarios
+            where SendEvent throws exceptions unrelated to what is
+            being tested.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Hosting.Protocol.ProtocolEndpoint.MessageDispatcher">
+            <summary>
+            Gets the MessageDispatcher which allows registration of
+            handlers for requests, responses, and events that are
+            transmitted through the channel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.ProtocolEndpoint.#ctor(Microsoft.SqlTools.Hosting.Protocol.Channel.ChannelBase,Microsoft.SqlTools.Hosting.Protocol.MessageProtocolType)">
+            <summary>
+            Initializes an instance of the protocol server using the
+            specified channel for communication.
+            </summary>
+            <param name="protocolChannel">
+            The channel to use for communication with the connected endpoint.
+            </param>
+            <param name="messageProtocolType">
+            The type of message protocol used by the endpoint.
+            </param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.ProtocolEndpoint.Initialize(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            Initializes
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.ProtocolEndpoint.Start">
+            <summary>
+            Starts the language server client and sends the Initialize method.
+            </summary>
+            <returns>A Task that can be awaited for initialization to complete.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.ProtocolEndpoint.SendRequest``2(Microsoft.SqlTools.Hosting.Protocol.Contracts.RequestType{``0,``1},``0)">
+            <summary>
+            Sends a request to the server
+            </summary>
+            <typeparam name="TParams"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="requestType"></param>
+            <param name="requestParams"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.ProtocolEndpoint.SendEvent``1(Microsoft.SqlTools.Hosting.Protocol.Contracts.EventType{``0},``0)">
+            <summary>
+            Sends an event to the channel's endpoint.
+            </summary>
+            <typeparam name="TParams">The event parameter type.</typeparam>
+            <param name="eventType">The type of event being sent.</param>
+            <param name="eventParams">The event parameters being sent.</param>
+            <returns>A Task that tracks completion of the send operation.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.ProtocolEndpoint.SetRequestHandler``2(Microsoft.SqlTools.Hosting.Protocol.Contracts.RequestType{``0,``1},System.Func{``0,Microsoft.SqlTools.Hosting.Protocol.RequestContext{``1},System.Threading.Tasks.Task},System.Boolean)">
+            <summary>
+            Sets request handler for request type and specify whether the handler should be called without blocking dispatcher thread.
+            </summary>
+            <typeparam name="TParams"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="requestType">Type corresponding to request</param>
+            <param name="requestHandler">Callback method that handles request.</param>
+            <param name="isParallelProcessingSupported">Whether the handler callback should be executed in background thread, detached from the dispatcher thread.
+            When enabling parallel message processing, ensure this callback is able to access resources concurrently and responses are not required to be ordered.
+            </param>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.Serializers.IMessageSerializer">
+            <summary>
+            Defines a common interface for message serializers.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Serializers.IMessageSerializer.SerializeMessage(Microsoft.SqlTools.Hosting.Protocol.Contracts.Message)">
+            <summary>
+            Serializes a Message to a JObject.
+            </summary>
+            <param name="message">The message to be serialized.</param>
+            <returns>A JObject which contains the JSON representation of the message.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Protocol.Serializers.IMessageSerializer.DeserializeMessage(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Deserializes a JObject to a Messsage.
+            </summary>
+            <param name="messageJson">The JObject containing the JSON representation of the message.</param>
+            <returns>The Message that was represented by the JObject.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.Serializers.JsonRpcMessageSerializer">
+            <summary>
+            Serializes messages in the JSON RPC format.  Used primarily
+            for language servers.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Hosting.Protocol.Serializers.V8MessageSerializer">
+            <summary>
+            Serializes messages in the V8 format.  Used primarily for debug adapters.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Hosting.Utility.CommonUtils.BuildAppDirectoryPath">
+            <summary>
+            Builds directory path based on environment settings.
+            </summary>
+            <returns>Application directory path</returns>
+            <exception cref="T:System.Exception">When called on unsupported platform.</exception>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.SqlContext.HostDetails">
+            <summary>
+            Contains details about the current host application (most
+            likely the editor which is using the host process).
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.SqlContext.HostDetails.DefaultHostName">
+            <summary>
+            The default host name for SqlTools Editor Services.  Used
+            if no host name is specified by the host application.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.SqlContext.HostDetails.DefaultHostProfileId">
+            <summary>
+            The default host ID for SqlTools Editor Services.  Used
+            for the host-specific profile path if no host ID is specified.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.SqlContext.HostDetails.DefaultHostVersion">
+            <summary>
+            The default host version for SqlTools Editor Services.  If
+            no version is specified by the host application, we use 0.0.0
+            to indicate a lack of version.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.SqlContext.HostDetails.Default">
+            <summary>
+            The default host details in a HostDetails object.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.SqlContext.HostDetails.Name">
+            <summary>
+            Gets the name of the host.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.SqlContext.HostDetails.ProfileId">
+            <summary>
+            Gets the profile ID of the host, used to determine the
+            host-specific profile path.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.SqlContext.HostDetails.Version">
+            <summary>
+            Gets the version of the host.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.SqlContext.HostDetails.#ctor(System.String,System.String,System.Version)">
+            <summary>
+            Creates an instance of the HostDetails class.
+            </summary>
+            <param name="name">
+            The display name for the host, typically in the form of
+            "[Application Name] Host".
+            </param>
+            <param name="profileId">
+            The identifier of the SqlTools host to use for its profile path.
+            loaded. Used to resolve a profile path of the form 'X_profile.ps1'
+            where 'X' represents the value of hostProfileId.  If null, a default
+            will be used.
+            </param>
+            <param name="version">The host application's version.</param>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.SqlContext.SqlToolsContext">
+            <summary>
+            Context for SQL Tools
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.SqlContext.SqlToolsContext.SqlToolsVersion">
+            <summary>
+            Gets the PowerShell version of the current runspace.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.SqlContext.SqlToolsContext.#ctor(Microsoft.SqlTools.ServiceLayer.SqlContext.HostDetails)">
+            <summary>
+            Initalizes the SQL Tools context instance
+            </summary>
+            <param name="hostDetails"></param>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Utility.SqlClientListener">
+            <summary>
+            This listener class will listen for events from the SqlClientEventSource class
+            and forward them to the logger.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Utility.SqlClientListener.OnEventWritten(System.Diagnostics.Tracing.EventWrittenEventArgs)">
+            <summary>
+            This callback runs whenever an event is written by SqlClientEventSource.
+            Event data is accessed through the EventWrittenEventArgs parameter.
+            </summary>
+            <param name="eventData">The data for the event</param>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.AsyncContext">
+            <summary>
+            Simplifies the setup of a SynchronizationContext for the use
+            of async calls in the current thread.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncContext.Start(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Starts a new ThreadSynchronizationContext, attaches it to
+            the thread, and then runs the given async main function.
+            </summary>
+            <param name="asyncMainFunc">
+            The Task-returning Func which represents the "main" function
+            for the thread.
+            </param>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.AsyncContextThread">
+            <summary>
+            Provides a simplified interface for creating a new thread
+            and establishing an AsyncContext in it.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncContextThread.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the AsyncContextThread class.
+            </summary>
+            <param name="threadName">
+            The name of the thread for debugging purposes.
+            </param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncContextThread.Run(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Runs a task on the AsyncContextThread.
+            </summary>
+            <param name="taskReturningFunc">
+            A Func which returns the task to be run on the thread.
+            </param>
+            <returns>
+            A Task which can be used to monitor the thread for completion.
+            </returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncContextThread.Stop">
+            <summary>
+            Stops the thread task.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.AsyncLock">
+            <summary>
+            Provides a simple wrapper over a SemaphoreSlim to allow
+            synchronization locking inside of async calls.  Cannot be
+            used recursively.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncLock.#ctor">
+            <summary>
+            Initializes a new instance of the AsyncLock class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncLock.LockAsync">
+            <summary>
+            Locks
+            </summary>
+            <returns>A task which has an IDisposable</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncLock.LockAsync(System.Threading.CancellationToken)">
+            <summary>
+            Obtains or waits for a lock which can be used to synchronize
+            access to a resource.  The wait may be cancelled with the
+            given CancellationToken.
+            </summary>
+            <param name="cancellationToken">
+            A CancellationToken which can be used to cancel the lock.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.AsyncLock.LockReleaser">
+            <summary>
+            Provides an IDisposable wrapper around an AsyncLock so
+            that it can easily be used inside of a 'using' block.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.AsyncQueue`1">
+            <summary>
+            Provides a synchronized queue which can be used from within async
+            operations.  This is primarily used for producer/consumer scenarios.
+            </summary>
+            <typeparam name="T">The type of item contained in the queue.</typeparam>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.AsyncQueue`1.IsEmpty">
+            <summary>
+            Returns true if the queue is currently empty.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncQueue`1.#ctor">
+            <summary>
+            Initializes an empty instance of the AsyncQueue class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncQueue`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes an instance of the AsyncQueue class, pre-populated
+            with the given collection of items.
+            </summary>
+            <param name="initialItems">
+            An IEnumerable containing the initial items with which the queue will
+            be populated.
+            </param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncQueue`1.EnqueueAsync(`0)">
+            <summary>
+            Enqueues an item onto the end of the queue.
+            </summary>
+            <param name="item">The item to be added to the queue.</param>
+            <returns>
+            A Task which can be awaited until the synchronized enqueue
+            operation completes.
+            </returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncQueue`1.DequeueAsync">
+            <summary>
+            Dequeues an item from the queue or waits asynchronously
+            until an item is available.
+            </summary>
+            <returns>
+            A Task which can be awaited until a value can be dequeued.
+            </returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AsyncQueue`1.DequeueAsync(System.Threading.CancellationToken)">
+            <summary>
+            Dequeues an item from the queue or waits asynchronously
+            until an item is available.  The wait can be cancelled
+            using the given CancellationToken.
+            </summary>
+            <param name="cancellationToken">
+            A CancellationToken with which a dequeue wait can be cancelled.
+            </param>
+            <returns>
+            A Task which can be awaited until a value can be dequeued.
+            </returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.AutoLock">
+            <summary>
+            A wrapper around the ReaderWriterLock to make sure the locks are released even if the action fails
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.AutoLock.#ctor(System.Threading.ReaderWriterLock,System.Boolean,System.TimeSpan,System.Action,System.Exception@)">
+            <summary>
+            Creates new lock given type of lock and timeout
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.CommandOptions">
+            <summary>
+            The command-line options helper class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.CommandOptions.#ctor(System.String[],System.String)">
+            <summary>
+            Construct and parse command line options from the arguments array
+            </summary>
+            <param name="args">The args to parse</param>
+            <param name="serviceName">Name of the service to display</param>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.ApplicationName">
+            <summary>
+            Name of application that is sending command options
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.ApplicationPath">
+            <summary>
+            Path of application home directory
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.ErrorMessage">
+            <summary>
+            Contains any error messages during execution
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.ShouldExit">
+            <summary>
+            Whether the program should exit immediately. Set to true when the usage is printed.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.Locale">
+            <summary>
+            The locale our we should instantiate this service in 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.HttpProxyUrl">
+            <summary>
+            Custom Http Proxy URL as specified in Azure Data Studio
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.HttpProxyStrictSSL">
+            <summary>
+            Specifies whether the proxy server certificate should be verified against the list of supplied CAs.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.ServiceName">
+            <summary>
+            Name of service that is receiving command options
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.Usage">
+            <summary>
+            Get the usage string describing command-line arguments for the program
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.ParallelMessageProcessing">
+            <summary>
+            Enables parallel message processing when queueing tasks from dispatcher.
+            This option is enabled by default during initialization.
+            NOTE: Keep the value 'false' by default, as this option is only 'enabled' during initialization, not 'disabled'.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.ParallelMessageProcessingLimit">
+            <summary>
+            The maximum number of parallel operations that can be queued without blocking the main thread.
+            Defaults to 100. This should be optimal to maintain a healthy application runtime state.
+            If users need more parallel operations depending on if their systems support the same, they can always increase the limit.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.EnableSqlAuthenticationProvider">
+            <summary>
+            Enables configured 'Sql Authentication Provider' for 'Active Directory Interactive' authentication mode to be used 
+            when user chooses 'Azure MFA'. This setting enables MSAL.NET to acquire token with SqlClient integration.
+            This option is enabled by default during initialization.
+            NOTE: Keep the value 'false' by default, as this option is only 'enabled' during initialization, not 'disabled'.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.EnableConnectionPooling">
+            <summary>
+            Enables connection pooling for all SQL connections, removing feature name identifier from application name to prevent unwanted connection pools.
+            This option is enabled by default during initialization.
+            NOTE: Keep the value 'false' by default, as this option is only 'enabled' during initialization, not 'disabled'.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.CommandOptions.ParentProcessId">
+            <summary>
+            The ID of the process that started this service. This is used to check when the parent
+            process exits so that the service process can exit at the same time.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.CommandOptions.LocaleSetter(System.String)">
+            <summary>
+            Sets the Locale field used for testing and also sets the global CultureInfo used for
+            culture-specific messages
+            </summary>
+            <param name="locale"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.ObjectExtensions.SafeToString(System.Object)">
+            <summary>
+            Extension to evaluate an object's ToString() method in an exception safe way. This will
+            extension method will not throw.
+            </summary>
+            <param name="obj">The object on which to call ToString()</param>
+            <returns>The ToString() return value or a suitable error message is that throws.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.ObjectExtensions.ToOneOrZeroString(System.Boolean)">
+            <summary>
+            Converts a boolean to a "1" or "0" string. Particularly helpful when sending telemetry
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.NullableExtensions.HasTrue(System.Nullable{System.Boolean})">
+            <summary>
+            Extension method to evaluate a bool? and determine if it has the value and is true.
+            This way we avoid throwing if the bool? doesn't have a value.
+            </summary>
+            <param name="obj">The <c>bool?</c> to process</param>
+            <returns>
+            <c>true</c> if <paramref name="obj"/> has a value and it is <c>true</c>
+            <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.ExceptionExtensions.IsOperationCanceledException(System.Exception)">
+            <summary>
+            Returns true if the passed exception or any inner exception is an OperationCanceledException instance.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.GeneralRequestDetails.TryParseEnum``1(System.Type,System.String,System.Object@)">
+            <summary>
+            This method exists because in NetStandard the Enum.TryParse methods that accept in a type
+            are not present, and the generic TryParse method requires the type T to be non-nullable which
+            is hard to check. This is different to the NetCore definition for some reason.
+            It seems easier to implement our own than work around this.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.GeneralRequestDetails.Options">
+            <summary>
+            Gets or Sets the options
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.LogEvent">
+            <summary>
+            Ordinal value of each LogEvent value corresponds to a unique event id to be used in trace.
+            By convention explicitly specify the integer value so that when this list grows large it is easy to figure out
+            enumeration corresponding to a numeric value. We could be reserving ranges of values for specific areas or logEvents.
+            Maximum value assignable to LogEvent enum value is 65,535.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.Logger">
+            <summary>
+            Provides a simple logging interface built on top of .Net tracing frameworks
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.StartCallStack">
+            <summary>
+            Calling this method will turn on inclusion CallStack in the log for all future traces
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.StopCallStack">
+            <summary>
+            Calling this method will turn off inclusion of CallStack in the log for all future traces
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Flush">
+            <summary>
+            Calls flush on defaultTracingLevel configured listeners.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Microsoft.SqlTools.Utility.Logger.Initialize(System.Diagnostics.SourceLevels,System.Boolean,System.String,System.String,System.Boolean)" -->
+        <!-- Badly formed XML comment ignored for member "M:Microsoft.SqlTools.Utility.Logger.Initialize(System.String,System.Boolean,System.String,System.String,System.Boolean)" -->
+        <member name="M:Microsoft.SqlTools.Utility.Logger.GenerateLogFilePath(System.String)">
+            <summary>
+            Configures the LogfilePath for the tracelistener in use for this process.
+            </summary>
+            <returns>
+            Returns the log file path corresponding to logfilePrefix
+            </returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Write(System.Diagnostics.TraceEventType,System.String)">
+            <summary>
+            Writes a message to the log file.
+            </summary>
+            <param name="eventType">The level at which the message will be written.</param>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Pii(System.String)">
+            <summary>
+            Writes a PII message to the log file with the Verbose event level when PII flag is enabled.
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Start(System.String)">
+            <summary>
+            Writes a message to the log file with the Start event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Stop(System.String)">
+            <summary>
+            Writes a message to the log file with the Stop event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Verbose(System.String)">
+            <summary>
+            Writes a message to the log file with the Verbose event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Information(System.String)">
+            <summary>
+            Writes a message to the log file with the Information event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Warning(System.String)">
+            <summary>
+            Writes a message to the log file with the Warning event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Error(System.String)">
+            <summary>
+            Writes a message to the log file with the Error event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Error(System.Exception)">
+            <summary>
+            Writes an exception to the log file with the Error event level
+            </summary>
+            <param name="exception"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Critical(System.String)">
+            <summary>
+            Writes a message to the log file with the Critical event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.WriteWithCallstack(System.Diagnostics.TraceEventType,System.String)">
+            <summary>
+            Writes a message to the log file with accompanying callstack.
+            </summary>
+            <param name="eventType">The level at which the message will be written.</param>
+            <param name="logMessage">The message text to be written.</param>
+            <remarks>
+            The callstack logging gets turned on globally and any other log writes that happens in the time window
+            while this log write is happening will also get callstack information logged. This is not considered
+            and trying to isolate the callstack logging to be turned of for just one call is unnecessarily complex.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.WriteWithCallstack(System.Diagnostics.TraceEventType,Microsoft.SqlTools.Utility.LogEvent,System.String)">
+            <summary>
+            Writes a message to the log file with accompanying callstack.
+            </summary>
+            <param name="eventType">The level at which the message will be written.</param>
+             <param name="logEvent">The event id enumeration for the log event.</param>
+            <param name="logMessage">The message text to be written.</param>
+            <remarks>
+            The callstack logging gets turned on globally and any other log writes that happens in the time window
+            while this log write is happening will also get callstack information logged. This is not considered
+            and trying to isolate the callstack logging to be turned of for just one call is unnecessarily complex.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Logger.Write(System.Diagnostics.TraceEventType,Microsoft.SqlTools.Utility.LogEvent,System.String)">
+            <summary>
+            Writes a message to the log file.
+            </summary>
+            <param name="eventType">The level at which the message will be written.</param>
+             <param name="logEvent">The event id enumeration for the log event.</param>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.SqlToolsTraceListener">
+            <summary>
+            This listener has the same behavior as TextWriterTraceListener except it controls how the 
+            options: TraceOptions.DateTime, TraceOptions.ProcessId and TraceOptions.ThreadId is written to the output stream.
+            This listener writes the above options, if turned on, inline with the message 
+            instead of writing them to indented fields as is the case with TextWriterTraceListener.
+            This implementation also lazily initializes the underlying tracelistener
+            </summary>
+            <remarks>
+            Implementation of this is a lazily initialize trace listener that is partly inspired 
+            by: https://stackoverflow.com/questions/30664527/how-to-stop-streamwriter-to-not-to-create-file-if-nothing-to-write
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.SqlToolsTraceListener.Close">
+            <Summary> 
+            Closes the <see cref="P:System.Diagnostics.TextWriterTraceListener.Writer"> so that it no longer 
+               receives tracing or debugging output.</see>
+            Make sure that we do not Close if the lazy listener never got created.
+            </Summary> 
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.SqlToolsTraceListener.Dispose">
+            <summary>
+            Releases all resources used by the <see cref="T:Microsoft.SqlTools.Utility.SqlToolsTraceListener"/>
+            No unmanaged resources in this class, and it is sealed.
+            No finalizer needed. See http://stackoverflow.com/a/3882819/613130
+            We skip disposing if the lazy listener never got created. 
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Microsoft.SqlTools.Utility.SqlToolsTraceListener.Flush" -->
+        <member name="M:Microsoft.SqlTools.Utility.ProcessExitTimer.Start(System.Int32,System.Int32)">
+            <summary>
+            Starts a thread that checks if the provided parent process has exited each time the provided interval has elapsed.
+            Once the parent process has exited the process that started the timer also exits.
+            </summary>
+            <param name="parentProcessId">The ID of the parent process to monitor.</param>
+            <param name="intervalMs">The time interval in milliseconds for when to poll the parent process.</param>
+            <returns>The ID of the thread running the timer.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.TextUtilities.PositionOfCursor(System.String,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Find the position of the cursor in the SQL script content buffer and return previous new line position
+            </summary>
+            <param name="sql"></param>
+            <param name="startRow">parameter is 0-based</param>
+            <param name="startColumn">parameter is 0-based</param>
+            <param name="prevNewLine">parameter is 0-based</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.TextUtilities.PositionOfPrevDelimeter(System.String,System.Int32,System.Int32)">
+            <summary>
+            Find the position of the previous delimeter for autocomplete token replacement.
+            SQL Parser may have similar functionality in which case we'll delete this method.
+            </summary>
+            <param name="sql"></param>
+            <param name="startRow">parameter is 0-based</param>
+            <param name="startColumn">parameter is 0-based</param>
+            <param name="tokenText"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.TextUtilities.PositionOfNextDelimeter(System.String,System.Int32,System.Int32)">
+            <summary>
+            Find the position of the next delimeter for autocomplete token replacement.
+            </summary>
+            <param name="sql"></param>
+            <param name="startRow">parameter is 0-based</param>
+            <param name="startColumn">parameter is 0-based</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.TextUtilities.IsCharacterDelimeter(System.Char)">
+            <summary>
+            Determine if the character is a SQL token delimiter
+            </summary>
+            <param name="ch"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.TextUtilities.RemoveSquareBracketSyntax(System.String)">
+            <summary>
+            Remove square bracket syntax from a token string
+            </summary>
+            <param name="tokenText"></param>
+            <returns> string with outer brackets removed</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.ThreadSynchronizationContext">
+            <summary>
+            Provides a SynchronizationContext implementation that can be used
+            in console applications or any thread which doesn't have its
+            own SynchronizationContext.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.ThreadSynchronizationContext.Post(System.Threading.SendOrPostCallback,System.Object)">
+            <summary>
+            Posts a request for execution to the SynchronizationContext.
+            This will be executed on the SynchronizationContext's thread.
+            </summary>
+            <param name="callback">
+            The callback to be invoked on the SynchronizationContext's thread.
+            </param>
+            <param name="state">
+            A state object to pass along to the callback when executed through
+            the SynchronizationContext.
+            </param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.ThreadSynchronizationContext.RunLoopOnCurrentThread">
+            <summary>
+            Starts the SynchronizationContext message loop on the current thread.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.ThreadSynchronizationContext.EndLoop">
+            <summary>
+            Ends the SynchronizationContext message loop.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.UtilityServiceHost">
+            <summary>
+            SQL Tools Service request handler for any utility services. Provides the entire JSON RPC
+            implementation for sending/receiving JSON requests and dispatching the requests to
+            handlers that are registered prior to startup.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Utility.UtilityServiceHost.ShutdownTimeoutInSeconds">
+            <summary>
+            This timeout limits the amount of time that shutdown tasks can take to complete
+            prior to the process shutting down.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.Utility.UtilityServiceHost.instance">
+            <summary>
+            Singleton instance of the service host for internal storage
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.Utility.UtilityServiceHost.Instance">
+            <summary>
+            Current instance of the ServiceHost
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.UtilityServiceHost.#ctor">
+            <summary>
+            Constructs new instance of ServiceHost using the host and profile details provided.
+            Access is private to ensure only one instance exists at a time.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.UtilityServiceHost.InitializeRequestHandlers">
+            <summary>
+            Provide initialization that must occur after the service host is started
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.UtilityServiceHost.ShutdownCallback">
+            <summary>
+            Delegate definition for the host shutdown event
+            </summary>
+            <param name="shutdownParams"></param>
+            <param name="shutdownRequestContext"></param>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.UtilityServiceHost.InitializeCallback">
+            <summary>
+            Delegate definition for the host initialization event
+            </summary>
+            <param name="startupParams"></param>
+            <param name="requestContext"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.UtilityServiceHost.RegisterShutdownTask(Microsoft.SqlTools.Utility.UtilityServiceHost.ShutdownCallback)">
+            <summary>
+            Adds a new callback to be called when the shutdown request is submitted
+            </summary>
+            <param name="callback">Callback to perform when a shutdown request is submitted</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.UtilityServiceHost.RegisterInitializeTask(Microsoft.SqlTools.Utility.UtilityServiceHost.InitializeCallback)">
+            <summary>
+            Add a new method to be called when the initialize request is submitted
+            </summary>
+            <param name="callback">Callback to perform when an initialize request is submitted</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.UtilityServiceHost.HandleShutdownRequest(System.Object,Microsoft.SqlTools.Hosting.Protocol.RequestContext{System.Object})">
+            <summary>
+            Handles the shutdown event for the Language Server
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.UtilityServiceHost.HandleInitializeRequest(Microsoft.SqlTools.Hosting.Contracts.InitializeRequest,Microsoft.SqlTools.Hosting.Protocol.RequestContext{Microsoft.SqlTools.Hosting.Contracts.InitializeResult})">
+            <summary>
+            Handles the initialization request
+            </summary>
+            <param name="initializeParams"></param>
+            <param name="requestContext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.UtilityServiceHost.HandleVersionRequest(System.Object,Microsoft.SqlTools.Hosting.Protocol.RequestContext{System.String})">
+            <summary>
+            Handles the version request. Sends back the server version as result.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.Utility.Validate">
+            <summary>
+            Provides common validation methods to simplify method
+            parameter checks.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Validate.IsNotNull(System.String,System.Object)">
+            <summary>
+            Throws ArgumentNullException if value is null.
+            </summary>
+            <param name="parameterName">The name of the parameter being validated.</param>
+            <param name="valueToCheck">The value of the parameter being validated.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Validate.IsWithinRange(System.String,System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Throws ArgumentOutOfRangeException if the value is outside 
+            of the given lower and upper limits.
+            </summary>
+            <param name="parameterName">The name of the parameter being validated.</param>
+            <param name="valueToCheck">The value of the parameter being validated.</param>
+            <param name="lowerLimit">The lower limit which the value should not be less than.</param>
+            <param name="upperLimit">The upper limit which the value should not be greater than.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Validate.IsLessThan(System.String,System.Int64,System.Int64)">
+            <summary>
+            Throws ArgumentOutOfRangeException if the value is greater than or equal 
+            to the given upper limit.
+            </summary>
+            <param name="parameterName">The name of the parameter being validated.</param>
+            <param name="valueToCheck">The value of the parameter being validated.</param>
+            <param name="upperLimit">The upper limit which the value should be less than.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Validate.IsGreaterThan(System.String,System.Int64,System.Int64)">
+            <summary>
+            Throws ArgumentOutOfRangeException if the value is less than or equal 
+            to the given lower limit.
+            </summary>
+            <param name="parameterName">The name of the parameter being validated.</param>
+            <param name="valueToCheck">The value of the parameter being validated.</param>
+            <param name="lowerLimit">The lower limit which the value should be greater than.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Validate.IsNotEqual``1(System.String,``0,``0)">
+            <summary>
+            Throws ArgumentException if the value is equal to the undesired value. 
+            </summary>
+            <typeparam name="TValue">The type of value to be validated.</typeparam>
+            <param name="parameterName">The name of the parameter being validated.</param>
+            <param name="undesiredValue">The value that valueToCheck should not equal.</param>
+            <param name="valueToCheck">The value of the parameter being validated.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Validate.IsNotNullOrEmptyString(System.String,System.String)">
+            <summary>
+            Throws ArgumentException if the value is null or an empty string.
+            </summary>
+            <param name="parameterName">The name of the parameter being validated.</param>
+            <param name="valueToCheck">The value of the parameter being validated.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.Utility.Validate.IsNotNullOrWhitespaceString(System.String,System.String)">
+            <summary>
+            Throws ArgumentException if the value is null, an empty string,
+            or a string containing only whitespace.
+            </summary>
+            <param name="parameterName">The name of the parameter being validated.</param>
+            <param name="valueToCheck">The value of the parameter being validated.</param>
+        </member>
+    </members>
+</doc>

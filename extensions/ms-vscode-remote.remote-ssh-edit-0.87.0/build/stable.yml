@@ -1,0 +1,49 @@
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+    branches:
+        include:
+            - main
+    paths:
+        include:
+            - open-ssh-remote-edit
+
+pr: none
+
+resources:
+    repositories:
+        - repository: templates
+          type: github
+          name: microsoft/vscode-engineering
+          ref: main
+          endpoint: Monaco
+
+parameters:
+  - name: publishExtension
+    displayName: 🚀 Publish Extension
+    type: boolean
+    default: false
+
+extends:
+    template: azure-pipelines/extension/stable.yml@templates
+    parameters:
+        l10nSourcePaths: ./src
+        buildSteps:
+            - script: |
+                  yarn install --frozen-lockfile
+              displayName: Install dependencies
+              workingDirectory: $(Build.SourcesDirectory)/open-ssh-remote-edit
+
+        ghCreateTag: true
+        ghTagPrefix: remote-ssh-edit.
+
+        publishExtension: ${{ parameters.publishExtension }}
+
+        tsa:
+            config:
+                areaPath: 'Visual Studio Code Remote Extensions'
+                serviceTreeID: '5d36a4a8-78dc-40d8-8942-b64fc69a8756'
+            enabled: true
+
+        cgSourceScanPath: $(Build.SourcesDirectory)/open-ssh-remote-edit
+        workingDirectory: $(Build.SourcesDirectory)/open-ssh-remote-edit

@@ -1,0 +1,2675 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.SqlTools.ManagedBatchParser</name>
+    </assembly>
+    <members>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserException.#ctor(Microsoft.SqlTools.ServiceLayer.BatchParser.ErrorCode,Microsoft.SqlTools.ServiceLayer.BatchParser.Token,System.String)">
+            <summary>
+            Class for a custom exception for the Batch Parser
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper">
+            <summary>
+            Wraps the SMO Batch parser to make it a easily useable component.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.ConvertToBatchDefinitionList(System.String,System.Collections.Generic.List{Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.BatchInfo})">
+            <summary>
+            Helper method used to Convert line/column information in a file to offset
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.GetOffsets(System.String,System.Collections.Generic.IList{Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.BatchInfo})">
+            <summary>
+            Gets offsets for all batches
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.ReadLines(System.IO.StringReader,System.Int32@,System.Int32@,System.Boolean@,System.Collections.Generic.IList{Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.BatchInfo},System.Collections.Generic.List{System.Int32},System.Int32)">
+            <summary>
+            Helper function to read lines of batches to get offsets
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.GetLastBatchDefinition(System.IO.StringReader,Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.BatchInfo,System.String)">
+            <summary>
+            Helper method to get the last batch 
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.GetBatchPositionDetails(System.IO.StringReader,System.Int32)">
+            <summary>
+            Helper function to get correct lines and columns
+            in a single batch with multiple statements
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.ReadLines(System.IO.StringReader,System.Int32,System.Int32)">
+            <summary>
+            Get end line and end column
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.#ctor">
+            <summary>
+            Wrapper API for the Batch Parser that returns a list of
+            BatchDefinitions when given a string to parse
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.GetBatches(System.String,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions)">
+            <summary>
+            Takes in a query string and returns a list of BatchDefinitions
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapper.BatchEventNotificationHandler">
+            <summary>
+            Internal implementation class to implement IBatchEventHandlers
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapperException">
+            <summary>This exception is used to report that can come from the Batch Parser inside BatchParserWrapper.</summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.BatchParserWrapperException.Description">
+            <summary>
+            Get description of the BatchParserWrapperException
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ConnectSqlCmdCommand.Connect">
+            <summary>
+            attempts to establish connection with given params
+            </summary>
+            <returns>returns the connection object is successful, throws otherwise</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ConnectSqlCmdCommand.AttemptToEstablishCurConnection(Microsoft.SqlServer.Management.Common.SqlConnectionInfo)">
+            <summary>
+            called when we need to establish new connection for batch executio as a
+            result of "connect" command processing
+            </summary>
+            <param name="ci"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch">
+            <summary>
+            Single batch of SQL command
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.FormatSqlErrorMessage(Microsoft.Data.SqlClient.SqlError)">
+            <summary>
+            Helper method to format the provided SqlError
+            </summary>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.HandleSqlException(Microsoft.Data.SqlClient.SqlException)">
+            <summary>
+            Handles a Sql exception
+            </summary>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.RaiseBatchError(System.String,Microsoft.Data.SqlClient.SqlError,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.TextSpan)">
+            <summary>        
+            Called when an error message came from SqlClient
+            </summary>
+            <param name="message"></param>
+            <param name="description"></param>
+            <param name="line"></param>
+            <param name="textSpan"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.RaiseBatchError(Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchErrorEventArgs)">
+            <summary>
+            Called when an error message came from SqlClient
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.RaiseBatchMessage(System.String,System.String,Microsoft.Data.SqlClient.SqlError)">
+            <summary>
+            Called when a message came from SqlClient
+            </summary>
+            <remarks>
+            Additionally, it's being used to notify the user that the script execution
+            has been finished.
+            </remarks>
+            <param name="detailedMessage"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.RaiseBatchResultSetProcessing(System.Data.IDataReader,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ShowPlanType)">
+            <summary>
+            Called when a new result set has to be processed
+            </summary>
+            <param name="resultSet"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.RaiseBatchResultSetFinished">
+            <summary>
+            Called when the result set has been processed
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.RaiseCancelling">
+            <summary>
+            Called when the batch is being cancelled with an active result set 
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.#ctor(System.String,System.Boolean,System.Int32)">
+            <summary>
+            Creates and initializes a batch object
+            </summary>
+            <param name="isResultExpected">Whether it is one of "set [something] on/off" type of command,
+            that doesn't return any results from the server
+            </param>
+            <param name="sqlText">Text of the batch</param>
+            <param name="execTimeout">Timeout for the batch execution. 0 means no limit </param>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.HasValidText">
+            <summary>
+            Is the Batch's text valid?
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.Text">
+            <summary>
+            SQL text that to be executed in the Batch
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.IsResultsExpected">
+            <summary>
+            Determines whether batch execution returns any results
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.ExecutionTimeout">
+            <summary>
+            Determines the execution timeout for the batch
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.TextSpan">
+            <summary>
+            Determines the textspan to wich the batch belongs to
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.BatchIndex">
+            <summary>
+            Determines the batch index in the collection of batches being executed
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.ExpectedExecutionCount">
+            <summary>
+            The number of times this batch is expected to be executed. Will be 1 by default, but for statements
+            with "GO 2" or other numerical values, will have a number > 1
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.RowsAffected">
+            <summary>
+            Returns how many rows were affected. It should be the value that can be shown
+            in the UI. 
+            </summary>
+            <remarks>
+            It can be used only after the execution of the batch is finished
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.IsSuppressProviderMessageHeaders">
+            <summary>
+            Determines if the error.Source should be used when messages are written
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.ScriptTrackingId">
+            <summary>
+            Gets or sets the id of the script we are tracking
+            </summary>
+        </member>
+        <member name="E:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.BatchError">
+            <summary>
+            fired when there is an error message from the server
+            </summary>
+        </member>
+        <member name="E:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.BatchMessage">
+            <summary>
+            fired when there is a message from the server
+            </summary>
+        </member>
+        <member name="E:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.BatchResultSetProcessing">
+            <summary>
+            fired when there is a new result set available. It is guarnteed
+            to be fired from the same thread that called Execute method
+            </summary>
+        </member>
+        <member name="E:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.BatchCancelling">
+            <summary>
+            fired when the batch recieved cancel request BEFORE it 
+            initiates cancel operation. Note that it is fired from a
+            different thread then the one used to kick off execution
+            </summary>
+        </member>
+        <member name="E:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.BatchResultSetFinished">
+            <summary>
+            fired when we've done absolutely all actions for the current result set
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.Reset">
+            <summary>
+            Resets the object to its initial state
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.Execute(Microsoft.Data.SqlClient.SqlConnection,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ShowPlanType)">
+            <summary>
+            Executes the batch 
+            </summary>
+            <param name="connection">Connection to use</param>
+            <param name="expectedShowPlan">ShowPlan type to be used</param>
+            <returns>result of execution</returns>
+            <remarks>
+            It does not return until execution is finished
+            We may have received a Cancel request by the time this function is called
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.Execute(System.Data.IDbConnection,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ShowPlanType)">
+            <summary>
+            Executes the batch 
+            </summary>
+            <param name="connection">Connection to use</param>
+            <param name="expectedShowPlan">ShowPlan type to be used</param>
+            <returns>result of execution</returns>
+            <remarks>
+            It does not return until execution is finished
+            We may have received a Cancel request by the time this function is called
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.Cancel">
+            <summary>
+            Cancels the batch
+            </summary>
+            <remarks>
+            When batch is actually cancelled, Execute() will return with the appropiate status 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.HandleExceptionMessage(System.Exception)">
+            <summary>
+            Fires an error message event
+            </summary>
+            <param name="ex">Exception caught</param>
+            <remarks>
+            Non-SQL exception
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.HandleSqlMessages(Microsoft.Data.SqlClient.SqlErrorCollection)">
+            <summary>
+            Fires a message event
+            </summary>
+            <param name="errors">SqlClient errors collection</param>
+            <remarks>
+            Sql specific messages.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.OnSqlInfoMessageCallback(System.Object,Microsoft.Data.SqlClient.SqlInfoMessageEventArgs)">
+            <summary>
+            method that will be passed as delegate to SqlConnection.InfoMessage
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.OnStatementExecutionFinished(System.Object,System.Data.StatementCompletedEventArgs)">
+            <summary>
+            Delegete for SqlCommand.RecordsAffected
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks>
+            This is exposed as a regular message
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch.ProcessResultSet(System.Data.IDataReader)">
+            <summary>
+            Called on a new ResultSet on the data reader
+            </summary>
+            <param name="dataReader">True if result set consumed, false on a Cancel request</param>
+            <returns></returns>
+            <remarks>
+            The GridStorageResultSet created is owned by the batch consumer. It's only created here.
+            Additionally, when BatchResultSet event handler is called, it won't return until
+            all data is prcessed or the data being processed is terminated (i.e. cancel or error)
+            </remarks>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchDefinition">
+            <summary>
+             Class to get text from the BatchParser and convert them into batches
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchDefinition.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.SqlTools.ServiceLayer.BatchParser.SqlCmdCommand)">
+            <summary>
+            Constructor method for a BatchDefinition
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchDefinition.StartLine">
+            <summary>
+            Get starting line of the BatchDefinition
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchDefinition.EndLine">
+            <summary>
+            Get ending line of the BatchDefinition
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchDefinition.StartColumn">
+            <summary>
+            Get starting column of the BatchDefinition
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchDefinition.EndColumn">
+            <summary>
+            Get ending column of the BatchDefinition
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchDefinition.BatchText">
+            <summary>
+            Get batch text associated with the BatchDefinition
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchDefinition.BatchExecutionCount">
+            <summary>
+            Get number of times to execute this batch
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchErrorEventArgs">
+            <summary>
+            Error totalAffectedRows for a Batch
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchErrorEventArgs.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchErrorEventArgs.#ctor(System.String)">
+            <summary>
+            Constructor with message and no description
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchErrorEventArgs.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor with exception and no description
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchErrorEventArgs.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            Constructor with message and description
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchErrorEventArgs.#ctor(System.String,System.String,System.Int32,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.TextSpan,System.Exception)">
+            <summary>
+            Constructor with message, description, textspan and line number
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchMessageEventArgs">
+            <summary>
+            Event args for notification about non-error message
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParser">
+            <summary>
+            Class that parses queries into batches
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParser.Go(Microsoft.SqlTools.ServiceLayer.BatchParser.TextBlock,System.Int32,Microsoft.SqlTools.ServiceLayer.BatchParser.SqlCmdCommand)">
+            <summary>
+            Take approptiate action on the parsed batches
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParser.RaiseScriptError(System.String,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptMessageType)">
+            <summary>
+            Called when the script parsing has errors/warnings
+            </summary>
+            <param name="message"></param>
+            <param name="messageType"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParser.RaiseScriptMessage(System.String)">
+            <summary>
+            Called on parsing info message
+            </summary>
+            <param name="message"></param>
+            <param name="messageType"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParser.RaiseHaltParser">
+            <summary>
+            Called on parsing info message
+            </summary>
+            <param name="message"></param>
+            <param name="messageType"></param>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserExecutionErrorEventArgs">
+            <summary>
+            Class associated with batch parser execution errors
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserExecutionErrorEventArgs.#ctor(System.String,System.String,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptMessageType)">
+            <summary>
+            Constructor method for BatchParserExecutionErrorEventArgs class
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserExecutionFinishedEventArgs">
+            <summary>
+            Class associated with batch parser execution finished event
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserExecutionFinishedEventArgs.#ctor(Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptExecutionResult,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch,Microsoft.SqlTools.ServiceLayer.BatchParser.SqlCmdCommand)">
+            <summary>
+            Constructor method for the class
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserExecutionStartEventArgs">
+            <summary>
+            Class associated with batch parser execution start event
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserExecutionStartEventArgs.#ctor(Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.TextSpan,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch)">
+            <summary>
+            Contructor method for the class
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserSqlCmd">
+            <summary>
+            Class for handling SQL CMD by Batch Parser
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserSqlCmd.internalVariables">
+            <summary>
+            The internal variables that can be used in SqlCommand substitution.
+            These variables take precedence over environment variables.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserSqlCmd.#ctor">
+            <summary>
+            Constructor taking a Parser instance
+            </summary>
+            <param name="parser"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserSqlCmd.GetVariable(Microsoft.SqlTools.ServiceLayer.BatchParser.PositionStruct,System.String)">
+            <summary>
+            Looks for any environment variable or internal variable.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserSqlCmd.SetVariable(Microsoft.SqlTools.ServiceLayer.BatchParser.PositionStruct,System.String,System.String)">
+            <summary>
+            Set environment or internal variable
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchParserSqlCmd.OnError(Microsoft.SqlTools.ServiceLayer.BatchParser.Token,Microsoft.SqlTools.ServiceLayer.BatchParser.OnErrorAction)">
+            <summary>
+            Method to deal with errors
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchResultSetEventArgs">
+            <summary>
+            Class associated with setting batch results
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchResultSetEventArgs.#ctor(System.Data.IDataReader,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ShowPlanType)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="dataReader"></param>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchResultSetEventArgs.DataReader">
+            <summary>
+            Data reader associated with the result set
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchResultSetEventArgs.ExpectedShowPlan">
+            <summary>
+            Show Plan to be expected if any during the execution
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine">
+            <summary>
+            Execution engine class which executes the parsed batches
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.internalVariables">
+            <summary>
+            The internal variables that can be used in SqlCommand substitution.
+            These variables take precedence over environment variables.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.DoBatchExecution(Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch)">
+            <summary>
+            Batch to be executed
+            </summary>
+            <param name="batch">Batch to execute</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ResetScript">
+            <summary>
+            Resets the script's related fields 
+            </summary>
+            <remarks>
+            Once the execution thread is nulled, all handles will be closed and GC will collect it 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ConfigureBatchParser">
+            <summary>
+            Configures the script for execution
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ConfigureBatch">
+            <summary>
+            Configures the batch before execution
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.RaiseBatchParserExecutionError(System.String,System.String,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptMessageType)">
+            <summary>
+            Called when batch parser found an error
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.RaiseScriptExecutionFinished(Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptExecutionResult)">
+            <summary>
+            Called just after the script has been executed
+            </summary>
+            <param name="result">scipt execution result</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.RaiseScriptError(System.String,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptMessageType)">
+            <summary>
+            Called when the script parsing has errors/warnings
+            </summary>
+            <param name="message"></param>
+            <param name="messageType"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.RaiseBatchParserExecutionFinished(Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptExecutionResult,Microsoft.SqlTools.ServiceLayer.BatchParser.SqlCmdCommand)">
+            <summary>
+            Called just after batch has been executed
+            </summary>
+            <param name="batch"></param>
+            <param name="batchResult"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.RaiseBatchParserExecutionStarted(Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.TextSpan)">
+            <summary>
+            Called right before a batch is executed
+            </summary>
+            <param name="batchLineNumber"></param>
+            <param name="batch"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.RaiseBatchMessage(System.String)">
+            <summary>
+            Called when a message needs to be notified to the consumer
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ExecuteBatchInternal(System.String,System.Int32,System.Int32,Microsoft.SqlTools.ServiceLayer.BatchParser.SqlCmdCommand)">
+            <summary>
+            Executes a given batch given the number of times
+            </summary>
+            <param name="batchScript"></param>
+            <param name="num"></param>
+            <param name="lineNumber"></param>
+            <returns>True if we should continue processing, false otherwise</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ExecuteBatchTextSpanInternal(System.String,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.TextSpan,System.Boolean@,Microsoft.SqlTools.ServiceLayer.BatchParser.SqlCmdCommand)">
+            <summary>
+            Executes the batch text given the text span
+            </summary>
+            <param name="batchScript"></param>
+            <param name="textSpan"></param>
+            <param name="continueProcessing"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.DoScriptExecution(System.Boolean)">
+            <summary>
+            Executes the script by calling ManagedBatchParser.Parse()
+            <remarks>
+            The parser will in turn call to the ProcessBatch() which is the 
+            one starting the execution process
+            </remarks>
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.DoExecute(System.Boolean)">
+            <summary>
+            Executes the script (on a separated thread)
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.CancelCurrentBatch">
+            <summary>
+            Cancels the current batch being executed
+            </summary>
+            <remarks>
+            This method is meant to be called from a separate thread
+            in combination with the Cancel method()
+            </remarks>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.BatchSeparator">
+            <summary>
+            Gets the Batch Separator statement
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.CreatePrePostConditionBatches">
+            <summary>
+            Create a set of batches to be executed before and after the script is executed
+            </summary>
+            <remarks>
+            This is the way some server side settings can be set. Additionally, it supports
+            a way to wrap the script execution within a transaction block
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ExecutePrePostConditionBatches(System.Collections.Generic.IList{Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch})">
+            <summary>
+            Executes a list of batches related to the Pre and Post scripts
+            </summary>
+            <param name="batches"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ConfigurePrePostConditionBatches(System.Collections.Generic.IList{Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch})">
+            <summary>
+            Cleans up any prev
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ConfigureBatchEventHandlers(Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.Batch,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.IBatchEventsHandler,System.Boolean)">
+            <summary>
+            Binds/Unbinds the methods defined in IBatchEventHandlers with the batch events
+            </summary>
+            <param name="batch">Batch to be used in the event binding</param>
+            <param name="handlers">object implementing the IBatcgEventHandlers interface</param>
+            <param name="isHookup">Binds or Unbinds the evnts</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.CheckForDiscardedConnection">
+            <summary>
+            If a discarded state is found, we will close the connection
+            </summary>
+            <remarks>
+            The discarded state is possible only on a synch Cancel request
+            </remarks>
+            <returns>
+            True if this is discarded connection
+            </returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.OnHaltParser">
+            <summary>
+            Called when parser is about to halt the execution
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.OnErrorActionChanged(Microsoft.SqlTools.ServiceLayer.BatchParser.OnErrorAction)">
+            <summary>
+            Changed when parser changed the error action type
+            </summary>
+            <param name="ea"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.OnConnectionChanged(Microsoft.Data.SqlClient.SqlConnectionStringBuilder)">
+            <summary>
+            Called when parser requests a new connection
+            </summary>
+            <param name="connectionStringBuilder"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ConnectSqlCmdInternal(Microsoft.Data.SqlClient.SqlConnectionStringBuilder)">
+            <summary>
+            Connects when :connect is identified within the script
+            </summary>
+            <param name="connectionStringBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.DisconnectSqlCmdInternal">
+            <summary>
+            Disconnects a sqlcmd connection
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.CloseConnection(System.Data.IDbConnection)">
+            <summary>
+            Closes a connection
+            </summary>
+            <param name="connection"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ExecuteInternal(Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptExecutionArgs,System.Boolean)">
+            <summary>
+            Setups the script execution
+            </summary>
+            <param name="scriptExecutionArgs"></param>
+        </member>
+        <member name="E:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.BatchParserExecutionFinished">
+            <summary>
+            This event gets fired when execution of one batch is completed
+            </summary>
+        </member>
+        <member name="E:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.BatchParserExecutionStart">
+            <summary>
+            This event gets fired when execution of a batch is about to start
+            </summary>
+        </member>
+        <member name="E:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.BatchParserExecutionError">
+            <summary>
+            This event gets fired when when there's an error/warnings from the scripting engine
+            </summary>
+        </member>
+        <member name="E:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ScriptExecutionFinished">
+            <summary>
+            This event gets fired when the script execution is completed
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ExecuteScript(System.Object)">
+            <summary>
+            Executes the script
+            </summary>
+            <param name="scriptArgs">Script to be executed</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ExecuteBatch(Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptExecutionArgs)">
+            <summary>
+            Executes a given batch
+            </summary>
+            <param name="batchScript"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.ParseScript(System.String,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.IBatchEventsHandler,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions)">
+            <summary>
+            Parses the script locally
+            </summary>
+            <param name="script">script to parse</param>
+            <param name="batchEventsHandler">batch handler</param>   
+            <param name="conditions">execution engine conditions if specified</param>
+            <remarks>
+            The batch parser functionality is used in this case
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.Close(System.Boolean)">
+            <summary>
+            Close the current connection
+            </summary>
+            <param name="isCloseConnection"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.Close(System.Boolean,System.Boolean)">
+            <summary>
+            Close/Discard the current connection
+            </summary>
+            <param name="isCloseConnection"></param>
+            <param name="isDiscard"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.Close(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Close/Discard the current connection
+            </summary>
+            <param name="isCloseConnection">true if connection has to be closed</param>
+            <param name="isDiscard">true if connection has to be discarded</param>
+            <param name="isFinishExecution">Raises the script execution finish event</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngine.Dispose" -->
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.#ctor(Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions)">
+            <summary>
+            Overloaded constructor taking another ExecutionEngineCondition object as a reference
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsParseOnly">
+            <summary>
+            Checks the syntax of each Transact-SQL statement and returns any error messages 
+            without compiling or executing the statement.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsTransactionWrapped">
+            <summary>
+            Script is wrapped withint BEGIN TRAN/COMMIT-ROLLBACK
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsScriptExecutionTracked">
+            <summary>
+            Gets or a set a value indicating whether script execution is tracked
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsHaltOnError">
+            <summary>
+            Halts the execution if an error is found
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsEstimatedShowPlan">
+            <summary>
+            Use estimated show plan
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsActualShowPlan">
+            <summary>
+            Use actual show plan
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsSuppressProviderMessageHeaders">
+            <summary>
+            Use Source information on messages shown to the user
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsNoExec">
+            <summary>
+            SET NO EXEC {on/off}
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsStatisticsIO">
+            <summary>
+            SET STATISTICS IO {on/off}
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsShowPlanText">
+            <summary>
+            SET SHOWPLAN_TEXT {on/off}
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsStatisticsTime">
+            <summary>
+            SET STATISTICS IO {on/off}
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.IsSqlCmd">
+            <summary>
+            SqlCmd support
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions.BatchSeparator">
+            <summary>
+            Batch separator statement
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.IBatchEventsHandler.OnBatchError(System.Object,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchErrorEventArgs)">
+            <summary>
+            fired when there is an error message from the server
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.IBatchEventsHandler.OnBatchMessage(System.Object,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchMessageEventArgs)">
+            <summary>
+            fired when there is a message from the server
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.IBatchEventsHandler.OnBatchResultSetProcessing(System.Object,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.BatchResultSetEventArgs)">
+            <summary>
+            fired when there is a new result set available. It is guarnteed
+            to be fired from the same thread that called Execute method
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.IBatchEventsHandler.OnBatchResultSetFinished(System.Object,System.EventArgs)">
+            <summary>
+            fired when we've done absolutely all actions for the current result set
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.IBatchEventsHandler.OnBatchCancelling(System.Object,System.EventArgs)">
+            <summary>
+            fired when the batch recieved cancel request BEFORE it 
+            initiates cancel operation. Note that it is fired from a
+            different thread then the one used to kick off execution
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptExecutionArgs.#ctor(System.String,Microsoft.Data.SqlClient.SqlConnection,System.Int32,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.IBatchEventsHandler)">
+            <summary>
+            Constructor method for ScriptExecutionArgs
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptExecutionArgs.#ctor(System.String,Microsoft.Data.SqlClient.SqlConnection,System.Int32,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.IBatchEventsHandler,System.Int32,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Constructor method for ScriptExecutionArgs
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptExecutionArgs.#ctor(System.String,System.Data.IDbConnection,System.Int32,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.IBatchEventsHandler)">
+            <summary>
+            Constructor method for ScriptExecutionArgs
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ScriptExecutionArgs.#ctor(System.String,System.Data.IDbConnection,System.Int32,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.ExecutionEngineConditions,Microsoft.SqlTools.ServiceLayer.BatchParser.ExecutionEngineCode.IBatchEventsHandler,System.Int32,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Constructor method for ScriptExecutionArgs
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.Lexer">
+            <summary>
+            Lexer class for the SMO Batch Parser
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.Lexer.#ctor(System.IO.TextReader,System.String)">
+            <summary>
+            Constructor for the lexer class used by SMO Batch Parser
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.Lexer.CurrentToken">
+            <summary>
+            Get current token for the lexer
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.Lexer.CurrentTokenType">
+            <summary>
+            Get current token type for the lexer
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.Lexer.ConsumeToken">
+            <summary>
+            Consume the token
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.Lexer.PushInput(System.IO.TextReader,System.String)">
+            <summary>
+            Push current input into the stack
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.Lexer.AcceptEscapableQuotedText(System.Char)">
+            <summary>
+            This method reads ahead until the closingChar is found.  When closingChar is found,
+            the next character is checked.  If it's the same as closingChar, the character is
+            escaped and the method resumes looking for a non-escaped closingChar.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.Lexer.AcceptQuotedText(System.Char)">
+            <summary>
+            This method reads ahead until the closingChar is found.  This method does not allow for escaping
+            of the closingChar.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.LexerInput">
+            <summary>
+            Lexer input class used by lexer in SMO Batch Parser
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.LexerInput.#ctor(System.IO.TextReader,System.String)">
+            <summary>
+            Constructor method for the LexerInput class
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.LexerInput.Filename">
+            <summary>
+            Get filename associated with lexer input
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.LexerInput.CurrentLine">
+            <summary>
+            Get current line associated with lexer input
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.LexerInput.CurrentColumn">
+            <summary>
+            Get current column associated with lexer input
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.LexerInput.Consume">
+            <summary>
+            Consume token used by lexer input
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.LexerInput.CurrentOffset">
+            <summary>
+            Get current offset for the lexer input
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.LexerInput.EnsureBytes(System.Int32)">
+            <summary>
+            Ensure correct number of bytes to buffer
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.LexerInput.Lookahead">
+            <summary>
+            look ahead bytes in lexer input
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.LexerInput.Lookahead(System.Int32)">
+            <summary>
+            look ahead bytes in lexer input
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.LexerInput.FlushBufferedText">
+            <summary>
+            Flush buffered text in lexer input
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.LineInfo">
+            <summary>
+            This class gives information about lines being parsed by
+            the Batch Parser
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.LineInfo.#ctor(System.Collections.Generic.IEnumerable{Microsoft.SqlTools.ServiceLayer.BatchParser.Token},System.Collections.Generic.IEnumerable{Microsoft.SqlTools.ServiceLayer.BatchParser.VariableReference})">
+            <summary>
+            Constructor method for the LineInfo class
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.LineInfo.GetStreamPositionForOffset(System.Int32)">
+            <summary>
+            Gets the stream position for offset and returns a PositionStruct
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.Parser">
+            <summary>
+            The Parser class on which the Batch Parser is based on
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.Parser.#ctor(Microsoft.SqlTools.ServiceLayer.BatchParser.ICommandHandler,Microsoft.SqlTools.ServiceLayer.BatchParser.IVariableResolver,System.IO.TextReader,System.String)">
+            <summary>
+            Constructor for the Parser class
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.Parser.DisableVariableSubstitution">
+            <summary>
+            Whether to enable or disable the variable substitution.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.Parser.ThrowOnUnresolvedVariable">
+            <summary>
+            Whether to throw an error when a variable to be substituted was not specified.
+            </summary>
+            <remarks>When DisableVariableSubstitution is true, this value is ignored, i.e. no exception will be thrown.</remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.PositionStruct.#ctor(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Constructor for the PositionStruct class
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.PositionStruct.Line">
+            <summary>
+            Get line from the PositionStruct
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.PositionStruct.Column">
+            <summary>
+            Get column from the PositionStruct
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.PositionStruct.Offset">
+            <summary>
+            Get offset from the PositionStruct
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.PositionStruct.Filename">
+            <summary>
+            Get file name from the PositionStruct
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.SqlCmdCommand">
+            <summary>
+            Class to pass back SqlCmd specific properties from Parser to Query Execution
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.SqlCmdException">
+            <summary>
+            Specific exception type for SQLCMD related issues
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.TextBlock.#ctor(Microsoft.SqlTools.ServiceLayer.BatchParser.Parser,Microsoft.SqlTools.ServiceLayer.BatchParser.Token)">
+            <summary>
+            Constructor for the TextBlock class
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.TextBlock.#ctor(Microsoft.SqlTools.ServiceLayer.BatchParser.Parser,System.Collections.Generic.IEnumerable{Microsoft.SqlTools.ServiceLayer.BatchParser.Token})">
+            <summary>
+            Constructor for the TextBlock class
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.TextBlock.GetText(System.Boolean,System.String@,Microsoft.SqlTools.ServiceLayer.BatchParser.LineInfo@)">
+            <summary>
+            Get text from TextBlock
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.Token.#ctor(Microsoft.SqlTools.ServiceLayer.BatchParser.LexerTokenType,Microsoft.SqlTools.ServiceLayer.BatchParser.PositionStruct,Microsoft.SqlTools.ServiceLayer.BatchParser.PositionStruct,System.String,System.String)">
+            <summary>
+            Token class used by the lexer in Batch Parser
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.Token.Filename">
+            <summary>
+            Get file name associated with Token
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.Token.Begin">
+            <summary>
+            Get beginning position for the Token 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.Token.End">
+            <summary>
+            Get end position for the Token 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.Token.Text">
+            <summary>
+            Get text assocaited with the Token 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.Token.TokenType">
+            <summary>
+            Get token type of the Token
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.BatchParser.VariableReference">
+            <summary>
+            Class for reference of variables used by the lexer
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.BatchParser.VariableReference.#ctor(System.Int32,System.Int32,System.String)">
+            <summary>
+            Constructor method for VariableReference class
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.VariableReference.Length">
+            <summary>
+            Get length associated with the VariableReference
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.VariableReference.Start">
+            <summary>
+            Get start position associated with the VariableReference
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.VariableReference.VariableName">
+            <summary>
+            Get variable name associated with the VariableReference
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.BatchParser.VariableReference.VariableValue">
+            <summary>
+            Get variable value associated with the VariableReference
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings">
+            <summary>
+            This class represents connection (and other) settings specified by called of the DacFx API.  DacFx
+            cannot rely on the registry to supply override values therefore setting overrides must be made
+            by the top-of-the-stack
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings.DefaultSettings">
+            <summary>
+            Access to the default ambient settings.  Access to these settings is made available
+            for SSDT scenarios where settings are read from the registry and not set explicitly through
+            the API
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings.SupportAlwaysEncrypted">
+            <summary>
+            Setting that shows whether Always Encrypted is supported.
+            If false, then reverse engineering and script interpretation of a database with any Always Encrypted object will fail
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings.SkipObjectTypeBlocking">
+            <summary>
+            Setting that determines whether checks for unsupported object types are performed.
+            If false, unsupported object types will prevent extract from being performed.
+            Default value is false.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings.DoNotSerializeQueryStoreSettings">
+            <summary>
+            Setting that determines whether the Database Options that store Query Store settings will be left out during package serialization.
+            Default value is false.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings.CreateSettingsContext">
+            <summary>
+            Called by top-of-stack API to setup/configure settings that should be used
+            throughout the API (lower in the stack).  The settings are reverted once the returned context
+            has been disposed.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings.AmbientData">
+            <summary>
+            Data-transfer object that represents a specific configuration
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings.AmbientData.PopulateSettings(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Provides a way to bulk populate settings from a dictionary
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings.AmbientData.TraceSettings">
+            <summary>
+            Logs the Ambient Settings
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings.AmbientValue">
+            <summary>
+            This class is used as value in the dictionary to ensure that the type of value is correct.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings.IAmbientDataDirectAccess">
+            <summary>
+            This private interface allows pass-through access directly to member data
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.AmbientSettings.StackConfiguration">
+            <summary>
+            This class encapsulated the concept of configuration that is set on the stack and
+            flows across multiple threads as part of the logical call context
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.CachedServerInfo">
+            <summary>
+            This class caches server information for subsequent use
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.CachedServerInfo.instance">
+            <summary>
+            Singleton service instance
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.CachedServerInfo.Instance">
+            <summary>
+            Gets the singleton instance
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.CachedServerInfo.#ctor">
+            <summary>
+            Internal constructor for testing purposes. For all code use, please use the <see cref="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.CachedServerInfo.Instance"/>
+            default instance.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.Constants">
+            <summary>
+            Contains common constants used throughout ReliableConnection code.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError">
+            <summary>
+            This class is used to encapsulate all the information needed by the DataSchemaErrorTaskService to create a corresponding entry in the Visual Studio Error List.
+            A component should add this Error Object to the <see cref="!:ErrorManager"/> for such purpose.
+            Errors and their children are expected to be thread-safe.  Ideally, this means that
+            the objects are just data-transfer-objects initialized during construction.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.Document">
+            <summary>
+            The filename of the error. It corresponds to the File column on the Visual Studio Error List window.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.Severity">
+            <summary>
+            The severity of the error
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.Line">
+            <summary>
+            Line Number of the error
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.Column">
+            <summary>
+            Column Number of the error
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.Prefix">
+            <summary>
+            Prefix of the error
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.HelpKeyword">
+            <summary>
+            If the error has any special help topic, this property may hold the ID to the same.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.Exception">
+            <summary>
+            Exception associated with the error, or null
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.Message">
+            <summary>
+            Message 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.IsPriorityEditable">
+            <summary>
+            Should this message honor the "treat warnings as error" flag?
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.BuildErrorCode">
+            <summary>
+            Represents the error code used in MSBuild output.  This is the prefix and the
+            error code
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.IsOnDisplay">
+            <summary>
+            true if this error is being displayed in ErrorList. More of an Accounting Mechanism to be used internally.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DataSchemaError.ToString">
+            <summary>
+            String form of this error.
+            NB: This is for debugging only.
+            </summary>
+            <returns>String form of the error.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DbCommandWrapper">
+            <summary>
+            Wraps <see cref="T:System.Data.IDbCommand"/> objects that could be a <see cref="T:Microsoft.Data.SqlClient.SqlCommand"/> or
+            a <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand"/>, providing common methods across both.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DbCommandWrapper.GetAsSqlCommand">
+            <summary>
+            Gets this as a SqlCommand by casting (if we know it is actually a SqlCommand)
+            or by getting the underlying command (if it's a ReliableSqlCommand)
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DbConnectionWrapper">
+            <summary>
+            Wraps <see cref="T:System.Data.IDbConnection"/> objects that could be a <see cref="T:Microsoft.Data.SqlClient.SqlConnection"/> or
+            a <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection"/>, providing common methods across both.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.DbConnectionWrapper.GetAsSqlConnection">
+            <summary>
+            Gets this as a SqlConnection by casting (if we know it is actually a SqlConnection)
+            or by getting the underlying connection (if it's a ReliableSqlConnection)
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.IStackSettingsContext">
+            <summary>
+            This interface controls the lifetime of settings created as part of the
+            top-of-stack API.  Changes made to this context's AmbientData instance will
+            flow to lower in the stack while this object is not disposed.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.OpenConnection(Microsoft.Data.SqlClient.SqlConnectionStringBuilder,System.Boolean,System.String)">
+            <summary>
+            Opens the connection and sets the lock/command timeout and pooling=false.
+            </summary>
+            <returns>The opened connection</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.OpenConnection(System.String,System.Boolean,System.String)">
+            <summary>
+            Opens the connection and sets the lock/command timeout.  This routine
+            will assert if pooling!=false.
+            </summary>
+            <returns>The opened connection</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.OpenConnection(System.Data.IDbConnection)">
+            <summary>
+            Opens the connection (if it is not already) and sets
+            the lock/command timeout.
+            </summary>
+            <param name="conn">The connection to open</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.OpenConnection(Microsoft.Data.SqlClient.SqlConnectionStringBuilder,System.Action{System.Data.IDbConnection},System.Predicate{System.Exception},System.Boolean,System.String)">
+            <summary>
+            Opens a connection using 'csb' as the connection string.  Provide
+            'usingConnection' to execute T-SQL against the open connection and
+            'catchException' to handle errors.
+            </summary>
+            <param name="csb">The connection string used when opening the IDbConnection</param>
+            <param name="usingConnection">delegate called when the IDbConnection has been successfully opened</param>
+            <param name="catchException">delegate called when an exception has occurred.  Pass back 'true' to handle the 
+            exception, 'false' to throw. If Null is passed in then all exceptions are thrown.</param>
+            <param name="useRetry">Should retry logic be used when opening the connection</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.SetLockAndCommandTimeout(System.Data.IDbConnection)">
+            <summary>
+            Optional 'initializeConnection' routine.  This sets the lock and command timeout for the connection.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.ExecuteNonQuery(Microsoft.Data.SqlClient.SqlConnectionStringBuilder,System.String,System.Action{System.Data.IDbCommand},System.Predicate{System.Exception},System.Boolean,System.String)">
+            <summary>
+            Opens a IDbConnection, creates a IDbCommand and calls ExecuteNonQuery against the connection.
+            </summary>
+            <param name="csb">The connection string.</param>
+            <param name="commandText">The scalar T-SQL command.</param>
+            <param name="initializeCommand">Optional delegate to initialize the IDbCommand before execution.  
+            Default is SqlConnectionHelper.SetCommandTimeout</param>
+            <param name="catchException">delegate called when an exception has occurred.  Pass back 'true' to handle the 
+            exception, 'false' to throw. If Null is passed in then all exceptions are thrown.</param>
+            <param name="useRetry">Should a retry policy be used when calling ExecuteNonQuery</param>
+            <returns>The number of rows affected</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.ExecuteNonQuery(System.Data.IDbConnection,System.String,System.Action{System.Data.IDbCommand},System.Predicate{System.Exception})">
+            <summary>
+            Creates a IDbCommand and calls ExecuteNonQuery against the connection.
+            </summary>
+            <param name="conn">The connection.  This must be opened.</param>
+            <param name="commandText">The scalar T-SQL command.</param>
+            <param name="initializeCommand">Optional delegate to initialize the IDbCommand before execution.  
+            Default is SqlConnectionHelper.SetCommandTimeout</param>
+            <param name="catchException">Optional exception handling.  Pass back 'true' to handle the 
+            exception, 'false' to throw. If Null is passed in then all exceptions are thrown.</param>
+            <returns>The number of rows affected</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.ExecuteScalar(System.Data.IDbConnection,System.String,System.Action{System.Data.IDbCommand},System.Predicate{System.Exception})">
+            <summary>
+            Creates a IDbCommand and calls ExecuteScalar against the connection.
+            </summary>
+            <param name="conn">The connection.  This must be opened.</param>
+            <param name="commandText">The scalar T-SQL command.</param>
+            <param name="initializeCommand">Optional delegate to initialize the IDbCommand before execution.  
+            Default is SqlConnectionHelper.SetCommandTimeout</param>
+            <param name="catchException">Optional exception handling.  Pass back 'true' to handle the 
+            exception, 'false' to throw. If Null is passed in then all exceptions are thrown.</param>
+            <returns>The scalar result</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.ExecuteReader(System.Data.IDbConnection,System.String,System.Action{System.Data.IDataReader},System.Action{System.Data.IDbCommand},System.Predicate{System.Exception})">
+            <summary>
+            Creates a IDbCommand and calls ExecuteReader against the connection.
+            </summary>
+            <param name="conn">The connection to execute the reader on.  This must be opened.</param>
+            <param name="commandText">The command text to execute</param>
+            <param name="readResult">A delegate used to read from the reader</param>
+            <param name="initializeCommand">Optional delegate to initialize the IDbCommand object</param>
+            <param name="catchException">Optional exception handling.  Pass back 'true' to handle the 
+            exception, 'false' to throw. If Null is passed in then all exceptions are thrown.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.ExecuteReader(System.String,System.String,System.Action{System.Data.IDataReader},System.Action{System.Data.IDbCommand},System.Predicate{System.Exception})">
+            <summary>
+            Creates a IDbCommand and calls ExecuteReader using the provided connection string.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <param name="commandText">The command text to execute</param>
+            <param name="readResult">A delegate used to read from the reader</param>
+            <param name="initializeCommand">Optional delegate to initialize the IDbCommand object</param>
+            <param name="catchException">Optional exception handling.  Pass back 'true' to handle the 
+            exception, 'false' to throw. If Null is passed in then all exceptions are thrown.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.SetCommandTimeout(System.Data.IDbCommand)">
+            <summary>
+            optional 'initializeCommand' routine.  This initializes the IDbCommand
+            </summary>
+            <param name="cmd"></param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.IsCloud(System.Data.IDbConnection)">
+            <summary>
+            Return true if the database is an Azure database
+            </summary>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.StandardExceptionHandler(System.Exception)">
+            <summary>
+            Handles the exceptions typically thrown when a SQLConnection is being opened
+            </summary>
+            <returns>True if the exception was handled</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.GetDefaultDatabaseFilePath(System.Data.IDbConnection,System.Action{System.Data.IDbCommand},System.Predicate{System.Exception})">
+            <summary>
+            Returns the default database path.
+            </summary>
+            <param name="conn">The connection</param>
+            <param name="initializeCommand">The delegate used to initialize the command</param>
+            <param name="catchException">The exception handler delegate. If Null is passed in then all exceptions are thrown</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.GetDefaultDatabaseLogPath(System.Data.IDbConnection,System.Action{System.Data.IDbCommand},System.Predicate{System.Exception})">
+            <summary>
+            Returns the log path or null
+            </summary>
+            <param name="conn">The connection</param>
+            <param name="initializeCommand">The delegate used to initialize the command</param>
+            <param name="catchException">The exception handler delegate. If Null is passed in then all exceptions are thrown</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.GetDefaultDatabasePath(System.Data.IDbConnection,System.String,System.Action{System.Data.IDbCommand},System.Predicate{System.Exception})">
+            <summary>
+            Returns the database path or null
+            </summary>
+            <param name="conn">The connection</param>
+            <param name="commandText">The command to issue</param>
+            <param name="initializeCommand">The delegate used to initialize the command</param>
+            <param name="catchException">The exception handler delegate. If Null is passed in then all exceptions are thrown</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.IsDatabaseReadonly(Microsoft.Data.SqlClient.SqlConnectionStringBuilder,System.String)">
+            <summary>
+            Returns true if the database is readonly.  This routine will swallow the exceptions you might expect from SQL using StandardExceptionHandler.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.GetServerVersion(Microsoft.Data.SqlClient.SqlConnectionStringBuilder,System.String)">
+            <summary>
+            Returns the version of the server.  This routine will throw if an exception is encountered.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.GetServerHostInfo(System.Data.IDbConnection)">
+            <summary>
+            Gets the server host information from sys.dm_os_host_info view
+            </summary>
+            <param name="connection">The connection</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.GetServerCpuAndMemoryInfo(System.Data.IDbConnection)">
+            <summary>
+            Gets the server host cpu count and memory from sys.dm_os_sys_info view
+            </summary>
+            <param name="connection">The connection</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.GetServerVersion(System.Data.IDbConnection)">
+            <summary>
+            Returns the version of the server.  This routine will throw if an exception is encountered.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.GetAsSqlConnection(System.Data.IDbConnection)">
+            <summary>
+            Converts to a SqlConnection by casting (if we know it is actually a SqlConnection)
+            or by getting the underlying connection (if it's a ReliableSqlConnection)
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.IsAuthenticatingDatabaseMaster(System.Data.IDbConnection)">
+            <summary>
+            Returns true if the authenticating database is master, otherwise false.  An example of
+            false is when the user is a contained user connecting to a contained database.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.IsAuthenticatingDatabaseMaster(Microsoft.Data.SqlClient.SqlConnectionStringBuilder,System.String)">
+            <summary>
+            Returns true if the authenticating database is master, otherwise false.  An example of
+            false is when the user is a contained user connecting to a contained database.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.GetCompleteServerName(System.String)">
+            <summary>
+            Returns the form of the server as a it's name - replaces . and (localhost)
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.IsVersionGreaterThan2012RTM(Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.ServerInfo)">
+            <summary>
+             Sql 2012 PCU1 introduces breaking changes to metadata queries and adds new Selective XML Index support. 
+             This method allows components to detect if the <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableConnectionHelper.ServerInfo"/> represents a build of SQL 2012 after RTM.
+            </summary> 
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection">
+            <summary>
+            Provides a reliable way of opening connections to and executing commands
+            taking into account potential network unreliability and a requirement for connection retry.
+            </summary>
+            <summary>
+            Provides a reliable way of opening connections to and executing commands
+            taking into account potential network unreliability and a requirement for connection retry.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.CommandText">
+            <summary>
+            Gets or sets the text command to run against the data source.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.CommandTimeout">
+            <summary>
+            Gets or sets the wait time before terminating the attempt to execute a command and generating an error.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.CommandType">
+            <summary>
+            Gets or sets a value that specifies how the <see cref="P:System.Data.Common.DbCommand.CommandText"/> property is interpreted.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.DbConnection">
+            <summary>
+            Gets or sets the <see cref="T:System.Data.Common.DbConnection"/> used by this <see cref="T:System.Data.Common.DbCommand"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.DbParameterCollection">
+            <summary>
+            Gets the <see cref="T:System.Data.IDataParameterCollection"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.DbTransaction">
+            <summary>
+            Gets or sets the transaction within which the Command object of a .NET Framework data provider executes.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.DesignTimeVisible">
+            <summary>
+            Gets or sets a value indicating whether the command object should be visible in a customized interface control.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.UpdatedRowSource">
+            <summary>
+            Gets or sets how command results are applied to the System.Data.DataRow when
+            used by the System.Data.IDataAdapter.Update(System.Data.DataSet) method of
+            a <see cref="T:System.Data.Common.DbDataAdapter"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.Cancel">
+            <summary>
+            Attempts to cancels the execution of an <see cref="T:System.Data.IDbCommand"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.CreateDbParameter">
+            <summary>
+            Creates a new instance of an <see cref="T:System.Data.IDbDataParameter"/> object.
+            </summary>
+            <returns>An <see cref="T:System.Data.IDbDataParameter"/> object.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.ExecuteNonQuery">
+            <summary>
+            Executes an SQL statement against the Connection object of a .NET Framework
+            data provider, and returns the number of rows affected.
+            </summary>
+            <returns>The number of rows affected.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.ExecuteDbDataReader(System.Data.CommandBehavior)">
+            <summary>
+            Executes the <see cref="P:System.Data.IDbCommand.CommandText"/> against the <see cref="P:System.Data.IDbCommand.Connection"/>
+            and builds an <see cref="T:System.Data.IDataReader"/> using one of the <see cref="T:System.Data.CommandBehavior"/> values.
+            </summary>
+            <param name="behavior">One of the <see cref="T:System.Data.CommandBehavior"/> values.</param>
+            <returns>An <see cref="T:System.Data.IDataReader"/> object.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.ExecuteScalar">
+            <summary>
+            Executes the query, and returns the first column of the first row in the
+            resultset returned by the query. Extra columns or rows are ignored.
+            </summary>
+            <returns>The first column of the first row in the resultset.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand.Prepare">
+            <summary>
+            Creates a prepared (or compiled) version of the command on the data source.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.#ctor(System.String,Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy,Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy,System.String,Microsoft.Data.SqlClient.SqlRetryLogicBaseProvider)">
+            <summary>
+            Initializes a new instance of the ReliableSqlConnection class with a given connection string
+            and a policy defining whether to retry a request if the connection fails to be opened or a command
+            fails to be successfully executed.
+            </summary>
+            <param name="connectionString">The connection string used to open the SQL Azure database.</param>
+            <param name="connectionRetryPolicy">The retry policy defining whether to retry a request if a connection fails to be established.</param>
+            <param name="commandRetryPolicy">The retry policy defining whether to retry a request if a command fails to be executed.</param>
+            <param name="retryProvider">Optional retry provider to handle errors in a special way</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.#ctor(Microsoft.Data.SqlClient.SqlConnection,Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy,Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy,Microsoft.Data.SqlClient.SqlRetryLogicBaseProvider)">
+            <summary>
+            Initialize a new instance of the ReliableSqlConnection class with a given connection
+            </summary>
+            <param name="connection">The connection used to open the SQL DB</param>
+            <param name="connectionRetryPolicy">The retry policy defining whether to retry a request if a connection fails to be established.</param>
+            <param name="commandRetryPolicy">The retry policy defining whether to retry a request if a command fails to be executed.</param>
+            <param name="retryProvider">Optional retry provider to handle errors in a special way</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.Dispose(System.Boolean)">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or
+             resetting managed and unmanaged resources.
+            </summary>
+            <param name="disposing">A flag indicating that managed resources must be released.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.IsSqlDwConnection(System.Data.IDbConnection)">
+            <summary>
+            Determines if a connection is being made to a SQL DW database.
+            </summary>
+            <param name="conn">A connection object.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.IsSqlOnDemandConnection(System.Data.IDbConnection)">
+            <summary>
+            Determines if a connection is being made to SQLOnDemand.
+            </summary>
+            <param name="conn">A connection object.</param>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ConnectionString">
+            <summary>
+            Gets or sets the connection string for opening a connection to the SQL Azure database.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ConnectionRetryPolicy">
+            <summary>
+            Gets the policy which decides whether to retry a connection request, based on how many
+            times the request has been made and the reason for the last failure. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.CommandRetryPolicy">
+            <summary>
+            Gets the policy which decides whether to retry a command, based on how many
+            times the request has been made and the reason for the last failure. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.DataSource">
+            <summary>
+            Gets the server name from the underlying connection.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ServerVersion">
+            <summary>
+            Gets the server version from the underlying connection.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.GetUnderlyingConnection">
+            <summary>
+            If the underlying SqlConnection absolutely has to be accessed, for instance
+            to pass to external APIs that require this type of connection, then this
+            can be used.  
+            </summary>
+            <returns><see cref="T:Microsoft.Data.SqlClient.SqlConnection"/></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.BeginDbTransaction(System.Data.IsolationLevel)">
+            <summary>
+            Begins a database transaction with the specified System.Data.IsolationLevel value.
+            </summary>
+            <param name="level">One of the System.Data.IsolationLevel values.</param>
+            <returns>An object representing the new transaction.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ChangeDatabase(System.String)">
+            <summary>
+            Changes the current database for an open Connection object.
+            </summary>
+            <param name="databaseName">The name of the database to use in place of the current database.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.Open">
+            <summary>
+            Opens a database connection with the settings specified by the ConnectionString
+            property of the provider-specific Connection object.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.OpenAsync(System.Threading.CancellationToken)">
+            <summary>
+            Opens a database connection with the settings specified by the ConnectionString
+            property of the provider-specific Connection object.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.Close">
+            <summary>
+            Closes the connection to the database.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ConnectionTimeout">
+            <summary>
+            Gets the time to wait while trying to establish a connection before terminating
+            the attempt and generating an error.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.CreateDbCommand">
+            <summary>
+            Creates and returns an object implementing the IDbCommand interface which is associated 
+            with the underlying SqlConnection.
+            </summary>
+            <returns>A <see cref="T:System.Data.IDbCommand"/> object.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.CreateSqlCommand">
+            <summary>
+            Creates and returns an object implementing the IDbCommand interface which is associated 
+            with the underlying SqlConnection.
+            </summary>
+            <returns>A <see cref="T:Microsoft.Data.SqlClient.SqlCommand"/> object.</returns>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.Database">
+            <summary>
+            Gets the name of the current database or the database to be used after a
+            connection is opened.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.State">
+            <summary>
+            Gets the current state of the connection.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.AddInfoMessageHandler(Microsoft.Data.SqlClient.SqlInfoMessageEventHandler)">
+            <summary>
+            Adds an info message event Listener.
+            </summary>
+            <param name="handler">An info message event Listener.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.RemoveInfoMessageHandler(Microsoft.Data.SqlClient.SqlInfoMessageEventHandler)">
+            <summary>
+            Removes an info message event Listener.
+            </summary>
+            <param name="handler">An info message event Listener.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ClearPool">
+            <summary>
+            Clears underlying connection pool.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.CreateReliableCommand">
+            <summary>
+            Creates and returns a ReliableSqlCommand object associated 
+            with the underlying SqlConnection.
+            </summary>
+            <returns>A <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.ReliableSqlConnection.ReliableSqlCommand"/> object.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.Resources">
+            <summary>
+            Contains string resources used throughout ReliableConnection code.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryLimitExceededException">
+            <summary>
+            The special type of exception that provides managed exit from a retry loop. The user code can use this
+            exception to notify the retry policy that no further retry attempts are required.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy">
+            <summary>
+            Implements a policy defining and implementing the retry mechanism for unreliable actions.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.RetryCallbackDelegate">
+            <summary>
+            Defines a callback delegate which will be invoked whenever a retry condition is encountered.
+            </summary>
+            <param name="retryState">The state of current retry attempt.</param>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.IgnoreErrorCallbackDelegate">
+            <summary>
+            Defines a callback delegate which will be invoked whenever an error is ignored on retry.
+            </summary>
+            <param name="retryState">The state of current retry attempt.</param>
+        </member>
+        <member name="E:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.RetryOccurred">
+            <summary>
+            An instance of a callback delegate which will be invoked whenever a retry condition is encountered.
+            </summary>
+        </member>
+        <member name="E:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.IgnoreErrorOccurred">
+            <summary>
+            An instance of a callback delegate which will be invoked whenever an error is ignored on retry.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.FastFirstRetry">
+            <summary>
+            Gets or sets a value indicating whether or not the very first retry attempt will be made immediately
+            whereas the subsequent retries will remain subject to retry interval.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.CommandTimeoutInSeconds">
+            <summary>
+            Gets or sets the timeout in seconds of sql commands
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ErrorDetectionStrategy">
+            <summary>
+            Gets the error detection strategy of this retry policy
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ShouldIgnoreOnFirstTry">
+            <summary>
+            We should only ignore errors if they happen after the first retry.
+            This flag is used to allow the ignore even on first try, for testing purposes.
+            </summary>
+            <remarks>
+            This flag is currently being used for TESTING PURPOSES ONLY.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ExecuteAction(System.Action,System.Nullable{System.Threading.CancellationToken})">
+            <summary>
+            Repetitively executes the specified action while it satisfies the current retry policy.
+            </summary>
+            <param name="action">A delegate representing the executable action which doesn't return any results.</param>
+            <param name="token">Cancellation token to cancel action between retries.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ExecuteAction(System.Action{Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryState},System.Nullable{System.Threading.CancellationToken})">
+            <summary>
+            Repetitively executes the specified action while it satisfies the current retry policy.
+            </summary>
+            <param name="action">A delegate representing the executable action which doesn't return any results.</param>
+            <param name="token">Cancellation token to cancel action between retries.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ExecuteAction``1(System.Func{``0},System.Nullable{System.Threading.CancellationToken})">
+            <summary>
+            Repetitively executes the specified action while it satisfies the current retry policy.
+            </summary>
+            <typeparam name="T">The type of result expected from the executable action.</typeparam>
+            <param name="func">A delegate representing the executable action which returns the result of type T.</param>
+            <param name="token">Cancellation token to cancel action between retries.</param>
+            <returns>The result from the action.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ExecuteAction``1(System.Func{Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryState,``0},System.Nullable{System.Threading.CancellationToken})">
+            <summary>
+            Repetitively executes the specified action while it satisfies the current retry policy.
+            </summary>
+            <typeparam name="R">The type of result expected from the executable action.</typeparam>
+            <param name="func">A delegate representing the executable action which returns the result of type R.</param>
+            <param name="token">Cancellation token to cancel action between retries.</param>
+            <returns>The result from the action.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.OnRetryOccurred(Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryState)">
+            <summary>
+            Notifies the subscribers whenever a retry condition is encountered.
+            </summary>
+            <param name="retryState">The state of current retry attempt.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.OnIgnoreErrorOccurred(Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryState)">
+            <summary>
+            Notifies the subscribers whenever an error is ignored on retry.
+            </summary>
+            <param name="retryState">The state of current retry attempt.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.FixedDelayPolicy.#ctor(Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.IErrorDetectionStrategy,System.Int32,System.TimeSpan)">
+            <summary>
+            Constructs a new instance of the TRetryPolicy class with the specified number of retry attempts and time interval between retries.
+            </summary>
+            <param name="strategy">The <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.IErrorDetectionStrategy"/> to use when checking whether an error is retryable</param>
+            <param name="maxRetryCount">The max number of retry attempts. Should be 1-indexed.</param>
+            <param name="intervalBetweenRetries">The interval between retries.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ProgressiveRetryPolicy.#ctor(Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.IErrorDetectionStrategy,System.Int32,System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Constructs a new instance of the TRetryPolicy class with the specified number of retry attempts and parameters defining the progressive delay between retries.
+            </summary>
+            <param name="strategy">The <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.IErrorDetectionStrategy"/> to use when checking whether an error is retryable</param>
+            <param name="maxRetryCount">The maximum number of retry attempts. Should be 1-indexed.</param>
+            <param name="initialInterval">The initial interval which will apply for the first retry.</param>
+            <param name="increment">The incremental time value which will be used for calculating the progressive delay between retries.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ExponentialDelayRetryPolicy.#ctor(Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.IErrorDetectionStrategy,System.Int32,System.Double,System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Constructs a new instance of the TRetryPolicy class with the specified number of retry attempts and parameters defining the progressive delay between retries.
+            </summary>
+            <param name="strategy">The <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.IErrorDetectionStrategy"/> to use when checking whether an error is retryable</param>
+            <param name="maxRetryCount">The maximum number of retry attempts.</param>
+            <param name="intervalFactor">Controls the speed at which the delay increases - the retryCount is raised to this power as
+            part of the function </param>
+            <param name="minInterval">Minimum interval between retries. The basis for all backoff calculations</param>
+            <param name="maxInterval">Maximum interval between retries. Backoff will not take longer than this period.</param>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.DataTransferErrorDetectionStrategy">
+            <summary>
+            Provides the error detection logic for temporary faults that are commonly found during data transfer.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.IErrorDetectionStrategy.CanRetry(System.Exception)">
+            <summary>
+            Determines whether the specified exception represents a temporary failure that can be compensated by a retry.
+            </summary>
+            <param name="ex">The exception object to be verified.</param>
+            <returns>True if the specified exception is considered as temporary, otherwise false.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.IErrorDetectionStrategy.ShouldIgnoreError(System.Exception)">
+            <summary>
+            Determines whether the specified exception can be ignored.
+            </summary>
+            <param name="ex">The exception object to be verified.</param>
+            <returns>True if the specified exception is considered as non-harmful.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ErrorDetectionStrategyBase">
+            <summary>
+            Base class with common retry logic. The core behavior for retrying non SqlExceptions is the same
+            across retry policies
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.NetworkConnectivityErrorDetectionStrategy">
+            <summary>
+            Provides the error detection logic for temporary faults that are commonly found in SQL Azure.
+            The same errors CAN occur on premise also, but they are not seen as often.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.SqlAzureTemporaryAndIgnorableErrorDetectionStrategy">
+            <summary>
+            Provides the error detection logic for temporary faults that are commonly found in SQL Azure.
+            This strategy is similar to SqlAzureTemporaryErrorDetectionStrategy, but it exposes ways
+            to accept a certain exception and treat it as passing.
+            For example, if we are retrying, and we get a failure that an object already exists, we might
+            want to consider this as passing since the first execution that has timed out (or failed for some other temporary error)
+            might have managed to create the object.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.SqlAzureTemporaryAndIgnorableErrorDetectionStrategy.ignorableAzureErrors">
+            <summary>
+            Azure error that can be ignored
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.SqlAzureTemporaryErrorDetectionStrategy">
+            <summary>
+            Provides the error detection logic for temporary faults that are commonly found in SQL Azure.
+            The same errors CAN occur on premise also, but they are not seen as often.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason">
+            <summary>
+            Implements an object holding the decoded reason code returned from SQL Azure when encountering throttling conditions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.ThrottlingErrorNumber">
+            <summary>
+            Returns the error number that corresponds to throttling conditions reported by SQL Azure.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.Unknown">
+            <summary>
+            Gets an unknown throttling condition in the event the actual throttling condition cannot be determined.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.throttledResources">
+            <summary>
+            Maintains a collection of key-value pairs where a key is resource type and a value is the type of throttling applied to the given resource type.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.sqlErrorCodeRegEx">
+            <summary>
+            Provides a compiled regular expression used for extracting the reason code from the error message.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.ThrottlingMode">
+            <summary>
+            Gets the value that reflects the throttling mode in SQL Azure.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.ThrottledResources">
+            <summary>
+            Gets the list of resources in SQL Azure that were subject to throttling conditions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.FromException(Microsoft.Data.SqlClient.SqlException)">
+            <summary>
+            Determines throttling conditions from the specified SQL exception.
+            </summary>
+            <param name="ex">The <see cref="T:Microsoft.Data.SqlClient.SqlException"/> object containing information relevant to an error returned by SQL Server when encountering throttling conditions.</param>
+            <returns>An instance of the object holding the decoded reason codes returned from SQL Azure upon encountering throttling conditions.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.FromError(Microsoft.Data.SqlClient.SqlError)">
+            <summary>
+            Determines the throttling conditions from the specified SQL error.
+            </summary>
+            <param name="error">The <see cref="T:Microsoft.Data.SqlClient.SqlError"/> object containing information relevant to a warning or error returned by SQL Server.</param>
+            <returns>An instance of the object holding the decoded reason codes returned from SQL Azure when encountering throttling conditions.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.FromReasonCode(System.Int32)">
+            <summary>
+            Determines the throttling conditions from the specified reason code.
+            </summary>
+            <param name="reasonCode">The reason code returned by SQL Azure which contains the throttling mode and the exceeded resource types.</param>
+            <returns>An instance of the object holding the decoded reason codes returned from SQL Azure when encountering throttling conditions.</returns>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.IsThrottledOnDataSpace">
+            <summary>
+            Gets a value indicating whether physical data file space throttling was reported by SQL Azure.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.IsThrottledOnLogSpace">
+            <summary>
+            Gets a value indicating whether physical log space throttling was reported by SQL Azure.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.IsThrottledOnLogWrite">
+            <summary>
+            Gets a value indicating whether transaction activity throttling was reported by SQL Azure.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.IsThrottledOnDataRead">
+            <summary>
+            Gets a value indicating whether data read activity throttling was reported by SQL Azure.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.IsThrottledOnCPU">
+            <summary>
+            Gets a value indicating whether CPU throttling was reported by SQL Azure.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.IsThrottledOnDatabaseSize">
+            <summary>
+            Gets a value indicating whether database size throttling was reported by SQL Azure.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.IsThrottledOnWorkerThreads">
+            <summary>
+            Gets a value indicating whether concurrent requests throttling was reported by SQL Azure.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.IsUnknown">
+            <summary>
+            Gets a value indicating whether throttling conditions were not determined with certainty.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingReason.ToString">
+            <summary>
+             Returns a textual representation the current ThrottlingReason object including the information held with respect to throttled resources.
+            </summary>
+            <returns>A string that represents the current ThrottlingReason object.</returns>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingMode">
+            <summary>
+            Defines the possible throttling modes in SQL Azure.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingMode.NoThrottling">
+            <summary>
+            Corresponds to "No Throttling" throttling mode whereby all SQL statements can be processed.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingMode.RejectUpdateInsert">
+            <summary>
+            Corresponds to "Reject Update / Insert" throttling mode whereby SQL statements such as INSERT, UPDATE, CREATE TABLE and CREATE INDEX are rejected.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingMode.RejectAllWrites">
+            <summary>
+            Corresponds to "Reject All Writes" throttling mode whereby SQL statements such as INSERT, UPDATE, DELETE, CREATE, DROP are rejected.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingMode.RejectAll">
+            <summary>
+            Corresponds to "Reject All" throttling mode whereby all SQL statements are rejected.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingMode.Unknown">
+            <summary>
+            Corresponds to an unknown throttling mode whereby throttling mode cannot be determined with certainty.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingType">
+            <summary>
+            Defines the possible throttling types in SQL Azure.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingType.None">
+            <summary>
+            Indicates that no throttling was applied to a given resource.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingType.Soft">
+            <summary>
+            Corresponds to a Soft throttling type. Soft throttling is applied when machine resources such as, CPU, IO, storage, and worker threads exceed 
+            predefined safety thresholds despite the load balancer’s best efforts. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingType.Hard">
+            <summary>
+            Corresponds to a Hard throttling type. Hard throttling is applied when the machine is out of resources, for example storage space.
+            With hard throttling, no new connections are allowed to the databases hosted on the machine until resources are freed up.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottlingType.Unknown">
+            <summary>
+            Corresponds to an unknown throttling type in the event when the throttling type cannot be determined with certainty.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottledResourceType">
+            <summary>
+            Defines the types of resources in SQL Azure which may be subject to throttling conditions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottledResourceType.PhysicalDatabaseSpace">
+            <summary>
+            Corresponds to "Physical Database Space" resource which may be subject to throttling.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottledResourceType.PhysicalLogSpace">
+            <summary>
+            Corresponds to "Physical Log File Space" resource which may be subject to throttling.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottledResourceType.LogWriteIODelay">
+            <summary>
+            Corresponds to "Transaction Log Write IO Delay" resource which may be subject to throttling.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottledResourceType.DataReadIODelay">
+            <summary>
+            Corresponds to "Database Read IO Delay" resource which may be subject to throttling.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottledResourceType.CPU">
+            <summary>
+            Corresponds to "CPU" resource which may be subject to throttling.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottledResourceType.DatabaseSize">
+            <summary>
+            Corresponds to "Database Size" resource which may be subject to throttling.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottledResourceType.WorkerThreads">
+            <summary>
+            Corresponds to "SQL Worker Thread Pool" resource which may be subject to throttling.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottledResourceType.Internal">
+            <summary>
+            Corresponds to an internal resource which may be subject to throttling.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy.ThrottledResourceType.Unknown">
+            <summary>
+            Corresponds to an unknown resource type in the event when the actual resource cannot be determined with certainty.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaulSchemaRetryCount">
+            <summary>
+            The default number of retry attempts.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaultCreateDatabaseRetryCount">
+            <summary>
+            The default number of retry attempts for create database.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaultSchemaMinInterval">
+            <summary>
+            The default amount of time defining an interval between retries.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaultBackoffIntervalFactor">
+            <summary>
+            The default factor to use when determining exponential backoff between retries.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaultMaxRetryInterval">
+            <summary>
+            The default maximum time between retries.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaultDataCommandRetryCount">
+            <summary>
+            The default number of retry attempts.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaultConnectionRetryCount">
+            <summary>
+            The default number of retry attempts for a connection related error
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaultDataMinInterval">
+            <summary>
+            The default amount of time defining an interval between retries.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaultProgressiveRetryIncrement">
+            <summary>
+            The default amount of time defining a time increment between retry attempts in the progressive delay policy.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory">
+            <summary>
+            Implements a collection of the RetryPolicyInfo elements holding retry policy settings.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.NoRetryPolicy">
+            <summary>
+            Returns a default policy that does no retries, it just invokes action exactly once.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.PrimaryKeyViolationRetryPolicy">
+            <summary>
+            Returns a default policy that does no retries, it just invokes action exactly once.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.TransientErrorIgnoreStrategy">
+            <summary>
+            Implements a strategy that ignores any transient errors.
+            Internal for testing purposes only
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateDefaultSchemaCommandRetryPolicy(System.Boolean,System.Int32)">
+            <summary>
+            Creates and returns a default Retry Policy for Schema based operations.
+            </summary>
+            <returns>An instance of <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy"/> class.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateSchemaConnectionRetryPolicy(System.Int32)">
+            <summary>
+            Creates and returns a default Retry Policy for Schema based connection operations.
+            </summary>
+            <remarks>The RetryOccured event is wired to raise an RaiseAmbientRetryMessage message for a connection retry. </remarks>
+            <returns>An instance of <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy"/> class.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateSchemaCommandRetryPolicy(System.Int32)">
+            <summary>
+            Creates and returns a default Retry Policy for Schema based command operations.
+            </summary>
+            <remarks>The RetryOccured event is wired to raise an RaiseAmbientRetryMessage message for a command retry. </remarks>
+            <returns>An instance of <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy"/> class.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateDatabaseCommandRetryPolicy(System.Int32[])">
+            <summary>
+            Creates and returns a Retry Policy for database creation operations.
+            </summary>
+            <param name="ignorableErrorNumbers">Errors to ignore if they occur after first retry</param>
+            <remarks>
+            The RetryOccured event is wired to raise an RaiseAmbientRetryMessage message for a command retry. 
+            The IgnoreErrorOccurred event is wired to raise an RaiseAmbientIgnoreMessage message for ignore. 
+            </remarks>
+            <returns>An instance of <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy"/> class.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateElementCommandRetryPolicy(System.Int32[])">
+            <summary>
+            Creates and returns an "ignoreable" command Retry Policy.
+            </summary>
+            <param name="ignorableErrorNumbers">Errors to ignore if they occur after first retry</param>
+            <remarks>
+            The RetryOccured event is wired to raise an RaiseAmbientRetryMessage message for a command retry. 
+            The IgnoreErrorOccurred event is wired to raise an RaiseAmbientIgnoreMessage message for ignore. 
+            </remarks>
+            <returns>An instance of <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy"/> class.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreatePrimaryKeyCommandRetryPolicy">
+            <summary>
+            Creates and returns an "primary key violation" command Retry Policy.
+            </summary>
+            <param name="ignorableErrorNumbers">Errors to ignore if they occur after first retry</param>
+            <remarks>
+            The RetryOccured event is wired to raise an RaiseAmbientRetryMessage message for a command retry. 
+            The IgnoreErrorOccurred event is wired to raise an RaiseAmbientIgnoreMessage message for ignore. 
+            </remarks>
+            <returns>An instance of <see cref="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicy"/> class.</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateNoRetryPolicy">
+            <summary>
+            Creates a Policy that will never allow retries to occur.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateDataScriptUpdateRetryPolicy">
+            <summary>
+            Creates a Policy that is optimized for data-related script update operations. 
+            This is extremely error tolerant and uses a Time based delay policy that backs
+            off until some overall length of delay has occurred. It is not as long-running
+            as the ConnectionManager data transfer retry policy since that's intended for bulk upload
+            of large amounts of data, whereas this is for individual batch scripts executed by the
+            batch execution engine.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateFastDataRetryPolicy">
+            <summary>
+            Returns the default retry policy dedicated to handling exceptions with SQL connections
+            </summary>
+            <returns>The RetryPolicy policy</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateDefaultSchemaConnectionRetryPolicy">
+            <summary>
+            Returns the default retry policy dedicated to handling exceptions with SQL connections.
+            No logging or other message handler is attached to the policy
+            </summary>
+            <returns>The RetryPolicy policy</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateDefaultDataConnectionRetryPolicy">
+            <summary>
+            Returns the default retry policy dedicated to handling exceptions with SQL connections.
+            Adds an event handler to log and notify listeners of data connection retries 
+            </summary>
+            <returns>The RetryPolicy policy</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateDefaultConnectionRetryPolicy">
+            <summary>
+            Returns the default retry policy dedicated to handling exceptions with SQL connections
+            </summary>
+            <returns>The RetryPolicy policy</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateDefaultDataSqlCommandRetryPolicy">
+            <summary>
+            Returns the default retry policy dedicated to handling retryable conditions with data transfer SQL commands.
+            </summary>
+            <returns>The RetryPolicy policy</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateDefaultDataTransferRetryPolicy">
+            <summary>
+            Returns the default retry policy dedicated to handling retryable conditions with data transfer SQL commands.
+            </summary>
+            <returns>The RetryPolicy policy</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyFactory.CreateColumnEncryptionTransferRetryPolicy">
+            <summary>
+            Returns the retry policy to handle data migration for column encryption.
+            </summary>
+            <returns>The RetryPolicy policy</returns>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils._retryableNetworkConnectivityErrors">
+            <summary>
+            Approved list of transient errors that should be retryable during Network connection stages
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils._retryableAzureErrors">
+            <summary>
+            Approved list of transient errors that should be retryable on Azure
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils._nonRetryableDataTransferErrors">
+            <summary>
+            Blocklist of non-transient errors that should stop retry during data transfer operations
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.CalcExponentialRetryDelayWithSchemaDefaults(System.Int32)">
+            <summary>
+            Calculates the length of time to delay a retry based on the number of retries up to this point.
+            As the number of retries increases, the timeout increases exponentially based on the intervalFactor.
+            Uses default values for the intervalFactor (<see cref="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaultBackoffIntervalFactor"/>), minInterval
+            (<see cref="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaultSchemaMinInterval"/>) and maxInterval (<see cref="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyDefaults.DefaultMaxRetryInterval"/>)
+            </summary>
+            <param name="currentRetryCount">Total number of retries including the current retry</param>
+            <returns>TimeSpan defining the length of time to delay</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.CalcExponentialRetryDelay(System.Int32,System.Double,System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Calculates the length of time to delay a retry based on the number of retries up to this point.
+            As the number of retries increases, the timeout increases exponentially based on the intervalFactor.
+            A very large retry count can cause huge delay, so the maxInterval is used to cap delay time at a sensible
+            upper bound
+            </summary>
+            <param name="currentRetryCount">Total number of retries including the current retry</param>
+            <param name="intervalFactor">Controls the speed at which the delay increases - the retryCount is raised to this power as
+            part of the function </param>
+            <param name="minInterval">Minimum interval between retries. The basis for all backoff calculations</param>
+            <param name="maxInterval">Maximum interval between retries. Backoff will not take longer than this period.</param>
+            <returns>TimeSpan defining the length of time to delay</returns>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.RaiseSchemaAmbientRetryMessage(Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryState,System.Int32,System.Guid)">
+            <summary>
+            Traces the Schema retry information before raising the retry message
+            </summary>
+            <param name="retryState"></param>
+            <param name="errorCode"></param>
+            <param name="azureSessionId"></param>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode">
+            <summary>
+            Error codes reported by the DBNETLIB module.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.ZeroBytes">
+            <summary>
+            Zero bytes were returned
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.Timeout">
+            <summary>
+            Timeout expired. The timeout period elapsed prior to completion of the operation or the server is not responding.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.Unknown">
+            <summary>
+            An unknown net lib error
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.InsufficientMemory">
+            <summary>
+            Out of memory
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.AccessDenied">
+            <summary>
+            User or machine level access denied
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.ConnectionBusy">
+            <summary>
+            Connection was already busy processing another request
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.ConnectionBroken">
+            <summary>
+            The connection was broken without a proper disconnect
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.ConnectionLimit">
+            <summary>
+            The connection has reached a limit
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.ServerNotFound">
+            <summary>
+            Name resolution failed for the given server name
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.NetworkNotFound">
+            <summary>
+            Network transport could not be found
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.InsufficientResources">
+            <summary>
+            A resource required could not be allocated
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.NetworkBusy">
+            <summary>
+            Network stack denied the request as too busy
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.NetworkAccessDenied">
+            <summary>
+            Unable to access the requested network
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.GeneralError">
+            <summary>
+            Internal error
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.IncorrectMode">
+            <summary>
+            The network mode was set incorrectly
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.NameNotFound">
+            <summary>
+            The given name was not found
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.InvalidConnection">
+            <summary>
+            Connection was invalid
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.ReadWriteError">
+            <summary>
+            A read or write error occurred
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.TooManyHandles">
+            <summary>
+            Unable to allocate an additional handle
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.ServerError">
+            <summary>
+            The server reported an error
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.SSLError">
+            <summary>
+            SSL failed
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.EncryptionError">
+            <summary>
+            Encryption failed with an error
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryPolicyUtils.ProcessNetLibErrorCode.EncryptionNotSupported">
+            <summary>
+            Remote endpoint does not support encryption
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryState.RetryCount">
+            <summary>
+            Gets or sets the current retry attempt count.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryState.Delay">
+            <summary>
+            Gets or sets the delay indicating how long the current thread will be suspended for before the next iteration will be invoked.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryState.LastError">
+            <summary>
+            Gets or sets the exception which caused the retry conditions to occur.
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.RetryState.IsDelayDisabled">
+            <summary>
+            Gets or sets a value indicating whether we should ignore delay in order to be able to execute our tests faster
+            </summary>
+            <remarks>Intended for test use ONLY</remarks>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.SqlErrorNumbers">
+            <summary>
+            Constants for SQL Error numbers
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.SqlRetryProviders._retryableServerlessConnectivityError">
+            <summary>
+            Approved list of transient errors that require additional time to wait before connecting again.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.SqlRetryProviders._serverlessMaxIntervalTime">
+            <summary>
+            Max intervals between retries in seconds to wake up serverless instances.
+            </summary>
+        </member>
+        <member name="F:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.SqlRetryProviders._serverlessMaxRetries">
+            <summary>
+            Maximum number of retries to wake up serverless instances.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.SqlRetryProviders.ServerlessDBRetryProvider">
+            <summary>
+            Wait for SqlConnection to handle sleeping serverless instances (allows for them to wake up, otherwise it will result in errors).
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.SqlSchemaModelErrorCodes.ServiceActions">
+            <summary>
+            These codes are used to message specific actions for extract and deployment operations.
+            The primary consumer of these codes is the Import/Export service.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.SqlServerError">
+            <summary>
+            Represents an error produced by SQL Server database schema provider
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.ServiceLayer.Connection.ReliableConnection.SqlServerRetryError">
+            <summary>
+            Captures extended information about a specific error and a retry
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlTools.BatchParser.Utility.Logger">
+            <summary>
+            Provides a simple logging interface built on top of .Net tracing frameworks
+            </summary>
+            <remarks>This functionality is a simplified version of other similar implementations such as from Microsoft.SqlTools.Hosting, using
+            just pure Trace calls instead of setting up a TraceSource and/or listeners to keep this as simple as possible.</remarks>
+        </member>
+        <member name="M:Microsoft.SqlTools.BatchParser.Utility.Logger.Verbose(System.String)">
+            <summary>
+            Writes a message to the log file with the Verbose event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.BatchParser.Utility.Logger.Information(System.String)">
+            <summary>
+            Writes a message to the log file with the Information event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.BatchParser.Utility.Logger.Warning(System.String)">
+            <summary>
+            Writes a message to the log file with the Warning event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.BatchParser.Utility.Logger.Error(System.String)">
+            <summary>
+            Writes a message to the log file with the Error event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.BatchParser.Utility.Logger.Critical(System.String)">
+            <summary>
+            Writes a message to the log file with the Critical event level
+            </summary>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.BatchParser.Utility.Logger.Write(System.Diagnostics.TraceEventType,System.String)">
+            <summary>
+            Writes a message to the log file.
+            </summary>
+            <param name="eventType">The level at which the message will be written.</param>
+             <param name="logEvent">The event id enumeration for the log event.</param>
+            <param name="logMessage">The message text to be written.</param>
+        </member>
+        <member name="T:Microsoft.SqlTools.BatchParser.Utility.Validate">
+            <summary>
+            Provides common validation methods to simplify method
+            parameter checks.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlTools.BatchParser.Utility.Validate.IsNotNull(System.String,System.Object)">
+            <summary>
+            Throws ArgumentNullException if value is null.
+            </summary>
+            <param name="parameterName">The name of the parameter being validated.</param>
+            <param name="valueToCheck">The value of the parameter being validated.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.BatchParser.Utility.Validate.IsNotNullOrEmptyString(System.String,System.String)">
+            <summary>
+            Throws ArgumentException if the value is null or an empty string.
+            </summary>
+            <param name="parameterName">The name of the parameter being validated.</param>
+            <param name="valueToCheck">The value of the parameter being validated.</param>
+        </member>
+        <member name="M:Microsoft.SqlTools.BatchParser.Utility.Validate.IsNotNullOrWhitespaceString(System.String,System.String)">
+            <summary>
+            Throws ArgumentException if the value is null, an empty string,
+            or a string containing only whitespace.
+            </summary>
+            <param name="parameterName">The name of the parameter being validated.</param>
+            <param name="valueToCheck">The value of the parameter being validated.</param>
+        </member>
+    </members>
+</doc>

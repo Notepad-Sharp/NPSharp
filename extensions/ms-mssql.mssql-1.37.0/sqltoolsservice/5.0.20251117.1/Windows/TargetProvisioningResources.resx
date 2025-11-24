@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CachingNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="CachingReadOnly" xml:space="preserve">
+    <value>Read-only</value>
+  </data>
+  <data name="CachingReadWrite" xml:space="preserve">
+    <value>Read/write</value>
+  </data>
+  <data name="DescriptionAdministratorPassword" xml:space="preserve">
+    <value>Administrator password.</value>
+  </data>
+  <data name="DescriptionAdministratorUsername" xml:space="preserve">
+    <value>Administrator username.</value>
+  </data>
+  <data name="DescriptionDatabaseCollation" xml:space="preserve">
+    <value>Collation for database {0}. Default: {1}</value>
+  </data>
+  <data name="DescriptionDatabaseComputeSize" xml:space="preserve">
+    <value>Compute size for database {0}, in vCores. Default: {1}</value>
+  </data>
+  <data name="DescriptionDatabaseLicenseType" xml:space="preserve">
+    <value>License type. Default: {0}</value>
+  </data>
+  <data name="DescriptionDatabaseServiceTier" xml:space="preserve">
+    <value>Service tier for database {0}. Default: {1}</value>
+  </data>
+  <data name="DescriptionDatabaseStorageSize" xml:space="preserve">
+    <value>Storage size for database {0}, in GB. Default: {1}</value>
+  </data>
+  <data name="DescriptionInstanceAddressPrefix" xml:space="preserve">
+    <value>Virtual network address prefix. Default: {0}</value>
+  </data>
+  <data name="DescriptionInstanceCollation" xml:space="preserve">
+    <value>Server collation. Default: {0}</value>
+  </data>
+  <data name="DescriptionInstanceComputeSize" xml:space="preserve">
+    <value>Compute size, in vCores. Default: {0}</value>
+  </data>
+  <data name="DescriptionInstanceHardwareGeneration" xml:space="preserve">
+    <value>Hardware generation. Default: {0}</value>
+  </data>
+  <data name="DescriptionInstanceLicenseType" xml:space="preserve">
+    <value>License type. Default: {0}</value>
+  </data>
+  <data name="DescriptionInstanceMaxStorageIops" xml:space="preserve">
+    <value>Max Storage IOPS. Default: {0}</value>
+  </data>
+  <data name="DescriptionInstanceName" xml:space="preserve">
+    <value>Managed instance name. Default: {0}</value>
+  </data>
+  <data name="DescriptionInstanceServiceTier" xml:space="preserve">
+    <value>Service tier. Default: {0}</value>
+  </data>
+  <data name="DescriptionInstanceStorageSize" xml:space="preserve">
+    <value>Storage size, in GB. Default: {0}</value>
+  </data>
+  <data name="DescriptionInstanceSubnetPrefix" xml:space="preserve">
+    <value>Subnet address prefix. Default: {0}</value>
+  </data>
+  <data name="DescriptionSqlServerName" xml:space="preserve">
+    <value>Name for the SQL logical server. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineDataDiskCaching" xml:space="preserve">
+    <value>Host caching of data disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineDataDiskCount" xml:space="preserve">
+    <value>Number of data disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineDataDiskIOPS" xml:space="preserve">
+    <value>Max IOPS of data disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineDataDiskSize" xml:space="preserve">
+    <value>Size of data disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineDataDiskThroughputInMb" xml:space="preserve">
+    <value>Max Throughput in MB of data disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineDataDiskType" xml:space="preserve">
+    <value>Data disk Type . Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineImageOffer" xml:space="preserve">
+    <value>Windows Server and SQL image. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineLogDiskCaching" xml:space="preserve">
+    <value>Host caching of log disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineLogDiskCount" xml:space="preserve">
+    <value>Number of log disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineLogDiskIOPS" xml:space="preserve">
+    <value>Max IOPS of log disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineLogDiskSize" xml:space="preserve">
+    <value>Size of log disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineLogDiskThroughputInMb" xml:space="preserve">
+    <value>Max Throughput in MB of log disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineLogDiskType" xml:space="preserve">
+    <value>Log disk Type . Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineName" xml:space="preserve">
+    <value>Virtual machine name. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineSize" xml:space="preserve">
+    <value>Virtual machine size. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineSqlSku" xml:space="preserve">
+    <value>SQL edition. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineStorageWorkloadType" xml:space="preserve">
+    <value>Workload type. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineTempDbDiskCaching" xml:space="preserve">
+    <value>Host caching of tempdb disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineTempDbDiskCount" xml:space="preserve">
+    <value>Number of tempdb disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionVirtualMachineTempDbDiskType" xml:space="preserve">
+    <value>Type of tempdb disks. Default: {0}</value>
+  </data>
+  <data name="DescriptionZone" xml:space="preserve">
+    <value>Zone. Default: {0}</value>
+  </data>
+  <data name="DiskTypePremiumSSD" xml:space="preserve">
+    <value>Premium SSD</value>
+  </data>
+  <data name="DiskTypePremiumSSDV2" xml:space="preserve">
+    <value>Premium SSD V2</value>
+  </data>
+  <data name="DiskTypeStandardHDD" xml:space="preserve">
+    <value>Standard HDD</value>
+  </data>
+  <data name="DiskTypeStandardSSD" xml:space="preserve">
+    <value>Standard SSD</value>
+  </data>
+  <data name="DiskTypeUltraSSD" xml:space="preserve">
+    <value>Ultra SSD</value>
+  </data>
+  <data name="HardwareGenerationGen5" xml:space="preserve">
+    <value>Standard-series (Gen 5)</value>
+  </data>
+  <data name="HardwareGenerationPremiumSeries" xml:space="preserve">
+    <value>Premium-series</value>
+  </data>
+  <data name="HardwareGenerationPremiumSeriesMemoryOptimized" xml:space="preserve">
+    <value>Premium-series - memory optimized</value>
+  </data>
+  <data name="LicenseTypeBasePrice" xml:space="preserve">
+    <value>I already have a SQL Server license (Azure Hybrid Benefit)</value>
+  </data>
+  <data name="LicenseTypeLicenseIncluded" xml:space="preserve">
+    <value>License included</value>
+  </data>
+  <data name="ParameterAdministratorPassword" xml:space="preserve">
+    <value>Administrator password</value>
+  </data>
+  <data name="ParameterAdministratorUsername" xml:space="preserve">
+    <value>Administrator username</value>
+  </data>
+  <data name="ParameterDatabaseCollation" xml:space="preserve">
+    <value>Collation for database {0}</value>
+  </data>
+  <data name="ParameterDatabaseComputeSize" xml:space="preserve">
+    <value>Compute size for database {0} in VCores</value>
+  </data>
+  <data name="ParameterDatabaseLicenseType" xml:space="preserve">
+    <value>License type</value>
+  </data>
+  <data name="ParameterDatabaseServiceTier" xml:space="preserve">
+    <value>Service tier for database {0}</value>
+  </data>
+  <data name="ParameterDatabaseStorageSize" xml:space="preserve">
+    <value>Storage size for database {0} in GB</value>
+  </data>
+  <data name="ParameterInstanceAddressPrefix" xml:space="preserve">
+    <value>Address prefix</value>
+  </data>
+  <data name="ParameterInstanceCollation" xml:space="preserve">
+    <value>Server collation</value>
+  </data>
+  <data name="ParameterInstanceComputeSize" xml:space="preserve">
+    <value>Compute size in VCores</value>
+  </data>
+  <data name="ParameterInstanceHardwareGeneration" xml:space="preserve">
+    <value>Hardware generation</value>
+  </data>
+  <data name="ParameterInstanceLicenseType" xml:space="preserve">
+    <value>License type</value>
+  </data>
+  <data name="ParameterInstanceMaxStorageIops" xml:space="preserve">
+    <value>Max storage IOPS</value>
+  </data>
+  <data name="ParameterInstanceName" xml:space="preserve">
+    <value>Managed instance name</value>
+  </data>
+  <data name="ParameterInstanceServiceTier" xml:space="preserve">
+    <value>Service tier</value>
+  </data>
+  <data name="ParameterInstanceStorageSize" xml:space="preserve">
+    <value>Storage size in GB</value>
+  </data>
+  <data name="ParameterInstanceSubnetPrefix" xml:space="preserve">
+    <value>Subnet prefix</value>
+  </data>
+  <data name="ParameterSqlServerName" xml:space="preserve">
+    <value>Server name</value>
+  </data>
+  <data name="ParameterVirtualMachineDataDiskCaching" xml:space="preserve">
+    <value>Data disk caching</value>
+  </data>
+  <data name="ParameterVirtualMachineDataDiskCount" xml:space="preserve">
+    <value>Data disk count</value>
+  </data>
+  <data name="ParameterVirtualMachineDataDiskIOPS" xml:space="preserve">
+    <value>Data disk IOPS</value>
+  </data>
+  <data name="ParameterVirtualMachineDataDiskSize" xml:space="preserve">
+    <value>Data disk size in GB</value>
+  </data>
+  <data name="ParameterVirtualMachineDataDiskThroughputInMb" xml:space="preserve">
+    <value>Data disk throughput In MB</value>
+  </data>
+  <data name="ParameterVirtualMachineDataDiskType" xml:space="preserve">
+    <value>Data disk type</value>
+  </data>
+  <data name="ParameterVirtualMachineImageOffer" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="ParameterVirtualMachineLogDiskCaching" xml:space="preserve">
+    <value>Log disk caching</value>
+  </data>
+  <data name="ParameterVirtualMachineLogDiskCount" xml:space="preserve">
+    <value>Log disk count</value>
+  </data>
+  <data name="ParameterVirtualMachineLogDiskIOPS" xml:space="preserve">
+    <value>Log disk max IOPS</value>
+  </data>
+  <data name="ParameterVirtualMachineLogDiskSize" xml:space="preserve">
+    <value>Log disk size in GB</value>
+  </data>
+  <data name="ParameterVirtualMachineLogDiskThroughputInMb" xml:space="preserve">
+    <value>Log disk throughput In MB</value>
+  </data>
+  <data name="ParameterVirtualMachineLogDiskType" xml:space="preserve">
+    <value>Log disk type</value>
+  </data>
+  <data name="ParameterVirtualMachineName" xml:space="preserve">
+    <value>Virtual machine name</value>
+  </data>
+  <data name="ParameterVirtualMachineSize" xml:space="preserve">
+    <value>Virtual machine size</value>
+  </data>
+  <data name="ParameterVirtualMachineSqlSku" xml:space="preserve">
+    <value>SQL edition</value>
+  </data>
+  <data name="ParameterVirtualMachineStorageWorkloadType" xml:space="preserve">
+    <value>Workload type</value>
+  </data>
+  <data name="ParameterVirtualMachineTempDbDiskCaching" xml:space="preserve">
+    <value>tempdb disk caching</value>
+  </data>
+  <data name="ParameterVirtualMachineTempDbDiskCount" xml:space="preserve">
+    <value>tempdb disk count</value>
+  </data>
+  <data name="ParameterVirtualMachineTempDbDiskType" xml:space="preserve">
+    <value>tempdb disk type</value>
+  </data>
+  <data name="ServiceTierBusinessCritical" xml:space="preserve">
+    <value>Business Critical</value>
+  </data>
+  <data name="ServiceTierGeneralPurpose" xml:space="preserve">
+    <value>General Purpose</value>
+  </data>
+  <data name="ServiceTierHyperscale" xml:space="preserve">
+    <value>Hyperscale</value>
+  </data>
+  <data name="SQL2014SP2WS2012R2" xml:space="preserve">
+    <value>SQL Server 2014 SP2 on Windows Sever 2012 R2</value>
+  </data>
+  <data name="SQL2014SP3WS2012R2" xml:space="preserve">
+    <value>SQL Server 2014 SP3 on Windows Server 2012 R2</value>
+  </data>
+  <data name="SQL2016SP1WS2016" xml:space="preserve">
+    <value>SQL Server 2016 SP1 on Windows Server 2016</value>
+  </data>
+  <data name="SQL2016SP2WS2016" xml:space="preserve">
+    <value>SQL Server 2016 SP2 on Windows Server 2016</value>
+  </data>
+  <data name="SQL2017WS2016" xml:space="preserve">
+    <value>SQL Server 2017 on Windows Server 2016</value>
+  </data>
+  <data name="SQL2017WS2019" xml:space="preserve">
+    <value>SQL Server 2017 on Windows Server 2019</value>
+  </data>
+  <data name="SQL2019WS2019" xml:space="preserve">
+    <value>SQL Server 2019 on Windows Server 2019</value>
+  </data>
+  <data name="SQL2019WS2022" xml:space="preserve">
+    <value>SQL Server 2019 on Windows Server 2022</value>
+  </data>
+  <data name="SQL2022WS2022" xml:space="preserve">
+    <value>SQL Server 2022 on Windows Server 2022</value>
+  </data>
+  <data name="SqlEditionDev" xml:space="preserve">
+    <value>Developer (free)</value>
+  </data>
+  <data name="SqlEditionEnterprise" xml:space="preserve">
+    <value>Enterprise</value>
+  </data>
+  <data name="SqlEditionExpress" xml:space="preserve">
+    <value>Express (free)</value>
+  </data>
+  <data name="SqlEditionStandard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="SqlEditionWeb" xml:space="preserve">
+    <value>Web</value>
+  </data>
+  <data name="TagSqlMigrationService" xml:space="preserve">
+    <value>Azure Database Migration Service</value>
+  </data>
+  <data name="WorkloadTypeDW" xml:space="preserve">
+    <value>DW</value>
+  </data>
+  <data name="WorkloadTypeGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="WorkloadTypeOLTP" xml:space="preserve">
+    <value>OLTP</value>
+  </data>
+  <data name="Zone" xml:space="preserve">
+    <value>Availability zone</value>
+  </data>
+</root>
