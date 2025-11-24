@@ -22,17 +22,32 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    # Cache para extensões VSIX pra não bater rate limit
+    - name: Cache VSIX extensions
+      uses: actions/cache@v3
+      with:
+        path: |
+          .vscode/extensions
+          build/.vsix-cache
+        key: vscode-extensions-${{ hashFiles('extensions/**') }}
+        restore-keys: |
+          vscode-extensions-
+
     - name: Compile NPSharp
       run: node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js compile-build-with-mangling
 
-    - name: Build Extensions
-      run: node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js compile-extensions-build
+    - name: Build Extensions with Retry
+      run: |
+        RETRIES=5
+        for i in $(seq 1 $RETRIES); do
+          node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js compile-extensions-build && break || echo "Retry $i failed, retrying in 5s..." && sleep 5
+        done
 
     - name: Create Portable
       run: node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js minify-vscode
 
     - name: Create Installer
-      run: node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js 7z # ou ajuste se tiver script real do installer
+      run: node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js 7z # ajuste se tiver script real do installer
 
     - name: Upload Portable Artifact
       uses: actions/upload-artifact@v4
