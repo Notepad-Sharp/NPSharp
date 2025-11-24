@@ -14,52 +14,88 @@
   "contributes": {
     "themes": [
       {
-        "id": "npsblackboardoled",
-        "label": "BlackBoard OLED",
-        "uiTheme": "vs-dark",
-        "path": "./themes/dark_plus.json"
-      },
-      {
         "id": "npsblackboard",
         "label": "Blackboard",
         "uiTheme": "vs-dark",
-        "path": "./themes/dark_modern.json"
+        "path": "./themes/nps_blackboard.json"
       },
       {
-        "id": "npstemadepsicopata",
+        "id": "npsblackboardoled",
+        "label": "BlackBoard OLED",
+        "uiTheme": "vs-dark",
+        "path": "./themes/nps_blackboard_oled.json"
+      },
+      {
+        "id": "npsblackboardlight",
         "label": "Blackboard Light",
         "uiTheme": "vs",
-        "path": "./themes/light_plus.json"
+        "path": "./themes/nps_blackboard_light.json"
       },
       {
         "id": "npssolarizedplus",
-        "label": "Solarized Light Plus",
+        "label": "Solarized Light+",
         "uiTheme": "vs",
-        "path": "./themes/light_modern.json"
+        "path": "./themes/nps_solarized_plus.json"
       },
       {
         "id": "npsdarkplus",
         "label": "Notepad Sharp Dark+",
         "uiTheme": "vs-dark",
-        "path": "./themes/dark_vs.json"
+        "path": "./themes/nps_dark_plus.json"
       },
       {
         "id": "npslightplus",
         "label": "Notepad Sharp Light+",
         "uiTheme": "vs",
-        "path": "./themes/light_vs.json"
+        "path": "./themes/nps_light_plus.json"
       },
       {
-        "id": "npsvoidpinkplus",
-        "label": "Notepad Sharp Void Pink+",
+        "id": "npssiberiyskysteel",
+        "label": "Notepad Sharp Aço Siberiano",
         "uiTheme": "vs-dark",
-        "path": "./themes/hc_black.json"
+        "path": "./themes/nps_siberiysky_steel.json"
       },
       {
-        "id": "npscrimsonplus",
-        "label": "Notepad Sharp Crimson+",
+        "id": "npscrimsonoled",
+        "label": "Notepad Sharp Crimson Oled",
         "uiTheme": "vs-dark",
-        "path": "./themes/hc_light.json"
+        "path": "./themes/nps_crimson_oled.json"
+      },
+      {
+        "id": "npssolarisfrost",
+        "label": "Notepad Sharp Solaris Frost",
+        "uiTheme": "vs",
+        "path": "./themes/nps_solarisfrost_light.json"
+      },
+      {
+        "id": "npsarticsteel",
+        "label": "Notepad Sharp Aço Artico",
+        "uiTheme": "vs",
+        "path": "./themes/nps_articsteel.json"
+      },
+      {
+        "id": "npspolusnetruskiy",
+        "label": "Notepad Sharp Polo Neutro",
+        "uiTheme": "vs-dark",
+        "path": "./themes/nps_polusnetruskiy.json"
+      },
+      {
+        "id": "npsnochnoispektr",
+        "label": "Notepad Sharp Spectro Noturno",
+        "uiTheme": "vs-dark",
+        "path": "./themes/nps_nochnoispektr.json"
+      },
+      {
+        "id": "npssvetlyikofe",
+        "label": "Notepad Sharp Café Claro",
+        "uiTheme": "vs",
+        "path": "./themes/nps_svetlyikofe.json"
+      },
+      {
+        "id": "npszimniybiryuz",
+        "label": "Notepad Sharp Turquesa de Inverno",
+        "uiTheme": "vs",
+        "path": "./themes/nps_zimniybiryuz.json"
       }
     ],
     "iconThemes": [
