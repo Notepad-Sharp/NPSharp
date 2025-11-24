@@ -23,16 +23,16 @@ jobs:
       run: npm ci
 
     - name: Compile NPSharp
-      run: npm run compile-build
+      run: node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js compile-build-with-mangling
 
     - name: Build Extensions
-      run: npm run compile-extensions-build
+      run: node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js compile-extensions-build
 
     - name: Create Portable
-      run: npm run minify-vscode
+      run: node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js minify-vscode
 
     - name: Create Installer
-      run: npm run 7z # ou ajuste se tiver script real do installer
+      run: node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js 7z # ou ajuste se tiver script real do installer
 
     - name: Upload Portable Artifact
       uses: actions/upload-artifact@v4
