@@ -3,9 +3,12 @@
 	"nameLong": "Notepad Sharp",
 	"applicationName": "NPSharp",
 "extensionsGallery": {
-    "serviceUrl": "https://open-vsx.org/api",
-    "itemUrl": "https://open-vsx.org/api",
-    "cacheUrl": "https://open-vsx.org/api"
+    "serviceUrl": "https://marketplace.visualstudio.com/_apis/public/gallery",
+    "itemUrl": "https://marketplace.visualstudio.com/items",
+    "controlUrl": "",
+    "recommendationsUrl": "https://vscode.dev/api/extensionRecommendations",
+    "cacheUrl": "https://vscode.blob.core.windows.net/gallery/index",
+    "webApiUrl": "https://marketplace.visualstudio.com/_apis/public/gallery"
 },
 	"extensionSignatureVerification": false,
 	"dataFolderName": ".NPSharp",
