@@ -19,10 +19,18 @@ jobs:
       with:
         node-version: 22
 
+    - name: Cache node_modules
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: node-modules-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          node-modules-
+
     - name: Install dependencies
       run: npm ci
 
-    # Cache para extensões VSIX pra não bater rate limit
+    # Cache para extensões VSIX
     - name: Cache VSIX extensions
       uses: actions/cache@v3
       with:
@@ -43,7 +51,7 @@ jobs:
         for ($i = 1; $i -le $RETRIES; $i++) {
             Write-Host "Attempt $i..."
             try {
-                node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js compile-extensions-build
+                node --max-old-space-size=10240 ./node_modules/gulp/bin/gulp.js compile-extensions-build --skipLibCheck
                 Write-Host "Success on attempt $i"
                 break
             } catch {
