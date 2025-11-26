@@ -10,7 +10,7 @@ import * as typeConverters from '../../typeConverters';
 
 export interface IFilePathToResourceConverter {
 	/**
-	 * Convert a typescript filepath to a Notepad# resource.
+	 * Convert a typescript filepath to a VS Code resource.
 	 */
 	toResource(filepath: string): vscode.Uri;
 }
@@ -157,13 +157,13 @@ function convertLinkTags(
 					if (currentLink.target) {
 						const file = filePathConverter.toResource(currentLink.target.file);
 						const args: OpenJsDocLinkCommand_Args = {
-							file: { ...file.toJSON(), $mid: undefined }, // Prevent Notepad# from trying to transform the uri,
+							file: { ...file.toJSON(), $mid: undefined }, // Prevent VS Code from trying to transform the uri,
 							position: typeConverters.Position.fromLocation(currentLink.target.start)
 						};
 						const command = `command:${OpenJsDocLinkCommand.id}?${encodeURIComponent(JSON.stringify([args]))}`;
 
 						const linkText = currentLink.text ? currentLink.text : escapeMarkdownSyntaxTokensForCode(currentLink.name ?? '');
-						out.push(`[${currentLink.linkcode ? '`' + linkText + '`' : linkText}](${command})`);
+						out.push(`[${currentLink.linkcode ? '`' + linkText + '`' : linkText}](${command} "${vscode.l10n.t('Open symbol link')}")`);
 					} else {
 						const text = currentLink.text ?? currentLink.name;
 						if (text) {

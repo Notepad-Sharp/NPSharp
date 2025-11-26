@@ -269,7 +269,7 @@ export class Model implements IRepositoryResolver, IBranchProtectionProviderRegi
 	/**
 	 * We maintain a map containing both the path and the canonical path of the
 	 * workspace folders. We are doing this as `git.exe` expands the symbolic links
-	 * while there are scenarios in which Notepad# does not.
+	 * while there are scenarios in which VS Code does not.
 	 *
 	 * Key   - path of the workspace folder
 	 * Value - canonical path of the workspace folder
@@ -1169,16 +1169,6 @@ export class Model implements IRepositoryResolver, IBranchProtectionProviderRegi
 			// Learn More
 			commands.executeCommand('vscode.open', Uri.parse('https://aka.ms/vscode-git-unsafe-repository'));
 		}
-	}
-
-	disposeRepository(repository: Repository): void {
-		const openRepository = this.getOpenRepository(repository);
-		if (!openRepository) {
-			return;
-		}
-
-		this.logger.info(`[Model][disposeRepository] Repository: ${repository.root}`);
-		openRepository.dispose();
 	}
 
 	dispose(): void {

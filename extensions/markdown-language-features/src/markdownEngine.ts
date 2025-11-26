@@ -289,7 +289,7 @@ export class MarkdownItEngine implements IMdParser {
 		const normalizeLink = md.normalizeLink;
 		md.normalizeLink = (link: string) => {
 			try {
-				// Normalize Notepad# schemes to target the current version
+				// Normalize VS Code schemes to target the current version
 				if (isOfScheme(Schemes.vscode, link) || isOfScheme(Schemes['vscode-insiders'], link)) {
 					return normalizeLink(vscode.Uri.parse(link).with({ scheme: vscode.env.uriScheme }).toString());
 				}

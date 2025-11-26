@@ -34,7 +34,7 @@ if (typeof originalState.scrollProgress !== 'undefined' && originalState?.resour
 	state.scrollProgress = 0;
 }
 
-// Make sure to sync Notepad# state here
+// Make sure to sync VS Code state here
 vscode.setState(state);
 
 const messaging = createPosterForVsCode(vscode, settings);
@@ -84,7 +84,7 @@ onceDocumentLoaded(() => {
 	if (typeof scrollProgress === 'number' && !settings.settings.fragment) {
 		doAfterImagesLoaded(() => {
 			scrollDisabledCount += 1;
-			// Always set scroll of at least 1 to prevent Notepad#'s webview code from auto scrolling us
+			// Always set scroll of at least 1 to prevent VS Code's webview code from auto scrolling us
 			const scrollToY = Math.max(1, scrollProgress * document.body.clientHeight);
 			window.scrollTo(0, scrollToY);
 		});
@@ -348,7 +348,7 @@ document.addEventListener('click', event => {
 				}
 			}
 
-			// If original link doesn't look like a url, delegate back to Notepad# to resolve
+			// If original link doesn't look like a url, delegate back to VS Code to resolve
 			if (!/^[a-z\-]+:/i.test(hrefText)) {
 				messaging.postMessage('openLink', { href: hrefText });
 				event.preventDefault();

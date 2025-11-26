@@ -129,7 +129,7 @@ function convertJupyterOutputToBuffer(mime: string, value: unknown): NotebookCel
 			return NotebookCellOutputItem.text(stringValue, mime);
 		} else if (mime.startsWith('image/') && typeof value === 'string' && mime !== 'image/svg+xml') {
 			// Images in Jupyter are stored in base64 encoded format.
-			// Notepad# expects bytes when rendering images.
+			// VS Code expects bytes when rendering images.
 			if (typeof Buffer !== 'undefined' && typeof Buffer.from === 'function') {
 				return new NotebookCellOutputItem(Buffer.from(value, 'base64'), mime);
 			} else {
@@ -352,7 +352,7 @@ function createNotebookCellDataFromJupyterCell(
 }
 
 /**
- * Converts a NotebookModel into Notepad# format.
+ * Converts a NotebookModel into VS Code format.
  */
 export function jupyterNotebookModelToNotebookData(
 	notebookContent: Partial<nbformat.INotebookContent>,

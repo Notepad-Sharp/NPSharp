@@ -4,6 +4,6 @@
 
 ## Features
 
-This extension provides the following notebook renderers for Notepad#:
+This extension provides the following notebook renderers for VS Code:
 
 - Image renderer for png, jpeg and gif

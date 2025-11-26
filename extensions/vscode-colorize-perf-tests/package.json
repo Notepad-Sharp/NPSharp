@@ -1,6 +1,6 @@
 {
   "name": "vscode-colorize-perf-tests",
-  "description": "Colorize performance tests for Notepad#",
+  "description": "Colorize performance tests for VS Code",
   "version": "0.0.1",
   "publisher": "vscode",
   "license": "MIT",
