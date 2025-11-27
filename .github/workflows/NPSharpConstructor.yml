@@ -44,7 +44,9 @@ jobs:
         run: npm run test-node
 
       - name: Run Browser tests
-        run: npm run test-browser-no-install
+        run: |
+          npx playwright install
+          npm run test-browser-no-install
 
       - name: Hygiene checks
         run: npm run hygiene
