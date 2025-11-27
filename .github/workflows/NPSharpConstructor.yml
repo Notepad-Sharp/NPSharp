@@ -28,14 +28,25 @@ jobs:
       - name: Run tests
         run: npm test
 
-
   build:
-    name: Build binaries ${{ matrix.os }}
+    name: Build binaries (${{ matrix.os }})
     needs: test
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            pack: dist:linux
+            shell: bash
+
+          - os: macos-latest
+            pack: dist:mac
+            shell: bash
+
+          - os: windows-latest
+            pack: dist:win
+            shell: bash
 
     steps:
       - uses: actions/checkout@v4
@@ -52,22 +63,14 @@ jobs:
         run: npm run build
 
       - name: Package app
-        run: |
-          if [[ "$RUNNER_OS" == "Linux" ]]; then
-            npm run dist:linux
-          elif [[ "$RUNNER_OS" == "Windows" ]]; then
-            npm run dist:win
-          else
-            npm run dist:mac
-          fi
-        shell: bash
+        run: npm run ${{ matrix.pack }}
+        shell: ${{ matrix.shell }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-${{ matrix.os }}
           path: dist/*
-
 
   release:
     name: Create Tag & Release
@@ -83,7 +86,6 @@ jobs:
           VER=$(node -p "require('./package.json').version")
           echo "version=$VER" >> $GITHUB_OUTPUT
 
-      # Essa ação NÃO tem v4. Última versão é essa.
       - name: Create tag
         uses: actions/github-tag-action@v1.67.0
         with:
