@@ -2,11 +2,13 @@ name: NPSharp Constructor
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
+  # ===========================
+  # TESTES + HYGIENE
+  # ===========================
   test:
     name: Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -25,16 +27,15 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      # ===== COMPILAÇÃO (ngc “certo”) =====
       - name: Build (gulp compile)
-        run: |
-          npx gulp compile
+        run: npx gulp compile
 
-      # ===== HYGIENE como o VSCode faz =====
-      - name: Hygiene checks
-        run: |
-          npx gulp hygiene
+      - name: Hygiene checks (like VSCode)
+        run: npx gulp hygiene
 
+  # ===========================
+  # BUILD BINÁRIO
+  # ===========================
   build:
     name: Build binaries (${{ matrix.os }})
     needs: test
@@ -54,25 +55,14 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      # ===== COMPILAÇÃO PRINCIPAL =====
       - name: Build app
         run: |
           npx gulp compile
           npx gulp minify
           npx gulp optimize
 
-      # ===== PACKAGE POR SISTEMA =====
-      - name: Package (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: npm run dist:linux
-
-      - name: Package (macOS)
-        if: matrix.os == 'macos-latest'
-        run: npm run dist:mac
-
-      - name: Package (Windows)
-        if: matrix.os == 'windows-latest'
-        run: npm run dist:win
+      - name: Package
+        run: npm run dist:${{ matrix.os == 'ubuntu-latest' && 'linux' || matrix.os == 'macos-latest' && 'mac' || 'win' }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -80,6 +70,9 @@ jobs:
           name: build-${{ matrix.os }}
           path: dist/*
 
+  # ===========================
+  # RELEASE
+  # ===========================
   release:
     name: Create Tag & Release
     needs: build
@@ -90,9 +83,7 @@ jobs:
 
       - name: Extract version
         id: ver
-        run: |
-          VER=$(node -p "require('./package.json').version")
-          echo "version=$VER" >> $GITHUB_OUTPUT
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
 
       - name: Create tag
         uses: actions/github-tag-action@v1.67.0
