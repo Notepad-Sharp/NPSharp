@@ -10,12 +10,10 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "test": "node ./tests/run-tests.js",
     "test-browser": "npx playwright install && node test/unit/browser/index.js",
     "test-browser-no-install": "node test/unit/browser/index.js",
     "test-node": "mocha test/unit/node/index.js --delay --ui=tdd --timeout=5000 --exit",
     "test-extension": "vscode-test",
-     "build": "node ./build.js",
     "test-build-scripts": "cd build && npm run test",
     "preinstall": "node build/npm/preinstall.js",
     "postinstall": "node build/npm/postinstall.js",
@@ -70,10 +68,7 @@
     "extensions-ci": "node ./node_modules/gulp/bin/gulp.js extensions-ci",
     "extensions-ci-pr": "node ./node_modules/gulp/bin/gulp.js extensions-ci-pr",
     "perf": "node scripts/code-perf.js",
-    "update-build-ts-version": "npm install -D typescript@next && npm install -D @typescript/native-preview && (cd build && npm run compile)",
-    "dist:win": "electron-builder --win --x64 --config electron-builder.json",
-    "dist:mac": "electron-builder --mac --x64 --config electron-builder.json",
-    "dist:linux": "electron-builder --linux --x64 --config electron-builder.json"
+    "update-build-ts-version": "npm install -D typescript@next && npm install -D @typescript/native-preview && (cd build && npm run compile)"
   },
   "dependencies": {
     "@microsoft/1ds-core-js": "^3.2.13",
