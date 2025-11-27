@@ -30,13 +30,24 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-          build-essential \
-          python3 \
-          libkrb5-dev \
-          libx11-dev \
-          libxkbfile-dev \
-          pkg-config \
-          libsecret-1-dev
+            libgtk-4-1 \
+            libgraphene-1.0-0 \
+            libwoff2-1 \
+            libvpx9 \
+            libevent-2.1-7 \
+            libopus0 \
+            gstreamer1.0-libav \
+            gstreamer1.0-plugins-base \
+            gstreamer1.0-plugins-good \
+            gstreamer1.0-plugins-bad \
+            gstreamer1.0-plugins-ugly \
+            gstreamer1.0-tools \
+            libflite1 \
+            libavif16 \
+            libharfbuzz-icu0 \
+            libhyphen0 \
+            libgles2-mesa \
+            libx264-163
 
       # 🔑 Atualiza lock file antes do ci
       - name: Ensure lock file matches package.json
