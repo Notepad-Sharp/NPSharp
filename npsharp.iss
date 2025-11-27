@@ -4,7 +4,7 @@
 #define AppName "Notepad Sharp"
 #define AppVersion "1.107.0"
 #define PortableDir "build\output\portable"
-#define LicenseFile "LICENSE"
+#define LicenseFile ".\LICENSE"
 
 [Setup]
 AppName={#AppName}
@@ -28,7 +28,6 @@ WizardStyle=modern
 Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
 
 [Files]
-; Copia o portable gerado pelo build
 Source: "{#PortableDir}\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
 
 [Icons]
