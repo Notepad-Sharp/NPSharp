@@ -2,11 +2,13 @@ name: NPSharp Constructor
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
+  # ===========================
+  # TESTES + HYGIENE
+  # ===========================
   test:
     name: Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -22,24 +24,18 @@ jobs:
         with:
           node-version: 22
 
-      # ===== Dependências (com correções) =====
-      - name: Install Linux system deps
-        if: matrix.os == 'ubuntu-latest'
-        run: sudo apt-get update && sudo apt-get install -y libkrb5-dev
-
       - name: Install deps
-        run: npm ci --omit=optional
+        run: npm ci
 
-      # ===== Compilação estilo VSCode =====
       - name: Build (gulp compile)
-        run: |
-          npx gulp compile
+        run: npx gulp compile
 
-      - name: Hygiene checks
-        run: |
-          npx gulp hygiene
+      - name: Hygiene checks (like VSCode)
+        run: npx gulp hygiene
 
-
+  # ===========================
+  # BUILD BINÁRIO
+  # ===========================
   build:
     name: Build binaries (${{ matrix.os }})
     needs: test
@@ -56,42 +52,27 @@ jobs:
         with:
           node-version: 22
 
-      # ===== Dependências =====
-      - name: Install Linux system deps
-        if: matrix.os == 'ubuntu-latest'
-        run: sudo apt-get update && sudo apt-get install -y libkrb5-dev
-
       - name: Install deps
-        run: npm ci --omit=optional
+        run: npm ci
 
-      # ===== Build principal =====
       - name: Build app
         run: |
           npx gulp compile
           npx gulp minify
           npx gulp optimize
 
-      # ===== Package específico de SO =====
-      - name: Package (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: npm run dist:linux
+      - name: Package
+        run: npm run dist:${{ matrix.os == 'ubuntu-latest' && 'linux' || matrix.os == 'macos-latest' && 'mac' || 'win' }}
 
-      - name: Package (macOS)
-        if: matrix.os == 'macos-latest'
-        run: npm run dist:mac
-
-      - name: Package (Windows)
-        if: matrix.os == 'windows-latest'
-        run: npm run dist:win
-
-      # ===== Upload artefatos =====
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-${{ matrix.os }}
           path: dist/*
 
-
+  # ===========================
+  # RELEASE
+  # ===========================
   release:
     name: Create Tag & Release
     needs: build
@@ -102,9 +83,7 @@ jobs:
 
       - name: Extract version
         id: ver
-        run: |
-          VER=$(node -p "require('./package.json').version")
-          echo "version=$VER" >> $GITHUB_OUTPUT
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
 
       - name: Create tag
         uses: actions/github-tag-action@v1.67.0
