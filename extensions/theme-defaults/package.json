@@ -96,6 +96,12 @@
         "label": "Notepad Sharp Turquesa de Inverno",
         "uiTheme": "vs",
         "path": "./themes/nps_zimniybiryuz.json"
+      },
+      {
+        "id": "npsnebulablade",
+        "label": "Notepad Sharp Lâmina de Nebula",
+        "uiTheme":"vs-dark",
+        "path": "./themes/nps_nebulablade.json"
       }
     ],
     "iconThemes": [
