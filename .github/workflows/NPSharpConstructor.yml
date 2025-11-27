@@ -11,6 +11,62 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # ===========================
+  # TESTES + HYGIENE
+  # ===========================
+  test:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Dependências Linux
+      - name: Install Linux deps
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+          build-essential \
+          python3 \
+          libkrb5-dev \
+          libx11-dev \
+          libxkbfile-dev \
+          pkg-config \
+          libsecret-1-dev
+
+      # 🔑 Atualiza lock file antes do ci
+      - name: Ensure lock file matches package.json
+        run: npm install
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      # Node tests
+      - name: Run Node tests
+        run: npm run test-node
+
+      # Browser tests (Playwright)
+      - name: Run Browser tests
+        run: |
+          npx playwright install
+          npm run test-browser-no-install
+
+      # Hygiene
+      - name: Hygiene checks
+        run: npm run hygiene
+
+  # ===========================
+  # BUILD BINÁRIO
+  # ===========================
   build:
     name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -33,6 +89,7 @@ jobs:
       - name: Patch npm user-agent
         run: npm config set user-agent "npm/9.0 NPSharpBuilder"
 
+      # Linux deps
       - name: Install Linux deps
         if: runner.os == 'Linux'
         run: |
@@ -45,10 +102,12 @@ jobs:
             libgstreamer1.0-0 libgstreamer-plugins-base1.0-0 gstreamer1.0-plugins-base gstreamer1.0-gl \
             gstreamer1.0-libav gstreamer1.0-plugins-good
 
-      - name: Clean npm cache
-        run: npm cache clean --force
-
       - name: Install root dependencies
+      # Atualiza lock file pro build também
+      - name: Ensure lock file matches package.json
+        run: npm install
+
+      - name: Install npm dependencies
         run: npm ci
 
       - name: Install extension dependencies
