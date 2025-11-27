@@ -27,11 +27,14 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Build (gulp compile)
-        run: npx gulp compile
+      - name: Test Node
+        run: npm run test-node
 
-      - name: Hygiene checks (like VSCode)
-        run: npx gulp hygiene
+      - name: Test Browser
+        run: npm run test-browser-no-install
+
+      - name: Hygiene
+        run: npm run hygiene
 
   # ===========================
   # BUILD BINÁRIO
@@ -55,20 +58,28 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Build app
-        run: |
-          npx gulp compile
-          npx gulp minify
-          npx gulp optimize
+      - name: Compile
+        run: npm run compile
 
-      - name: Package
-        run: npm run dist:${{ matrix.os == 'ubuntu-latest' && 'linux' || matrix.os == 'macos-latest' && 'mac' || 'win' }}
+      - name: Minify VSCode
+        run: npm run minify-vscode
+
+      - name: Compile build bundle
+        run: npm run compile-build
+
+      # No VSCode, "empacotar" é gerar diretórios e assets em ./out e ./build
+      - name: Package artifacts
+        run: |
+          mkdir -p dist
+          cp -r out dist/out
+          cp -r build dist/build
+          cp package.json dist/package.json
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-${{ matrix.os }}
-          path: dist/*
+          path: dist/
 
   # ===========================
   # RELEASE
@@ -91,7 +102,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: v${{ steps.ver.outputs.version }}
 
-      - name: Download artifacts
+      - name: Download builds
         uses: actions/download-artifact@v4
         with:
           path: all_builds
