@@ -102,6 +102,12 @@
         "label": "Notepad Sharp Lâmina de Nebula",
         "uiTheme":"vs-dark",
         "path": "./themes/nps_nebulablade.json"
+      },
+           {
+        "id": "npsemeraldviper",
+        "label": "Notepad Sharp Víbora esmeralda",
+        "uiTheme":"vs-dark",
+        "path": "./themes/nps_emeraldviper.json"
       }
     ],
     "iconThemes": [

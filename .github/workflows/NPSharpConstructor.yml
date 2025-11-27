@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: 22
 
+      # Dependências Linux
       - name: Install Linux deps
         if: runner.os == 'Linux'
         run: |
@@ -37,17 +38,24 @@ jobs:
           pkg-config \
           libsecret-1-dev
 
+      # 🔑 Atualiza lock file antes do ci
+      - name: Ensure lock file matches package.json
+        run: npm install
+
       - name: Install npm dependencies
         run: npm ci
 
+      # Node tests
       - name: Run Node tests
         run: npm run test-node
 
+      # Browser tests (Playwright)
       - name: Run Browser tests
         run: |
           npx playwright install
           npm run test-browser-no-install
 
+      # Hygiene
       - name: Hygiene checks
         run: npm run hygiene
 
@@ -70,11 +78,16 @@ jobs:
         with:
           node-version: 22
 
+      # Linux deps
       - name: Install Linux deps
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y libkrb5-dev build-essential python3
+
+      # Atualiza lock file pro build também
+      - name: Ensure lock file matches package.json
+        run: npm install
 
       - name: Install npm dependencies
         run: npm ci
