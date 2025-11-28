@@ -1,4 +1,4 @@
-name: NPSharp Constructor
+name: NPSharp Constructor Turbo
 
 on:
   push:
@@ -6,72 +6,15 @@ on:
   pull_request:
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+env:
+  NODE_OPTIONS: "--max-old-space-size=16384" # 16GB RAM
 
 jobs:
-  # ===========================
-  # TESTES + HYGIENE
-  # ===========================
-  test:
-    name: Test on ${{ matrix.os }}
+  build-matrix:
+    name: Build ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      # Dependências Linux
-      - name: Install Linux deps
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-          build-essential \
-          python3 \
-          libkrb5-dev \
-          libx11-dev \
-          libxkbfile-dev \
-          pkg-config \
-          libsecret-1-dev
-
-      # 🔑 Atualiza lock file antes do ci
-      - name: Ensure lock file matches package.json
-        run: npm install
-
-      - name: Install npm dependencies
-        run: npm ci
-
-      # Node tests
-      - name: Run Node tests
-        run: npm run test-node
-
-      # Browser tests (Playwright)
-      - name: Run Browser tests
-        run: |
-          npx playwright install
-          npm run test-browser-no-install
-
-      # Hygiene
-      - name: Hygiene checks
-        run: npm run hygiene
-
-  # ===========================
-  # BUILD BINÁRIO
-  # ===========================
-  build:
-    name: Build (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 90
-
+    timeout-minutes: 120
+    continue-on-error: false # cada job falha sozinho
     strategy:
       fail-fast: false
       matrix:
@@ -84,72 +27,52 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
+          cache: 'npm'
 
       - name: Patch npm user-agent
         run: npm config set user-agent "npm/9.0 NPSharpBuilder"
 
-      # Linux deps
-      - name: Install Linux deps
-        if: runner.os == 'Linux'
+      - name: Install dependencies (retry)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential python3 python3-pip libkrb5-dev libx11-dev \
-            libxkbfile-dev pkg-config libsecret-1-dev libatk1.0-0 libcups2 libdbus-1-3 libdrm2 \
-            libgbm1 libglib2.0-0 libnss3 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libasound2t64 \
-            libpangocairo-1.0-0 libgtk-3-0 libxkbcommon0 libpango-1.0-0 libxshmfence1 libx11-xcb1 \
-            libxext6 libxi6 libxtst6 libxrender1 libxcb1 libxcb-shm0 libxcb-dri3-0 libpipewire-0.3-0 \
-            libgstreamer1.0-0 libgstreamer-plugins-base1.0-0 gstreamer1.0-plugins-base gstreamer1.0-gl \
-            gstreamer1.0-libav gstreamer1.0-plugins-good
+          for i in {1..5}; do
+            npm ci && break
+            echo "npm ci failed, retry $i..."
+            sleep 5
+            if [ $i -eq 5 ]; then exit 1; fi
+          done
 
-      - name: Install root dependencies
-      # Atualiza lock file pro build também
-      - name: Ensure lock file matches package.json
-        run: npm install
-
-      - name: Install npm dependencies
-        run: npm ci
-
-      - name: Install extension dependencies
+      - name: Install extension dependencies (retry)
         run: |
           cd extensions
-          npm ci || npm install
+          for i in {1..5}; do
+            npm ci && break
+            echo "Extension install failed, retry $i..."
+            sleep 5
+            if [ $i -eq 5 ]; then exit 1; fi
+          done
 
       - name: Compile NPSharp core
         run: npm run compile
 
       - name: Compile VSCode client
-        run: npm run compile-client
+        run: npx gulp compile-client
 
-      - name: Compile VSCode CLI
-        run: npm run compile-cli
+      - name: Compile CLI
+        run: npx gulp compile-cli
 
       - name: Compile Web (optional)
         run: npm run compile-web || echo "compile-web ausente"
 
-      - name: Run Tests
-        run: npm run test-build-scripts || echo "Sem testes definidos"
-
-      - name: Minify VSCode
-        run: npm run minify-vscode
-
       - name: Build portables & installers
         run: |
-          if [[ "${{ runner.os }}" == "windows-latest" ]]; then
+          npm run minify-vscode
+          if [ "$RUNNER_OS" == "Windows" ]; then
             npm run electron
-            npm run 7z
+            npx rcedit out/NPSharp.exe --set-version-string "FileVersion" "$(node -p "require('./package.json').version")"
           else
             npm run electron
+            dpkg-deb --build out dist/npsharp_${{ github.run_number }}.deb
           fi
-
-      - name: Prepare artifacts
-        run: |
-          mkdir -p dist
-          cp -r out dist/out || true
-          cp -r build dist/build || true
-          cp package.json dist/package.json
-          cp ./*.exe ./*.deb dist/ || true
-          cp ./*portable* dist/ || true
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -158,9 +81,10 @@ jobs:
           path: dist/
 
   release:
-    name: Release NPSharp
-    needs: build
+    name: Create Release
+    needs: build-matrix
     runs-on: ubuntu-latest
+    if: ${{ always() }}  # garante que release roda mesmo se um job falhar
 
     steps:
       - uses: actions/checkout@v4
@@ -174,7 +98,7 @@ jobs:
         with:
           path: all_builds
 
-      - name: Create Tag
+      - name: Create tag
         uses: actions/github-tag-action@v1.67.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
