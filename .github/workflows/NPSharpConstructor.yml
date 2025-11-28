@@ -7,11 +7,12 @@ on:
 
 jobs:
   # ===========================
-  # TESTES + HYGIENEa
+  # TESTES + HYGIENE
   # ===========================
   test:
     name: Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -24,56 +25,48 @@ jobs:
         with:
           node-version: 22
 
-      # Dependências Linux
+      # Dependências Linux para kerberos, node-pty, chokidar antigo e x11 libs
       - name: Install Linux deps
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            libgtk-4-1 \
-            libgraphene-1.0-0 \
-            libvpx9 \
-            libevent-2.1-7 \
-            libopus0 \
-            gstreamer1.0-libav \
-            gstreamer1.0-plugins-base \
-            gstreamer1.0-plugins-good \
-            gstreamer1.0-plugins-bad \
-            gstreamer1.0-plugins-ugly \
-            gstreamer1.0-tools \
-            libflite1 \
-            libavif16 \
-            libharfbuzz-icu0 \
-            libhyphen0 \
+            build-essential \
+            python3 \
+            python3-pip \
+            libkrb5-dev \
+            libx11-dev \
+            libxkbfile-dev \
+            pkg-config \
+            libsecret-1-dev
 
-      # 🔑 Atualiza lock file antes do ci
+      # Atualiza lock
       - name: Ensure lock file matches package.json
         run: npm install
 
       - name: Install npm dependencies
         run: npm ci
 
-      # Node tests
       - name: Run Node tests
         run: npm run test-node
 
-      # Browser tests (Playwright)
       - name: Run Browser tests
         run: |
           npx playwright install
           npm run test-browser-no-install
 
-      # Hygiene
       - name: Hygiene checks
         run: npm run hygiene
 
+
   # ===========================
-  # BUILD BINÁRIO
+  # BUILD BINÁRIOS
   # ===========================
   build:
     name: Build binaries (${{ matrix.os }})
     needs: test
     runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -86,14 +79,20 @@ jobs:
         with:
           node-version: 22
 
-      # Linux deps
       - name: Install Linux deps
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libkrb5-dev build-essential python3
+          sudo apt-get install -y \
+            build-essential \
+            python3 \
+            libkrb5-dev \
+            libx11-dev \
+            libxkbfile-dev \
+            pkg-config \
+            libsecret-1-dev
 
-      # Atualiza lock file pro build também
+      # Atualiza lock
       - name: Ensure lock file matches package.json
         run: npm install
 
@@ -109,7 +108,7 @@ jobs:
       - name: Compile build bundle
         run: npm run compile-build
 
-      - name: Package artifacts
+      - name: Prepare artifacts
         run: |
           mkdir -p dist
           cp -r out dist/out
@@ -122,8 +121,9 @@ jobs:
           name: build-${{ matrix.os }}
           path: dist/
 
+
   # ===========================
-  # RELEASE
+  # RELEASE FINAL
   # ===========================
   release:
     name: Create Tag & Release
