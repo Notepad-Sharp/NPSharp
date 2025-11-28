@@ -11,7 +11,7 @@ env:
 
 jobs:
   tests:
-    name: Run Tests & Code Script
+    name: Run Tests & Code Script on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -33,10 +33,10 @@ jobs:
         run: |
           if [ "${{ runner.os }}" == "Linux" ]; then
             sudo apt-get update
-            sudo apt-get install -y libkrb5-dev build-essential python3
+            sudo apt-get install -y libkrb5-dev build-essential python3 pkg-config libx11-dev libxkbfile-dev
           elif [ "${{ runner.os }}" == "macOS" ]; then
             brew update
-            brew install krb5
+            brew install krb5 pkg-config
           fi
 
       - name: Install npm dependencies
@@ -56,7 +56,6 @@ jobs:
           else
             chmod +x scripts/code.sh
             ./scripts/code.sh
-          fi
 
   build:
     name: Build Portables & Installers
@@ -92,7 +91,6 @@ jobs:
           else
             npm run electron
             dpkg-deb --build out dist/npsharp_${{ github.run_number }}.deb
-          fi
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
