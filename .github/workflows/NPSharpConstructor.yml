@@ -11,14 +11,13 @@ env:
 
 jobs:
   tests:
-    name: Run Tests & Code Script on ${{ matrix.os }}
+    name: Run Tests & Code Script
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
       fail-fast: false
     timeout-minutes: 60
-    continue-on-error: false
 
     steps:
       - uses: actions/checkout@v4
@@ -29,7 +28,18 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
+      - name: Install system dependencies (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: |
+          if [ "${{ runner.os }}" == "Linux" ]; then
+            sudo apt-get update
+            sudo apt-get install -y libkrb5-dev build-essential python3
+          elif [ "${{ runner.os }}" == "macOS" ]; then
+            brew update
+            brew install krb5
+          fi
+
+      - name: Install npm dependencies
         run: npm ci
 
       - name: Compile NPSharp core & extensions
@@ -41,7 +51,7 @@ jobs:
 
       - name: Run code script
         run: |
-          if [ "${{ runner.os }}" = "Windows" ]; then
+          if [ "${{ runner.os }}" == "Windows" ]; then
             .\scripts\code.bat
           else
             chmod +x scripts/code.sh
@@ -57,7 +67,6 @@ jobs:
         os: [ubuntu-latest, windows-latest]
       fail-fast: false
     timeout-minutes: 120
-    continue-on-error: false
 
     steps:
       - uses: actions/checkout@v4
@@ -76,7 +85,7 @@ jobs:
       - name: Build Portable & Installer
         run: |
           mkdir -p dist
-          if [ "${{ runner.os }}" = "Windows" ]; then
+          if [ "${{ runner.os }}" == "Windows" ]; then
             npm run electron
             npx rcedit out/NPSharp.exe --set-version-string "FileVersion" "$(node -p "require('./package.json').version")"
             cp out/NPSharp.exe dist/
@@ -88,7 +97,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ matrix.os }}
+          name: build-${{ runner.os }}
           path: dist/
 
   release:
