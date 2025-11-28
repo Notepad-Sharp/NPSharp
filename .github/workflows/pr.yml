@@ -26,10 +26,18 @@ jobs:
           npm install --legacy-peer-deps
       - name: Build Linux (Portable + Installer)
         run: npm run compile-build
+
+      - name: Debug – listar arquivos gerados
+        run: |
+          echo "=== WORKSPACE ==="
+          pwd
+          echo "=== ARQUIVOS ==="
+          ls -R .
+
       - uses: actions/upload-artifact@v5
         with:
           name: linux-artifacts
-          path: ./out
+          path: ./out  # vamos ajustar após descobrir
 
   build-windows:
     name: Build Windows
@@ -47,10 +55,18 @@ jobs:
         run: npm install --legacy-peer-deps
       - name: Build Windows (Portable + Installer)
         run: npm run compile-build
+
+      - name: Debug – listar arquivos gerados
+        run: |
+          echo "=== WORKSPACE ==="
+          powershell -command "pwd"
+          echo "=== ARQUIVOS ==="
+          powershell -command "Get-ChildItem -Recurse"
+
       - uses: actions/upload-artifact@v5
         with:
           name: windows-artifacts
-          path: ./out
+          path: ./out  # vamos ajustar quando acharmos a pasta
 
   release:
     name: Release All Artifacts
