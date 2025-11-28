@@ -32,7 +32,6 @@ jobs:
           sudo apt-get install -y \
             libgtk-4-1 \
             libgraphene-1.0-0 \
-            libwoff2-1 \
             libvpx9 \
             libevent-2.1-7 \
             libopus0 \
@@ -46,8 +45,6 @@ jobs:
             libavif16 \
             libharfbuzz-icu0 \
             libhyphen0 \
-            libgles2-mesa \
-            libx264-163
 
       # 🔑 Atualiza lock file antes do ci
       - name: Ensure lock file matches package.json
