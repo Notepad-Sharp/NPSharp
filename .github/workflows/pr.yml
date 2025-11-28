@@ -1,157 +1,145 @@
-name: Code OSS CI/CD
+name: NPSHARP Build & Release
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-      - 'release/*'
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  workflow_dispatch:
 
 env:
-  VSCODE_QUALITY: 'oss'
+  PROJECT_QUALITY: 'oss'
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  # -----------------------------------
-  # Build & Test Linux
-  # -----------------------------------
+  compile:
+    name: Compile & Prepare
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential pkg-config libx11-dev libxkbfile-dev libnotify-bin libkrb5-dev
+          npm ci
+
+      - name: Compile NPSHARP
+        run: npm exec -- npm-run-all -lp core-ci extensions-ci hygiene
+
+      - name: Save artifacts for other jobs
+        uses: actions/upload-artifact@v5
+        with:
+          name: npsharp-build
+          path: |
+            .build
+            node_modules
+
   linux-build:
-    name: Linux Build & Test
-    runs-on: [ self-hosted, 1ES.Pool=1es-vscode-oss-ubuntu-22.04-x64 ]
+    name: Linux Build
+    needs: compile
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-node@v6
+      - uses: actions/download-artifact@v5
         with:
-          node-version-file: .nvmrc
+          name: npsharp-build
+          path: .
 
-      - name: Install Linux deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential pkg-config xvfb libgtk-3-0 libxkbfile-dev libnotify-bin libkrb5-dev libgbm1 rpm
+      - name: Build Linux Portables & Installer
+        run: npm run gulp npsharp-linux
 
-      - name: Install Node modules
-        run: npm ci
-
-      - name: Transpile
-        run: npm run gulp transpile-client-esbuild transpile-extensions
-
-      - name: Build Linux Portables/Installers
-        run: npm run gulp vscode-linux-build
-
-      - name: Upload Linux artifacts
+      - name: Upload Linux Artifacts
         uses: actions/upload-artifact@v5
         with:
           name: linux-artifacts
-          path: out/linux
+          path: ./out
 
-  # -----------------------------------
-  # Build & Test macOS
-  # -----------------------------------
-  macos-build:
-    name: macOS Build & Test
-    runs-on: macos-14-xlarge
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: .nvmrc
-      - name: Install deps
-        run: |
-          python3 -m pip install --break-system-packages setuptools
-      - name: Install Node modules
-        run: npm ci
-      - name: Transpile
-        run: npm run gulp transpile-client-esbuild transpile-extensions
-      - name: Build macOS Portables/Installers
-        run: npm run gulp vscode-darwin-build
-      - name: Upload macOS artifacts
-        uses: actions/upload-artifact@v5
-        with:
-          name: macos-artifacts
-          path: out/darwin
-
-  # -----------------------------------
-  # Build & Test Windows
-  # -----------------------------------
   windows-build:
-    name: Windows Build & Test
-    runs-on: [ self-hosted, 1ES.Pool=1es-vscode-oss-windows-2022-x64 ]
+    name: Windows Build
+    needs: compile
+    runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/download-artifact@v5
         with:
-          node-version-file: .nvmrc
-      - name: Install Node modules
-        run: npm ci
-      - name: Transpile
-        run: npm run gulp transpile-client-esbuild transpile-extensions
-      - name: Build Windows Portables/Installers
-        run: npm run gulp vscode-win32-build
-      - name: Upload Windows artifacts
+          name: npsharp-build
+          path: .
+
+      - name: Build Windows Portables & Installer
+        run: npm run gulp npsharp-win32
+
+      - name: Upload Windows Artifacts
         uses: actions/upload-artifact@v5
         with:
           name: windows-artifacts
-          path: out/win32
+          path: ./out
 
-  # -----------------------------------
-  # Create Release & Upload Artifacts
-  # -----------------------------------
-  create-release:
-    name: Create GitHub Release
-    needs: [linux-build, macos-build, windows-build]
-    runs-on: ubuntu-latest
+  macos-build:
+    name: macOS Build
+    needs: compile
+    runs-on: macos-14
     steps:
-      - uses: actions/checkout@v6
-
-      - name: Download Linux artifacts
-        uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v5
         with:
-          name: linux-artifacts
-          path: release/linux
+          name: npsharp-build
+          path: .
 
-      - name: Download macOS artifacts
-        uses: actions/download-artifact@v5
+      - name: Build macOS Portables & Installer
+        run: npm run gulp npsharp-darwin
+
+      - name: Upload macOS Artifacts
+        uses: actions/upload-artifact@v5
         with:
           name: macos-artifacts
-          path: release/macos
+          path: ./out
 
-      - name: Download Windows artifacts
-        uses: actions/download-artifact@v5
-        with:
-          name: windows-artifacts
-          path: release/windows
+  create-release:
+    name: Create Tag & Release
+    needs: [linux-build, windows-build, macos-build]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-      - name: Create Tag
-        id: create_tag
+      - name: Set Tag
+        id: tag
         run: |
-          VERSION="v$(date +'%Y.%m.%d.%H%M')"
-          echo "Tag=$VERSION" >> $GITHUB_OUTPUT
-          git tag $VERSION
-          git push origin $VERSION
+          TAG="v$(date +'%Y.%m.%d.%H%M')"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          git tag $TAG
+          git push origin $TAG
 
-      - name: Create GitHub Release
+      - name: Create Release
+        id: create_release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.create_tag.outputs.Tag }}
-          name: ${{ steps.create_tag.outputs.Tag }}
-          body: "Automated release of all platforms"
+          tag: ${{ env.TAG }}
+          name: "NPSHARP ${{ env.TAG }}"
+          body: "Automated build release"
           draft: false
           prerelease: false
 
-      - name: Upload release assets
-        uses: softprops/action-gh-release@v1
+      - name: Upload Linux Artifacts
+        uses: actions/upload-release-asset@v1
         with:
-          files: |
-            release/linux/*.tar.gz
-            release/linux/*.deb
-            release/linux/*.rpm
-            release/macos/*.zip
-            release/macos/*.dmg
-            release/windows/*.exe
-            release/windows/*.zip
+          upload_url: ${{ steps.create_release.outputs.upload_url || '' }}
+          asset_path: ./out/linux/*.tar.gz
+          asset_name: npsharp-linux.tar.gz
+          asset_content_type: application/gzip
+
+      - uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url || '' }}
+          asset_path: ./out/windows/*.zip
+          asset_name: npsharp-win32.zip
+          asset_content_type: application/zip
+
+      - uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url || '' }}
+          asset_path: ./out/macos/*.zip
+          asset_name: npsharp-darwin.zip
+          asset_content_type: application/zip
