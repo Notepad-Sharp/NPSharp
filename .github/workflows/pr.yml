@@ -7,27 +7,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup-node:
-    name: Setup Node
+  build-linux:
+    name: Build Linux
     runs-on: ubuntu-22.04
-    outputs:
-      node-version: 22
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 22.15.1
       - name: Verify Node
         run: |
           node -v
           npm -v
-
-  build-linux:
-    name: Build Linux
-    runs-on: ubuntu-22.04
-    needs: setup-node
-    steps:
-      - uses: actions/checkout@v6
       - name: Install dependencies
         run: |
           sudo apt update
@@ -43,9 +34,15 @@ jobs:
   build-windows:
     name: Build Windows
     runs-on: windows-2022
-    needs: setup-node
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22.15.1
+      - name: Verify Node
+        run: |
+          node -v
+          npm -v
       - name: Install dependencies
         run: npm install --legacy-peer-deps
       - name: Build Windows (Portable + Installer)
@@ -58,9 +55,15 @@ jobs:
   build-macos:
     name: Build macOS
     runs-on: macos-14
-    needs: setup-node
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22.15.1
+      - name: Verify Node
+        run: |
+          node -v
+          npm -v
       - name: Install dependencies
         run: npm install --legacy-peer-deps
       - name: Build macOS (Portable + Installer)
