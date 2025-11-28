@@ -29,7 +29,7 @@ jobs:
       - uses: actions/upload-artifact@v5
         with:
           name: linux-artifacts
-          path: ./out/**   # <- pega tudo dentro de out
+          path: ./out
 
   build-windows:
     name: Build Windows
@@ -50,7 +50,7 @@ jobs:
       - uses: actions/upload-artifact@v5
         with:
           name: windows-artifacts
-          path: ./out/**   # <- pega tudo dentro de out
+          path: ./out
 
   build-macos:
     name: Build macOS
@@ -65,14 +65,13 @@ jobs:
           node -v
           npm -v
       - name: Install dependencies
-        run: |
-          npm install --legacy-peer-deps || echo "macOS install falhou, ignorando por enquanto"
+        run: npm install --legacy-peer-deps
       - name: Build macOS (Portable + Installer)
-        run: npm run compile-build || echo "macOS build falhou, ignorando por enquanto"
+        run: npm run compile-build
       - uses: actions/upload-artifact@v5
         with:
           name: macos-artifacts
-          path: ./out/**   # <- pega tudo dentro de out
+          path: ./out
 
   release:
     name: Release All Artifacts
