@@ -86,7 +86,7 @@ jobs:
     with:
       job_name: CLI
       rustup_toolchain: 1.85
-    runs-on: ubuntu-latest  # adicionado
+
 
   linux-electron-tests:
     name: Linux
@@ -94,7 +94,7 @@ jobs:
     with:
       job_name: Electron
       electron_tests: true
-    runs-on: ubuntu-latest  # adicionado
+
 
   linux-browser-tests:
     name: Linux
@@ -102,7 +102,7 @@ jobs:
     with:
       job_name: Browser
       browser_tests: true
-    runs-on: ubuntu-latest  # adicionado
+
 
   linux-remote-tests:
     name: Linux
@@ -110,7 +110,7 @@ jobs:
     with:
       job_name: Remote
       remote_tests: true
-    runs-on: ubuntu-latest  # adicionado
+
 
   macos-electron-tests:
     name: macOS
@@ -118,7 +118,7 @@ jobs:
     with:
       job_name: Electron
       electron_tests: true
-    runs-on: macos-latest  # adicionado
+
 
   macos-browser-tests:
     name: macOS
@@ -126,7 +126,7 @@ jobs:
     with:
       job_name: Browser
       browser_tests: true
-    runs-on: macos-latest  # adicionado
+   
 
   macos-remote-tests:
     name: macOS
@@ -134,7 +134,7 @@ jobs:
     with:
       job_name: Remote
       remote_tests: true
-    runs-on: macos-latest  # adicionado
+
 
   windows-electron-tests:
     name: Windows
@@ -142,7 +142,7 @@ jobs:
     with:
       job_name: Electron
       electron_tests: true
-    runs-on: windows-latest  # adicionado
+
 
   windows-browser-tests:
     name: Windows
@@ -150,7 +150,7 @@ jobs:
     with:
       job_name: Browser
       browser_tests: true
-    runs-on: windows-latest  # adicionado
+
 
   windows-remote-tests:
     name: Windows
@@ -158,4 +158,4 @@ jobs:
     with:
       job_name: Remote
       remote_tests: true
-    runs-on: windows-latest  # adicionado
+      # adicionado
