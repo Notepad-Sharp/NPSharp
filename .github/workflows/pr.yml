@@ -8,23 +8,19 @@ on:
 
 jobs:
   setup-node:
-    name: Setup Node Cache
+    name: Setup Node
     runs-on: ubuntu-22.04
     outputs:
-      cache-hit: ${{ steps.cache-node.outputs.cache-hit }}
+      node-version: 22
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
-          node-version-file: .nvmrc
-      - name: Cache Node Modules
-        id: cache-node
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.npm
-            node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
+          node-version: 22
+      - name: Verify Node
+        run: |
+          node -v
+          npm -v
 
   build-linux:
     name: Build Linux
