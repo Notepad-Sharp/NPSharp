@@ -30,13 +30,8 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        shell: ${{ matrix.os == 'windows-latest' && 'pwsh' || 'bash' }}
         run: |
-          if ($env:RUNNER_OS -eq 'Windows') {
-            npm ci
-          } else {
-            npm ci
-          }
+          npm ci
 
       - name: Compile NPSharp core & extensions
         run: |
@@ -46,14 +41,13 @@ jobs:
           npm run compile-web || echo "Web compile skipped"
 
       - name: Run code script
-        shell: ${{ matrix.os == 'windows-latest' && 'pwsh' || 'bash' }}
         run: |
-          if ($env:RUNNER_OS -eq 'Windows') {
+          if [ "${{ runner.os }}" = "Windows" ]; then
             .\scripts\code.bat
-          } else {
+          else
             chmod +x scripts/code.sh
             ./scripts/code.sh
-          }
+          fi
 
   build:
     name: Build Portables & Installers
@@ -81,17 +75,16 @@ jobs:
           npm run minify-vscode
 
       - name: Build Portable & Installer
-        shell: ${{ matrix.os == 'windows-latest' && 'pwsh' || 'bash' }}
         run: |
           mkdir -p dist
-          if ($env:RUNNER_OS -eq 'Windows') {
+          if [ "${{ runner.os }}" = "Windows" ]; then
             npm run electron
             npx rcedit out/NPSharp.exe --set-version-string "FileVersion" "$(node -p "require('./package.json').version")"
-            Copy-Item out/NPSharp.exe dist/
-          } else {
+            cp out/NPSharp.exe dist/
+          else
             npm run electron
-            dpkg-deb --build out dist/npsharp_${env:GITHUB_RUN_NUMBER}.deb
-          }
+            dpkg-deb --build out dist/npsharp_${{ github.run_number }}.deb
+          fi
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -109,27 +102,3 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Extract version
-        id: ver
-        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: all_builds
-
-      - name: Create Git tag
-        uses: actions/github-tag-action@v1.67.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: v${{ steps.ver.outputs.version }}
-
-      - name: Publish Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ steps.ver.outputs.version }}
-          name: NPSharp v${{ steps.ver.outputs.version }}
-          draft: false
-          prerelease: false
-          files: all_builds/**/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
