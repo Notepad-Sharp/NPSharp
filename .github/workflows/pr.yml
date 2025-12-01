@@ -26,6 +26,13 @@ jobs:
           npm install --legacy-peer-deps
       - name: Build Linux (Portable + Installer)
         run: npm run compile-build
+
+      - name: Move external build into ./out
+        run: |
+          mkdir -p out
+          cd ..
+          cp -R build/* npsharp/out/
+
       - name: Debug Linux output
         run: |
           echo "PWD: $(pwd)"
@@ -52,6 +59,13 @@ jobs:
         run: npm install --legacy-peer-deps
       - name: Build Windows (Portable + Installer)
         run: npm run compile-build
+
+      - name: Move external build into ./out
+        run: |
+          mkdir out 2>$null
+          cd ..
+          xcopy build\* npsharp\out\ /E /I /Y
+
       - name: Debug Windows output
         run: |
           echo %CD%
