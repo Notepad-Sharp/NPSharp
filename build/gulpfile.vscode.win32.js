@@ -17,8 +17,9 @@ const vfs = require('vinyl-fs');
 const rcedit = require('rcedit');
 
 const repoPath = path.dirname(__dirname);
-const buildPath = arch => path.join(repoPath, 'out', `NPSharp-win32-${arch}`);
-const setupDir = (/** @type {string} */ arch, /** @type {string} */ target) => path.join(repoPath, '.build', `win32-${arch}`, `${target}-setup`);
+const outputRoot = path.resolve(__dirname, 'out');
+const buildPath = (arch) => path.join(outputRoot, `NPSharp-win32-${arch}`);
+const setupDir = (arch, target) => path.join(outputRoot, `win32-${arch}`, `${target}-setup`);
 const issPath = path.join(__dirname, 'win32', 'code.iss');
 const innoSetupPath = path.join(path.dirname(path.dirname(require.resolve('innosetup'))), 'bin', 'ISCC.exe');
 const signWin32Path = path.join(repoPath, 'build', 'azure-pipelines', 'common', 'sign-win32');
