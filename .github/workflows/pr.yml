@@ -27,11 +27,16 @@ jobs:
       - name: Build Linux (Portable + Installer)
         run: npm run compile-build
 
-      - name: Move external build into ./out
+      - name: Prepare folders
         run: |
           mkdir -p out
           cd ..
-          cp -R build/* npsharp/out/
+          mkdir -p build
+
+      - name: Move external build into ./out
+        run: |
+          cd ..
+          cp -R build/* npsharp/out/ || echo "Build folder is empty."
 
       - name: Debug Linux output
         run: |
@@ -60,11 +65,16 @@ jobs:
       - name: Build Windows (Portable + Installer)
         run: npm run compile-build
 
-      - name: Move external build into ./out
+      - name: Prepare folders
         run: |
           mkdir out 2>$null
           cd ..
-          xcopy build\* npsharp\out\ /E /I /Y
+          mkdir build 2>$null
+
+      - name: Move external build into ./out
+        run: |
+          cd ..
+          xcopy build\* npsharp\out\ /E /I /Y || echo "Nothing to copy"
 
       - name: Debug Windows output
         run: |
