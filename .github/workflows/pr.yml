@@ -12,35 +12,32 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v6
+
       - uses: actions/setup-node@v6
         with:
           node-version: 22.15.1
-      - name: Verify Node
-        run: |
-          node -v
-          npm -v
-      - name: Install dependencies
+
+      - name: Install Linux dependencies
         run: |
           sudo apt update
           sudo apt install -y build-essential libx11-dev libxkbfile-dev libnotify-bin pkg-config libkrb5-dev
           npm install --legacy-peer-deps
-      - name: Build Linux (Portable + Installer)
+
+      - name: Build Linux
         run: npm run compile-build
 
       - name: Move external build into ./out
         run: |
+          echo "[LINUX] Movendo pasta ../build para ./out"
           mkdir -p out
           cd ..
           cp -R build/* npsharp/out/
+          echo "Conteúdo final:"
+          ls -la npsharp/out
 
-      - name: Debug Linux output
-        run: |
-          echo "PWD: $(pwd)"
-          echo "Files in ./out:"
-          ls -la ./out || echo "./out does not exist!"
       - uses: actions/upload-artifact@v5
         with:
-          name: linux-artifacts
+          name: linux_artifacts
           path: ./out
 
   build-windows:
@@ -48,31 +45,30 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v6
+
       - uses: actions/setup-node@v6
         with:
           node-version: 22.15.1
-      - name: Verify Node
-        run: |
-          node -v
-          npm -v
-      - name: Install dependencies
+
+      - name: Install Windows dependencies
         run: npm install --legacy-peer-deps
-      - name: Build Windows (Portable + Installer)
+
+      - name: Build Windows
         run: npm run compile-build
 
-      - name: Move external build into ./out
+      - name: Move external build into ./out"
+        shell: cmd
         run: |
-          mkdir out 2>$null
+          echo [WINDOWS] Movendo pasta ..\build para .\out
+          mkdir out 2>NUL
           cd ..
           xcopy build\* npsharp\out\ /E /I /Y
+          cd npsharp
+          dir out
 
-      - name: Debug Windows output
-        run: |
-          echo %CD%
-          dir .\out || echo ".\out does not exist!"
       - uses: actions/upload-artifact@v5
         with:
-          name: windows-artifacts
+          name: windows_artifacts
           path: ./out
 
   release:
@@ -81,20 +77,18 @@ jobs:
     needs: [build-linux, build-windows]
     steps:
       - uses: actions/checkout@v6
-      - name: Debug Release folder
-        run: |
-          echo "PWD: $(pwd)"
-          echo "Files in ./release:"
-          ls -la ./release || echo "./release does not exist!"
-      - name: Download Artifacts
+
+      - name: Download build artifacts
         uses: actions/download-artifact@v5
         with:
           path: ./release
-      - name: List downloaded artifacts
+
+      - name: Show downloaded files
         run: |
-          echo "Files after download:"
-          ls -la ./release || echo "Nothing downloaded!"
-      - name: Create GitHub Release
+          echo "Arquivos em ./release:"
+          ls -R ./release
+
+      - name: Create Release
         uses: ncipollo/release-action@v1
         with:
           tag: "v${{ github.run_number }}"
