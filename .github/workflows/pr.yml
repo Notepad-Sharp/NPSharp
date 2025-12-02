@@ -10,6 +10,7 @@ jobs:
   build-linux:
     name: Build Linux
     runs-on: ubuntu-22.04
+
     steps:
       - uses: actions/checkout@v6
 
@@ -17,32 +18,50 @@ jobs:
         with:
           node-version: 22.15.1
 
-      - name: Install Linux dependencies
+      - name: Verify Node
+        run: |
+          node -v
+          npm -v
+
+      - name: Install dependencies
         run: |
           sudo apt update
           sudo apt install -y build-essential libx11-dev libxkbfile-dev libnotify-bin pkg-config libkrb5-dev
           npm install --legacy-peer-deps
 
-      - name: Build Linux
+      - name: Build Linux (Portable + Installer)
         run: npm run compile-build
 
-      - name: Move external build into ./out
+      - name: Find build folder (AUTO)
         run: |
-          echo "[LINUX] Movendo pasta ../build para ./out"
+          echo "Procurando pasta de build..."
+          BUILD_DIR=$(find ../ -maxdepth 3 -type d \( -name "*linux*" -o -name "*build*" -o -name "*x64*" -o -name "dist" \) | head -n 1)
+
+          if [ -z "$BUILD_DIR" ]; then
+            echo "Nenhuma pasta encontrada!"
+            find ../ -maxdepth 3 -type d
+            exit 1
+          fi
+
+          echo "Pasta encontrada: $BUILD_DIR"
+
           mkdir -p out
-          cd ..
-          cp -R build/* npsharp/out/
-          echo "Conteúdo final:"
-          ls -la npsharp/out
+          cp -R "$BUILD_DIR"/* out/
+
+      - name: Debug Linux output
+        run: |
+          echo "Arquivos em ./out:"
+          ls -la out
 
       - uses: actions/upload-artifact@v5
         with:
-          name: linux_artifacts
+          name: linux-artifacts
           path: ./out
 
   build-windows:
     name: Build Windows
     runs-on: windows-2022
+
     steps:
       - uses: actions/checkout@v6
 
@@ -50,45 +69,66 @@ jobs:
         with:
           node-version: 22.15.1
 
-      - name: Install Windows dependencies
+      - name: Verify Node
+        run: |
+          node -v
+          npm -v
+
+      - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Build Windows
+      - name: Build Windows (Portable + Installer)
         run: npm run compile-build
 
-      - name: Move external build into ./out"
-        shell: cmd
+      - name: Find build folder (AUTO)
+        shell: pwsh
         run: |
-          echo [WINDOWS] Movendo pasta ..\build para .\out
-          mkdir out 2>NUL
-          cd ..
-          xcopy build\* npsharp\out\ /E /I /Y
-          cd npsharp
+          Write-Host "Procurando pasta de build..."
+          $dirs = Get-ChildItem .. -Directory -Recurse | Where-Object {
+            $_.Name -match "win|x64|build|dist"
+          }
+
+          if ($dirs.Count -eq 0) {
+            Write-Host " Nenhuma pasta encontrada!"
+            Get-ChildItem .. -Directory -Recurse
+            exit 1
+          }
+
+          $buildDir = $dirs[0].FullName
+          Write-Host "Pasta encontrada: $buildDir"
+
+          New-Item -ItemType Directory -Force -Path out | Out-Null
+          Copy-Item -Path "$buildDir\*" -Destination "out" -Recurse -Force
+
+      - name: Debug Windows output
+        run: |
+          echo "Arquivos em .\out:"
           dir out
 
       - uses: actions/upload-artifact@v5
         with:
-          name: windows_artifacts
+          name: windows-artifacts
           path: ./out
 
   release:
     name: Release All Artifacts
     runs-on: ubuntu-22.04
     needs: [build-linux, build-windows]
+
     steps:
       - uses: actions/checkout@v6
 
-      - name: Download build artifacts
+      - name: Download Artifacts
         uses: actions/download-artifact@v5
         with:
           path: ./release
 
-      - name: Show downloaded files
+      - name: List downloaded artifacts
         run: |
-          echo "Arquivos em ./release:"
+          echo "Arquivos baixados:"
           ls -R ./release
 
-      - name: Create Release
+      - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           tag: "v${{ github.run_number }}"
