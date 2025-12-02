@@ -1,5 +1,8 @@
 name: NPSHARP Build & Release
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -89,7 +92,7 @@ jobs:
           }
 
           if ($dirs.Count -eq 0) {
-            Write-Host " Nenhuma pasta encontrada!"
+            Write-Host "Nenhuma pasta encontrada!"
             Get-ChildItem .. -Directory -Recurse
             exit 1
           }
