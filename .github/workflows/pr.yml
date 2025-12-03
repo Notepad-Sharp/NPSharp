@@ -1,4 +1,4 @@
-name: NPSharp • Full Auto Build + Release
+name: NPSHARP Build • Release • Deploy
 
 permissions:
   contents: write
@@ -8,12 +8,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-env:
-  BUILD_DIR: ./.build-temp
-  OUT_DIR: ./systembuild
-
 jobs:
   build-linux:
+    name: Build Linux (AppImage + Portable)
     runs-on: ubuntu-22.04
 
     steps:
@@ -23,35 +20,33 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install Linux deps
+      - name: Install dependencies
         run: |
           sudo apt update
           sudo apt install -y \
-            libx11-dev libxkbfile-dev \
-            libsecret-1-dev rpm fakeroot dpkg-dev
+            build-essential \
+            libx11-dev libxkbfile-dev libnotify-bin \
+            libkrb5-dev libsecret-1-dev fakeroot rpm
 
-      - name: Install NPM deps
-        run: npm ci --legacy-peer-deps
+          rm -rf node_modules package-lock.json
+          npm install --legacy-peer-deps
 
-      - name: Compile NPSharp
-        run: npm run compile-build
+      - name: Build Electron Linux
+        run: npm run dist-linux
 
-      - name: Build Linux installers (deb, rpm)
+      - name: Prepare Artifacts
         run: |
-          npx electron-builder --linux deb,rpm --dir -o $BUILD_DIR/linux
+          mkdir artifacts
+          mv dist/*.AppImage artifacts/Linux.AppImage || true
+          mv dist/*-linux.zip artifacts/Linux-Portable.zip || true
 
-      - name: Create Linux portable
-        run: |
-          mkdir -p $BUILD_DIR/linux
-          npx electron-builder --linux zip -o $BUILD_DIR/linux
-
-      - name: Upload Linux artifacts
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: linux
-          path: $BUILD_DIR/linux
+          name: Linux
+          path: artifacts/*
 
   build-windows:
+    name: Build Windows (EXE + Portable)
     runs-on: windows-2022
 
     steps:
@@ -61,67 +56,78 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install deps
-        run: npm ci --legacy-peer-deps
-
-      - name: Compile NPSharp
-        run: npm run compile-build
-
-      - name: Build Windows installer + portable
+      - name: Install dependencies
         run: |
-          npx electron-builder --win nsis --dir -o .build-temp/win
-          npx electron-builder --win zip -o .build-temp/win
+          rm package-lock.json -ea 0
+          rm -r node_modules -ea 0
+          npm install --legacy-peer-deps
 
-      - name: Upload Windows artifacts
-        uses: actions/upload-artifact@v4
+      - name: Build Electron Windows
+        run: npm run dist-win
+
+      - name: Prepare Artifacts
+        shell: pwsh
+        run: |
+          mkdir artifacts
+          Move-Item dist\*.exe artifacts\Windows.exe -ErrorAction SilentlyContinue
+          Move-Item dist\*-portable.zip artifacts\Windows-Portable.zip -ErrorAction SilentlyContinue
+
+      - uses: actions/upload-artifact@v4
         with:
-          name: windows
-          path: .build-temp/win
+          name: Windows
+          path: artifacts/*
 
-  package:
+  release:
+    name: Create GitHub Release
     runs-on: ubuntu-22.04
     needs: [build-linux, build-windows]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download all artifacts
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          path: artifacts
+          path: ./release
 
-      - name: Organize everything into systembuild
-        run: |
-          mkdir -p systembuild
-          cp artifacts/linux/* systembuild/
-          cp artifacts/windows/* systembuild/
-          ls -R systembuild
+      - name: List release files
+        run: ls -R ./release
 
-      - name: Upload systembuild as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: systembuild
-          path: systembuild
-
-  release:
-    runs-on: ubuntu-22.04
-    needs: package
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: systembuild
-          path: systembuild
-
-      - name: Create GitHub Release
+      - name: Create Release
         uses: ncipollo/release-action@v1
         with:
           tag: "v${{ github.run_number }}"
-          name: "NPSharp v${{ github.run_number }}"
-          artifacts: "systembuild/*"
+          name: "NPSHARP v${{ github.run_number }}"
+          artifacts: "./release/**/*"
           generateReleaseNotes: true
-          artifactErrorsFailBuild: false
           replacesArtifacts: true
           draft: false
+
+  deploy:
+    name: Deploy via FTP/SFTP
+    runs-on: ubuntu-22.04
+    needs: release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Release Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./deploy-files
+
+      - name: List deploy files
+        run: ls -R ./deploy-files
+
+      - name: Deploy (FTP/SFTP Auto)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          port: ${{ secrets.FTP_PORT }}
+          local-dir: ./deploy-files
+          server-dir: ${{ secrets.FTP_DEST }}
+          protocol: ${{ secrets.FTP_PORT == '22' && 'sftp' || 'ftp' }}
+          log-level: verbose
