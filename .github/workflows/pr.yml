@@ -1,133 +1,46 @@
-name: NPSHARP Build • Release • Deploy
-
-permissions:
-  contents: write
+name: Build NPSharp
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    tags:
+      - "v*"
 
 jobs:
-  build-linux:
-    name: Build Linux (AppImage + Portable)
-    runs-on: ubuntu-22.04
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y \
-            build-essential \
-            libx11-dev libxkbfile-dev libnotify-bin \
-            libkrb5-dev libsecret-1-dev fakeroot rpm
-
-          rm -rf node_modules package-lock.json
-          npm install --legacy-peer-deps
-
-      - name: Build Electron Linux
-        run: npm run dist-linux
-
-      - name: Prepare Artifacts
-        run: |
-          mkdir artifacts
-          mv dist/*.AppImage artifacts/Linux.AppImage || true
-          mv dist/*-linux.zip artifacts/Linux-Portable.zip || true
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Linux
-          path: artifacts/*
-
-  build-windows:
-    name: Build Windows (EXE + Portable)
-    runs-on: windows-2022
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install dependencies
-        run: |
-          rm package-lock.json -ea 0
-          rm -r node_modules -ea 0
-          npm install --legacy-peer-deps
-
-      - name: Build Electron Windows
-        run: npm run dist-win
-
-      - name: Prepare Artifacts
-        shell: pwsh
-        run: |
-          mkdir artifacts
-          Move-Item dist\*.exe artifacts\Windows.exe -ErrorAction SilentlyContinue
-          Move-Item dist\*-portable.zip artifacts\Windows-Portable.zip -ErrorAction SilentlyContinue
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Windows
-          path: artifacts/*
-
-  release:
-    name: Create GitHub Release
-    runs-on: ubuntu-22.04
-    needs: [build-linux, build-windows]
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: ./release
-
-      - name: List release files
-        run: ls -R ./release
-
-      - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: "v${{ github.run_number }}"
-          name: "NPSHARP v${{ github.run_number }}"
-          artifacts: "./release/**/*"
-          generateReleaseNotes: true
-          replacesArtifacts: true
-          draft: false
-
-  deploy:
-    name: Deploy via FTP/SFTP
-    runs-on: ubuntu-22.04
-    needs: release
-
-    steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Download Release Artifacts
-        uses: actions/download-artifact@v4
         with:
-          path: ./deploy-files
+          fetch-depth: 0
 
-      - name: List deploy files
-        run: ls -R ./deploy-files
-
-      - name: Deploy (FTP/SFTP Auto)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          port: ${{ secrets.FTP_PORT }}
-          local-dir: ./deploy-files
-          server-dir: ${{ secrets.FTP_DEST }}
-          protocol: ${{ secrets.FTP_PORT == '22' && 'sftp' || 'ftp' }}
-          log-level: verbose
+          node-version: 20
+
+      - name: Install dependencies
+        run: |
+          yarn install
+
+      - name: Compile NPSharp
+        run: |
+          yarn gulp compile-build
+          yarn gulp minify-vscode
+
+      - name: Build binaries (Linux + Windows)
+        run: |
+          ./scripts/build.sh
+
+      - name: Find build artifacts
+        run: |
+          mkdir output
+          find . -type f \( -name "*.zip" -o -name "*.tar.gz" -o -name "*.deb" -o -name "*.rpm" -o -name "*.exe" \) -exec cp {} output/ \;
+
+      - name: Upload release artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          files: output/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
