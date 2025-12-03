@@ -1,55 +1,137 @@
-name: Build NPSharp
+name: NPSHARP Build • Release • Deploy
+
+permissions:
+  contents: write
 
 on:
   push:
-    branches:
-      - "**"     # roda em todo commit
-    tags:
-      - "v*"     # se for tag, cria release
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install dependencies
         run: |
-          yarn install
+          sudo apt update
+          sudo apt install -y build-essential libx11-dev libxkbfile-dev libnotify-bin pkg-config libkrb5-dev
+          npm install --legacy-peer-deps
 
-      - name: Compile NPSharp
+      - name: Build Linux
+        run: npm run compile-build
+
+      - name: Find build folder
         run: |
-          yarn gulp compile-build
-          yarn gulp minify-vscode
+          BUILD_DIR=$(find . -maxdepth 4 -type d -name "dist" -o -name "build" | head -n 1)
+          echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
 
-      - name: Build binaries (Linux + Windows)
+      - name: Package Linux ZIP
         run: |
-          chmod +x ./scripts/build.sh
-          ./scripts/build.sh
+          mkdir -p artifacts
+          zip -r artifacts/Linux.zip "$BUILD_DIR"
 
-      - name: Find build artifacts
-        run: |
-          mkdir output
-          find . -type f \( -name "*.zip" \
-                           -o -name "*.tar.gz" \
-                           -o -name "*.deb" \
-                           -o -name "*.rpm" \
-                           -o -name "*.exe" \) \
-          -exec cp {} output/ \;
-
-      - name: Upload release artifacts
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
+      - uses: actions/upload-artifact@v4
         with:
-          files: output/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: Linux
+          path: artifacts/Linux.zip
+
+  build-windows:
+    name: Build Windows
+    runs-on: windows-2022
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build Windows
+        run: npm run compile-build
+
+      - name: Find build folder
+        shell: pwsh
+        run: |
+          $dir = Get-ChildItem -Recurse -Directory |
+            Where-Object { $_.Name -match "dist|build|win" } |
+            Select-Object -First 1
+          echo "BUILD_DIR=$($dir.FullName)" >> $env:GITHUB_ENV
+
+      - name: Package Windows ZIP
+        shell: pwsh
+        run: |
+          mkdir artifacts
+          Compress-Archive -Path "$env:BUILD_DIR\*" -DestinationPath artifacts\Windows.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Windows
+          path: artifacts/Windows.zip
+
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-22.04
+    needs: [build-linux, build-windows]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./release
+
+      - name: List release files
+        run: ls -R ./release
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "v${{ github.run_number }}"
+          name: "NPSHARP v${{ github.run_number }}"
+          artifacts: "./release/**/*.zip"
+          generateReleaseNotes: true
+          removeArtifacts: false
+          replacesArtifacts: true
+          draft: false
+
+  deploy:
+    name: Deploy via FTP/SFTP
+    runs-on: ubuntu-22.04
+    needs: release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Release Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./deploy-files
+
+      - name: List deploy files
+        run: ls -R ./deploy-files
+
+      - name: Deploy (FTP/SFTP Auto)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          port: ${{ secrets.FTP_PORT }}
+          local-dir: ./deploy-files
+          server-dir: ${{ secrets.FTP_DEST }}
+          protocol: ${{ secrets.FTP_PORT == '22' && 'sftp' || 'ftp' }}
+          log-level: verbose
