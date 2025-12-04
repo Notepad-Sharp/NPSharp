@@ -94,5 +94,3 @@ jobs:
           files: |
             release/linux.zip
             release/windows.zip
-
-
