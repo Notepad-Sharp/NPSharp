@@ -1,93 +1,71 @@
-name: NPSharp Build & Release
-
-permissions:
-  contents: write
+name: NPSHARP Build & Release
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
-
   build-linux:
     name: Build Linux
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          dotnet-version: "8.0.x"
-
-      - name: Restore dependencies
-        run: dotnet restore src/NPSharp/NPSharp.csproj
-
-      - name: Publish Linux Build
-        run: dotnet publish src/NPSharp/NPSharp.csproj -c Release -r linux-x64 --self-contained true -o build-linux
-
-      - name: Upload Linux Artifact
-        uses: actions/upload-artifact@v4
+          node-version: 22.15.1
+      - name: Verify Node
+        run: |
+          node -v
+          npm -v
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential libx11-dev libxkbfile-dev libnotify-bin pkg-config libkrb5-dev
+          npm install --legacy-peer-deps
+      - name: Build Linux (Portable + Installer)
+        run: npm run compile
+      - uses: actions/upload-artifact@v5
         with:
-          name: linux-build
-          path: build-linux
-
+          name: linux-artifacts
+          path: ./out
 
   build-windows:
     name: Build Windows
-    runs-on: windows-latest
-
+    runs-on: windows-2022
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          dotnet-version: "8.0.x"
-
-      - name: Restore dependencies
-        run: dotnet restore src/NPSharp/NPSharp.csproj
-
-      - name: Publish Windows Build
-        run: dotnet publish src/NPSharp/NPSharp.csproj -c Release -r win-x64 --self-contained true -o build-windows
-
-      - name: Upload Windows Artifact
-        uses: actions/upload-artifact@v4
+          node-version: 22.15.1
+      - name: Verify Node
+        run: |
+          node -v
+          npm -v
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+      - name: Compile Windows
+        run: npm run compile
+      - name: Build Portable
+        run: npm run gulp vscode-win32-x64
+      - uses: actions/upload-artifact@v5
         with:
-          name: windows-build
-          path: build-windows
-
+          name: windows-artifacts
+          path: ./out
 
   release:
-    name: Create Release & Upload Builds
-    runs-on: ubuntu-latest
+    name: Release All Artifacts
+    runs-on: ubuntu-22.04
     needs: [build-linux, build-windows]
-
     steps:
-      - name: Download Linux Artifact
-        uses: actions/download-artifact@v4
+      - uses: actions/checkout@v6
+      - name: Download Artifacts
+        uses: actions/download-artifact@v5
         with:
-          name: linux-build
-          path: release/linux
-
-      - name: Download Windows Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: windows-build
-          path: release/windows
-
-      - name: Zip builds
-        run: |
-          cd release
-          zip -r linux.zip linux
-          zip -r windows.zip windows
-
+          path: ./release
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: ncipollo/release-action@v1
         with:
           tag_name: v${{ github.run_number }}
           name: "NPSharp Build ${{ github.run_number }}"
