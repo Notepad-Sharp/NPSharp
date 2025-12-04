@@ -95,7 +95,6 @@ jobs:
             release/linux.zip
             release/windows.zip
 
-      # Se quiser usar FTP, configure as Secrets antes (FTP_HOST, FTP_USER, FTP_PASS, FTP_DEST)
       - name: Deploy to FTP (opcional)
         if: ${{ secrets.FTP_HOST != '' }}
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
