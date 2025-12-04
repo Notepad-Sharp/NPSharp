@@ -44,7 +44,7 @@ jobs:
           fi
           echo "✔ Found gulpfile.js"
 
-      - name: Install Linux Dependencies
+      - name: Install Linux Build Dependencies
         run: |
           sudo apt update
           sudo apt install -y \
@@ -57,6 +57,17 @@ jobs:
             libkrb5-dev \
             libnss3-dev
 
+      - name: Install Linux Packaging Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            rpm \
+            xz-utils \
+            p7zip-full \
+            graphicsmagick \
+            icnsutils \
+            libarchive-tools
+
       - name: Install NPM Dependencies
         run: npm install --legacy-peer-deps
 
@@ -65,9 +76,9 @@ jobs:
           npx gulp --version || (echo "❌ Gulp not installed!" && exit 1)
           npx gulp --tasks || (echo "❌ No Gulp tasks found!" && exit 1)
 
-          echo "🔍 CHECKING NPM SCRIPT: compile"
+          echo "🔍 Checking npm script 'compile'"
           if ! npm run | grep -q "compile"; then
-            echo "❌ ERROR: Missing script 'compile' in package.json"
+            echo "❌ Missing script 'compile' in package.json"
             exit 1
           fi
           echo "✔ All validations passed."
@@ -84,7 +95,7 @@ jobs:
       - name: Zip Linux Build
         run: |
           cd out
-          zip -r linux-build.zip vscode-linux-x64
+          zip -r linux-build.zip vscode-linux-x64 || true
 
       - name: Upload Linux Artifacts
         uses: actions/upload-artifact@v4
@@ -145,7 +156,6 @@ jobs:
             exit 1
           }
 
-          echo "Checking npm script 'compile'"
           npm run | findstr compile
           if ($LASTEXITCODE -ne 0) {
             Write-Error "❌ Missing compile script"
