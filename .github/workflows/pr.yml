@@ -1,50 +1,24 @@
-name: NPSHARP Build • Validate • Release
+name: Build NPSharp
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-
   build-linux:
-    name: Build Linux
-    runs-on: ubuntu-22.04
-
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22.15.1
+          node-version: 20
 
-      ###############################################################
-      # 🔵 VALIDAR AMBIENTE NO LINUX
-      ###############################################################
-      - name: Validate Project Structure
-        run: |
-          echo "🔍 CHECKING NODE AND NPM"
-          node -v || exit 1
-          npm -v || exit 1
-
-          echo "🔍 CHECKING package.json"
-          if [ ! -f "package.json" ]; then
-            echo "❌ ERROR: package.json not found!"
-            exit 1
-          fi
-          echo "✔ Found package.json"
-
-          echo "🔍 CHECKING gulpfile.js"
-          if [ ! -f "gulpfile.js" ]; then
-            echo "❌ ERROR: gulpfile.js not found!"
-            exit 1
-          fi
-          echo "✔ Found gulpfile.js"
-
-      - name: Install Linux Build Dependencies
+      - name: Install Linux Dependencies
         run: |
           sudo apt update
           sudo apt install -y \
@@ -55,156 +29,84 @@ jobs:
             pkg-config \
             libsecret-1-dev \
             libkrb5-dev \
-            libnss3-dev
+            libnss3-dev \
+            libxss1 \
+            libxtst6 \
+            libxshmfence-dev
 
-      - name: Install Linux Packaging Dependencies
+      - name: Install NPM deps
         run: |
-          sudo apt update
-          sudo apt install -y \
-            rpm \
-            xz-utils \
-            p7zip-full \
-            graphicsmagick \
-            icnsutils \
-            libarchive-tools
+          npm install --force
 
-      - name: Install NPM Dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: Validate Gulp + Tasks
+      - name: Build VSCode (Linux)
         run: |
-          npx gulp --version || (echo "❌ Gulp not installed!" && exit 1)
-          npx gulp --tasks || (echo "❌ No Gulp tasks found!" && exit 1)
+          npm run gulp vscode-linux-x64-min
 
-          echo "🔍 Checking npm script 'compile'"
-          if ! npm run | grep -q "compile"; then
-            echo "❌ Missing script 'compile' in package.json"
-            exit 1
-          fi
-          echo "✔ All validations passed."
-
-      ###############################################################
-      # 🔵 BUILD LINUX
-      ###############################################################
-      - name: Compile (Linux)
-        run: npm run compile
-
-      - name: Build Linux (Portable)
-        run: npx gulp vscode-linux-x64
-
-      - name: Zip Linux Build
+      - name: Create ZIP
         run: |
-          cd out
-          zip -r linux-build.zip vscode-linux-x64 || true
+          cd ..
+          zip -r npsharp-linux.zip NPSharp/VSCode-linux-x64
 
-      - name: Upload Linux Artifacts
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: linux-artifacts
-          path: out/linux-build.zip
+          name: npsharp-linux
+          path: ../npsharp-linux.zip
 
 
-  ###################################################################
-  # WINDOWS BUILD
-  ###################################################################
+
   build-windows:
-    name: Build Windows
-    runs-on: windows-2022
-
+    runs-on: windows-latest
     steps:
-      - name: Checkout Repo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22.15.1
+          node-version: 20
 
-      ###############################################################
-      # 🔵 VALIDAR AMBIENTE NO WINDOWS
-      ###############################################################
-      - name: Validate Project Structure
+      - name: Install NPM deps
         run: |
-          echo "🔍 Checking package.json..."
-          if (!(Test-Path "./package.json")) {
-            Write-Error "❌ package.json not found!"
-            exit 1
-          }
-          echo "✔ package.json found."
+          npm install --force
 
-          echo "🔍 Checking gulpfile.js..."
-          if (!(Test-Path "./gulpfile.js")) {
-            Write-Error "❌ gulpfile.js not found!"
-            exit 1
-          }
-          echo "✔ gulpfile.js found."
-
-      - name: Install Dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: Validate Gulp + Tasks
+      - name: Build VSCode (Windows)
         run: |
-          npx gulp --version
-          if ($LASTEXITCODE -ne 0) {
-            Write-Error "❌ Gulp missing!"
-            exit 1
-          }
+          npm run gulp vscode-win32-x64-min
 
-          npx gulp --tasks
-          if ($LASTEXITCODE -ne 0) {
-            Write-Error "❌ No gulp tasks found!"
-            exit 1
-          }
-
-          npm run | findstr compile
-          if ($LASTEXITCODE -ne 0) {
-            Write-Error "❌ Missing compile script"
-            exit 1
-          }
-
-      ###############################################################
-      # 🔵 BUILD WINDOWS
-      ###############################################################
-      - name: Compile Windows
-        run: npm run compile
-
-      - name: Build Portable
-        run: npx gulp vscode-win32-x64
-
-      - name: Zip Windows Build
+      - name: Create ZIP
         run: |
-          cd out
-          powershell Compress-Archive -Path vscode-win32-x64 -DestinationPath windows-build.zip
+          powershell Compress-Archive -Path .\VSCode-win32-x64 -DestinationPath ..\npsharp-windows.zip -Force
 
-      - name: Upload Windows Artifacts
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows-artifacts
-          path: out/windows-build.zip
+          name: npsharp-windows
+          path: ../npsharp-windows.zip
 
 
-  ###################################################################
-  # RELEASE FINAL
-  ###################################################################
+
   release:
-    name: Release All Artifacts
-    runs-on: ubuntu-22.04
     needs: [build-linux, build-windows]
-
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Download Artifacts
+      - name: Download Linux Artifact
         uses: actions/download-artifact@v4
         with:
-          path: ./release
+          name: npsharp-linux
+
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: npsharp-windows
 
       - name: Create GitHub Release
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ github.run_number }}
-          name: "NPSharp Build ${{ github.run_number }}"
+          name: NPSharp Build ${{ github.run_number }}
           files: |
-            release/**/linux-build.zip
-            release/**/windows-build.zip
+            npsharp-linux.zip
+            npsharp-windows.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
