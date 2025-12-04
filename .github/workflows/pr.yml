@@ -96,15 +96,3 @@ jobs:
             release/windows.zip
 
 
-      - name: Deploy to FTP (opcional)
-        if: ${{ secrets.FTP_HOST }}
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          local-dir: release/linux
-          server-dir: ${{ secrets.FTP_DEST }}
-          log-level: verbose
-
-
