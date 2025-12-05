@@ -10,10 +10,7 @@ import fs from 'fs';
 import path from 'path';
 
 class ErrorLog {
-	public id: string;
-
-	constructor(id: string) {
-		this.id = id;
+	constructor(public id: string) {
 	}
 	allErrors: string[][] = [];
 	startTime: number | null = null;
@@ -76,7 +73,7 @@ function getErrorLog(id: string = '') {
 	return errorLog;
 }
 
-const buildLogFolder = path.join(path.dirname(path.dirname(import.meta.dirname)), '.build');
+const buildLogFolder = path.join(path.dirname(path.dirname(__dirname)), '.build');
 
 try {
 	fs.mkdirSync(buildLogFolder);

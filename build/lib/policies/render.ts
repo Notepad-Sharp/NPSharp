@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { NlsString, LanguageTranslations, Category, Policy, Translations, ProductJson } from './types.ts';
+import { NlsString, LanguageTranslations, Category, Policy, Translations, ProductJson } from './types';
 
 export function renderADMLString(prefix: string, moduleName: string, nlsString: NlsString, translations?: LanguageTranslations): string {
 	let value: string | undefined;

@@ -36,14 +36,13 @@ export interface Category {
 	readonly name: NlsString;
 }
 
-export const PolicyType = Object.freeze({
-	Boolean: 'boolean',
-	Number: 'number',
-	Object: 'object',
-	String: 'string',
-	StringEnum: 'stringEnum',
-});
-export type PolicyType = typeof PolicyType[keyof typeof PolicyType];
+export enum PolicyType {
+	Boolean = 'boolean',
+	Number = 'number',
+	Object = 'object',
+	String = 'string',
+	StringEnum = 'stringEnum',
+}
 
 export const Languages = {
 	'fr': 'fr-fr',

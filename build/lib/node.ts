@@ -6,14 +6,10 @@
 import path from 'path';
 import fs from 'fs';
 
-const root = path.dirname(path.dirname(import.meta.dirname));
+const root = path.dirname(path.dirname(__dirname));
 const npmrcPath = path.join(root, 'remote', '.npmrc');
 const npmrc = fs.readFileSync(npmrcPath, 'utf8');
-const version = /^target="(.*)"$/m.exec(npmrc)?.[1];
-
-if (!version) {
-	throw new Error('Failed to extract Node version from .npmrc');
-}
+const version = /^target="(.*)"$/m.exec(npmrc)![1];
 
 const platform = process.platform;
 const arch = process.arch;

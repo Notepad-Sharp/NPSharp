@@ -5,8 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import * as tss from './treeshaking.ts';
-import ts from 'typescript';
+import * as tss from './treeshaking';
 
 const dirCache: { [dir: string]: boolean } = {};
 
@@ -28,11 +27,12 @@ function writeFile(filePath: string, contents: Buffer | string): void {
 }
 
 export function extractEditor(options: tss.ITreeShakingOptions & { destRoot: string; tsOutDir: string; additionalFilesToCopyOut?: string[] }): void {
+	const ts = require('typescript') as typeof import('typescript');
+
 	const tsConfig = JSON.parse(fs.readFileSync(path.join(options.sourcesRoot, 'tsconfig.monaco.json')).toString());
 	let compilerOptions: { [key: string]: any };
 	if (tsConfig.extends) {
-		const extendedConfig = JSON.parse(fs.readFileSync(path.join(options.sourcesRoot, tsConfig.extends)).toString());
-		compilerOptions = Object.assign({}, extendedConfig.compilerOptions, tsConfig.compilerOptions);
+		compilerOptions = Object.assign({}, require(path.join(options.sourcesRoot, tsConfig.extends)).compilerOptions, tsConfig.compilerOptions);
 		delete tsConfig.extends;
 	} else {
 		compilerOptions = tsConfig.compilerOptions;
@@ -52,19 +52,13 @@ export function extractEditor(options: tss.ITreeShakingOptions & { destRoot: str
 	console.log(`Running tree shaker with shakeLevel ${tss.toStringShakeLevel(options.shakeLevel)}`);
 
 	// Take the extra included .d.ts files from `tsconfig.monaco.json`
-	options.typings = (tsConfig.include as string[]).filter(includedFile => /\.d\.ts$/.test(includedFile));
+	options.typings = (<string[]>tsConfig.include).filter(includedFile => /\.d\.ts$/.test(includedFile));
 
 	const result = tss.shake(options);
 	for (const fileName in result) {
 		if (result.hasOwnProperty(fileName)) {
-			let fileContents = result[fileName];
-			// Replace .ts? with .js? in new URL() patterns
-			fileContents = fileContents.replace(
-				/(new\s+URL\s*\(\s*['"`][^'"`]*?)\.ts(\?[^'"`]*['"`])/g,
-				'$1.js$2'
-			);
 			const relativePath = path.relative(options.sourcesRoot, fileName);
-			writeFile(path.join(options.destRoot, relativePath), fileContents);
+			writeFile(path.join(options.destRoot, relativePath), result[fileName]);
 		}
 	}
 	const copied: { [fileName: string]: boolean } = {};

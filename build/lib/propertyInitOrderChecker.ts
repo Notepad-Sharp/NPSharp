@@ -8,7 +8,7 @@ import * as ts from 'typescript';
 import * as path from 'path';
 import * as fs from 'fs';
 
-const TS_CONFIG_PATH = path.join(import.meta.dirname, '../../', 'src', 'tsconfig.json');
+const TS_CONFIG_PATH = path.join(__dirname, '../../', 'src', 'tsconfig.json');
 
 //
 // #############################################################################################
@@ -22,15 +22,13 @@ const TS_CONFIG_PATH = path.join(import.meta.dirname, '../../', 'src', 'tsconfig
 // #############################################################################################
 //
 
-const EntryKind = Object.freeze({
-	Span: 'Span',
-	Node: 'Node',
-	StringLiteral: 'StringLiteral',
-	SearchedLocalFoundProperty: 'SearchedLocalFoundProperty',
-	SearchedPropertyFoundLocal: 'SearchedPropertyFoundLocal'
-});
-
-type EntryKind = typeof EntryKind[keyof typeof EntryKind];
+enum EntryKind {
+	Span,
+	Node,
+	StringLiteral,
+	SearchedLocalFoundProperty,
+	SearchedPropertyFoundLocal,
+}
 
 const cancellationToken: ts.CancellationToken = {
 	isCancellationRequested: () => false,
@@ -283,25 +281,24 @@ interface SymbolAndEntries {
 	readonly references: readonly Entry[];
 }
 
-const DefinitionKind = Object.freeze({
-	Symbol: 0,
-	Label: 1,
-	Keyword: 2,
-	This: 3,
-	String: 4,
-	TripleSlashReference: 5,
-});
-type DefinitionKind = typeof DefinitionKind[keyof typeof DefinitionKind];
+const enum DefinitionKind {
+	Symbol,
+	Label,
+	Keyword,
+	This,
+	String,
+	TripleSlashReference,
+}
 
 type Definition =
-	| { readonly type: DefinitionKind; readonly symbol: ts.Symbol }
-	| { readonly type: DefinitionKind; readonly node: ts.Identifier }
-	| { readonly type: DefinitionKind; readonly node: ts.Node }
-	| { readonly type: DefinitionKind; readonly node: ts.Node }
-	| { readonly type: DefinitionKind; readonly node: ts.StringLiteralLike }
-	| { readonly type: DefinitionKind; readonly reference: ts.FileReference; readonly file: ts.SourceFile };
+	| { readonly type: DefinitionKind.Symbol; readonly symbol: ts.Symbol }
+	| { readonly type: DefinitionKind.Label; readonly node: ts.Identifier }
+	| { readonly type: DefinitionKind.Keyword; readonly node: ts.Node }
+	| { readonly type: DefinitionKind.This; readonly node: ts.Node }
+	| { readonly type: DefinitionKind.String; readonly node: ts.StringLiteralLike }
+	| { readonly type: DefinitionKind.TripleSlashReference; readonly reference: ts.FileReference; readonly file: ts.SourceFile };
 
-type NodeEntryKind = typeof EntryKind.Node | typeof EntryKind.StringLiteral | typeof EntryKind.SearchedLocalFoundProperty | typeof EntryKind.SearchedPropertyFoundLocal;
+type NodeEntryKind = EntryKind.Node | EntryKind.StringLiteral | EntryKind.SearchedLocalFoundProperty | EntryKind.SearchedPropertyFoundLocal;
 type Entry = NodeEntry | SpanEntry;
 interface ContextWithStartAndEndNode {
 	start: ts.Node;
@@ -314,7 +311,7 @@ interface NodeEntry {
 	readonly context?: ContextNode;
 }
 interface SpanEntry {
-	readonly kind: typeof EntryKind.Span;
+	readonly kind: EntryKind.Span;
 	readonly fileName: string;
 	readonly textSpan: ts.TextSpan;
 }

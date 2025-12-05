@@ -3,32 +3,29 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-export const strings = (() => {
+export namespace strings {
 
-    function format(value: string, ...rest: unknown[]): string {
-        return value.replace(/(\{\d+\})/g, function (match) {
+    export function format(value: string, ...rest: unknown[]): string {
+        return value.replace(/({\d+})/g, function (match) {
             const index = Number(match.substring(1, match.length - 1));
             return String(rest[index]) || match;
         });
     }
+}
 
-    return { format };
-})();
+export namespace graph {
 
-export const graph = (() => {
-
-    class Node<T> {
+    export class Node<T> {
 
         readonly incoming = new Map<T, Node<T>>();
         readonly outgoing = new Map<T, Node<T>>();
-        readonly data: T;
 
-        constructor(data: T) {
-            this.data = data;
+        constructor(readonly data: T) {
+
         }
     }
 
-    class Graph<T> {
+    export class Graph<T> {
 
         private _nodes = new Map<T, Node<T>>();
 
@@ -106,5 +103,4 @@ export const graph = (() => {
         }
     }
 
-    return { Node, Graph };
-})();
+}

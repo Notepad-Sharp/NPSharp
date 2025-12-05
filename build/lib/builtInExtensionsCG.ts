@@ -7,13 +7,13 @@ import fs from 'fs';
 import path from 'path';
 import url from 'url';
 import ansiColors from 'ansi-colors';
-import type { IExtensionDefinition } from './builtInExtensions.ts';
+import { IExtensionDefinition } from './builtInExtensions';
 
-const root = path.dirname(path.dirname(import.meta.dirname));
+const root = path.dirname(path.dirname(__dirname));
 const rootCG = path.join(root, 'extensionsCG');
-const productjson = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, '../../product.json'), 'utf8'));
-const builtInExtensions = productjson.builtInExtensions as IExtensionDefinition[] || [];
-const webBuiltInExtensions = productjson.webBuiltInExtensions as IExtensionDefinition[] || [];
+const productjson = JSON.parse(fs.readFileSync(path.join(__dirname, '../../product.json'), 'utf8'));
+const builtInExtensions = <IExtensionDefinition[]>productjson.builtInExtensions || [];
+const webBuiltInExtensions = <IExtensionDefinition[]>productjson.webBuiltInExtensions || [];
 const token = process.env['GITHUB_TOKEN'];
 
 const contentBasePath = 'raw.githubusercontent.com';

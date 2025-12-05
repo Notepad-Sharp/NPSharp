@@ -7,10 +7,8 @@ import fs from 'fs';
 import path from 'path';
 import vfs from 'vinyl-fs';
 import filter from 'gulp-filter';
-import * as util from './util.ts';
-import { getVersion } from './getVersion.ts';
-import electron from '@vscode/gulp-electron';
-import json from 'gulp-json-editor';
+import * as util from './util';
+import { getVersion } from './getVersion';
 
 type DarwinDocumentSuffix = 'document' | 'script' | 'file' | 'source code';
 type DarwinDocumentType = {
@@ -26,7 +24,7 @@ function isDocumentSuffix(str?: string): str is DarwinDocumentSuffix {
 	return str === 'document' || str === 'script' || str === 'file' || str === 'source code';
 }
 
-const root = path.dirname(path.dirname(import.meta.dirname));
+const root = path.dirname(path.dirname(__dirname));
 const product = JSON.parse(fs.readFileSync(path.join(root, 'product.json'), 'utf8'));
 const commit = getVersion(root);
 
@@ -207,6 +205,9 @@ export const config = {
 
 function getElectron(arch: string): () => NodeJS.ReadWriteStream {
 	return () => {
+		const electron = require('@vscode/gulp-electron');
+		const json = require('gulp-json-editor') as typeof import('gulp-json-editor');
+
 		const electronOpts = {
 			...config,
 			platform: process.platform,
@@ -235,7 +236,7 @@ async function main(arch: string = process.arch): Promise<void> {
 	}
 }
 
-if (import.meta.main) {
+if (require.main === module) {
 	main(process.argv[2]).catch(err => {
 		console.error(err);
 		process.exit(1);

@@ -9,15 +9,7 @@ import ansiColors from 'ansi-colors';
 import File from 'vinyl';
 
 class Entry {
-	readonly name: string;
-	public totalCount: number;
-	public totalSize: number;
-
-	constructor(name: string, totalCount: number, totalSize: number) {
-		this.name = name;
-		this.totalCount = totalCount;
-		this.totalSize = totalSize;
-	}
+	constructor(readonly name: string, public totalCount: number, public totalSize: number) { }
 
 	toString(pretty?: boolean): string {
 		if (!pretty) {

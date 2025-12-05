@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import * as git from './git.ts';
+import * as git from './git';
 
 export function getVersion(root: string): string | undefined {
 	let version = process.env['BUILD_SOURCEVERSION'];

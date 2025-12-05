@@ -11,7 +11,7 @@ import debug from 'debug';
 import extract from 'extract-zip';
 import { downloadArtifact } from '@electron/get';
 
-const root = path.dirname(path.dirname(import.meta.dirname));
+const root = path.dirname(path.dirname(__dirname));
 
 const d = debug('libcxx-fetcher');
 
@@ -71,7 +71,7 @@ async function main(): Promise<void> {
 	await downloadLibcxxHeaders(libcxxabiHeadersDownloadDir, electronVersion, 'libcxxabi');
 }
 
-if (import.meta.main) {
+if (require.main === module) {
 	main().catch(err => {
 		console.error(err);
 		process.exit(1);

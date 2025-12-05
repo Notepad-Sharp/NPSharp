@@ -210,7 +210,7 @@ function computeChecksum(filename) {
 function packageTask(platform, arch, sourceFolderName, destinationFolderName, opts) {
 	opts = opts || {};
 
-	const destination = path.join(root, 'out');
+	const destination = path.join(path.dirname(root), destinationFolderName);
 	platform = platform || process.platform;
 
 	const task = () => {

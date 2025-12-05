@@ -3,32 +3,18 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { renderADMLString } from './render.ts';
-import type { Category, LanguageTranslations, NlsString, Policy, PolicyType } from './types.ts';
+import { renderADMLString } from './render';
+import { Category, LanguageTranslations, NlsString, Policy, PolicyType } from './types';
 
 export abstract class BasePolicy implements Policy {
-	readonly type: PolicyType;
-	readonly name: string;
-	readonly category: Category;
-	readonly minimumVersion: string;
-	protected description: NlsString;
-	protected moduleName: string;
-
 	constructor(
-		type: PolicyType,
-		name: string,
-		category: Category,
-		minimumVersion: string,
-		description: NlsString,
-		moduleName: string,
-	) {
-		this.type = type;
-		this.name = name;
-		this.category = category;
-		this.minimumVersion = minimumVersion;
-		this.description = description;
-		this.moduleName = moduleName;
-	}
+		readonly type: PolicyType,
+		readonly name: string,
+		readonly category: Category,
+		readonly minimumVersion: string,
+		protected description: NlsString,
+		protected moduleName: string,
+	) { }
 
 	protected renderADMLString(nlsString: NlsString, translations?: LanguageTranslations): string {
 		return renderADMLString(this.name, this.moduleName, nlsString, translations);

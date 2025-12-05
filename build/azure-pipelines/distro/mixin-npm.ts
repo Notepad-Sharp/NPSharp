@@ -5,7 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { dirs } from '../../npm/dirs.ts';
+const { dirs } = require('../../npm/dirs') as { dirs: string[] };
 
 function log(...args: unknown[]): void {
 	console.log(`[${new Date().toLocaleTimeString('en', { hour12: false })}]`, '[distro]', ...args);

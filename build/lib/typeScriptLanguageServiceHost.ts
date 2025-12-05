@@ -18,19 +18,11 @@ function normalizePath(filePath: string): string {
  */
 export class TypeScriptLanguageServiceHost implements ts.LanguageServiceHost {
 
-	private readonly ts: typeof import('typescript');
-	private readonly topLevelFiles: IFileMap;
-	private readonly compilerOptions: ts.CompilerOptions;
-
 	constructor(
-		ts: typeof import('typescript'),
-		topLevelFiles: IFileMap,
-		compilerOptions: ts.CompilerOptions,
-	) {
-		this.ts = ts;
-		this.topLevelFiles = topLevelFiles;
-		this.compilerOptions = compilerOptions;
-	}
+		private readonly ts: typeof import('typescript'),
+		private readonly topLevelFiles: IFileMap,
+		private readonly compilerOptions: ts.CompilerOptions,
+	) { }
 
 	// --- language service host ---------------
 	getCompilationSettings(): ts.CompilerOptions {

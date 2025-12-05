@@ -11,12 +11,12 @@ import path from 'path';
 import fs from 'fs';
 import _rimraf from 'rimraf';
 import VinylFile from 'vinyl';
-import through from 'through';
+import { ThroughStream } from 'through';
 import sm from 'source-map';
 import { pathToFileURL } from 'url';
 import ternaryStream from 'ternary-stream';
 
-const root = path.dirname(path.dirname(import.meta.dirname));
+const root = path.dirname(path.dirname(__dirname));
 
 export interface ICancellationToken {
 	isCancellationRequested(): boolean;
@@ -203,7 +203,8 @@ export function loadSourcemaps(): NodeJS.ReadWriteStream {
 				return;
 			}
 
-			const contents = (f.contents as Buffer).toString('utf8');
+			const contents = (<Buffer>f.contents).toString('utf8');
+
 			const reg = /\/\/# sourceMappingURL=(.*)$/g;
 			let lastMatch: RegExpExecArray | null = null;
 			let match: RegExpExecArray | null = null;
@@ -243,7 +244,7 @@ export function stripSourceMappingURL(): NodeJS.ReadWriteStream {
 
 	const output = input
 		.pipe(es.mapSync<VinylFile, VinylFile>(f => {
-			const contents = (f.contents as Buffer).toString('utf8');
+			const contents = (<Buffer>f.contents).toString('utf8');
 			f.contents = Buffer.from(contents.replace(/\n\/\/# sourceMappingURL=(.*)$/gm, ''), 'utf8');
 			return f;
 		}));
@@ -282,7 +283,7 @@ export function rewriteSourceMappingURL(sourceMappingURLBase: string): NodeJS.Re
 
 	const output = input
 		.pipe(es.mapSync<VinylFile, VinylFile>(f => {
-			const contents = (f.contents as Buffer).toString('utf8');
+			const contents = (<Buffer>f.contents).toString('utf8');
 			const str = `//# sourceMappingURL=${sourceMappingURLBase}/${path.dirname(f.relative).replace(/\\/g, '/')}/$1`;
 			f.contents = Buffer.from(contents.replace(/\n\/\/# sourceMappingURL=(.*)$/gm, str));
 			return f;
@@ -349,7 +350,7 @@ export function rebase(count: number): NodeJS.ReadWriteStream {
 }
 
 export interface FilterStream extends NodeJS.ReadWriteStream {
-	restore: through.ThroughStream;
+	restore: ThroughStream;
 }
 
 export function filter(fn: (data: any) => boolean): FilterStream {

@@ -6,12 +6,13 @@
 import v8 from 'node:v8';
 import fs from 'fs';
 import path from 'path';
-import { type Mapping, SourceMapGenerator } from 'source-map';
+import { argv } from 'process';
+import { Mapping, SourceMapGenerator } from 'source-map';
 import ts from 'typescript';
 import { pathToFileURL } from 'url';
 import workerpool from 'workerpool';
-import { StaticLanguageServiceHost } from './staticLanguageServiceHost.ts';
-import * as buildfile from '../../buildfile.ts';
+import { StaticLanguageServiceHost } from './staticLanguageServiceHost';
+const buildfile = require('../../buildfile');
 
 class ShortIdent {
 
@@ -23,13 +24,10 @@ class ShortIdent {
 	private static _alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890$_'.split('');
 
 	private _value = 0;
-	private readonly prefix: string;
 
 	constructor(
-		prefix: string
-	) {
-		this.prefix = prefix;
-	}
+		private readonly prefix: string
+	) { }
 
 	next(isNameTaken?: (name: string) => boolean): string {
 		const candidate = this.prefix + ShortIdent.convert(this._value);
@@ -53,12 +51,11 @@ class ShortIdent {
 	}
 }
 
-const FieldType = Object.freeze({
-	Public: 0,
-	Protected: 1,
-	Private: 2
-});
-type FieldType = typeof FieldType[keyof typeof FieldType];
+const enum FieldType {
+	Public,
+	Protected,
+	Private
+}
 
 class ClassData {
 
@@ -69,15 +66,10 @@ class ClassData {
 	parent: ClassData | undefined;
 	children: ClassData[] | undefined;
 
-	readonly fileName: string;
-	readonly node: ts.ClassDeclaration | ts.ClassExpression;
-
 	constructor(
-		fileName: string,
-		node: ts.ClassDeclaration | ts.ClassExpression,
+		readonly fileName: string,
+		readonly node: ts.ClassDeclaration | ts.ClassExpression,
 	) {
-		this.fileName = fileName;
-		this.node = node;
 		// analyse all fields (properties and methods). Find usages of all protected and
 		// private ones and keep track of all public ones (to prevent naming collisions)
 
@@ -346,16 +338,12 @@ const skippedExportMangledSymbols = [
 class DeclarationData {
 
 	readonly replacementName: string;
-	readonly fileName: string;
-	readonly node: ts.FunctionDeclaration | ts.ClassDeclaration | ts.EnumDeclaration | ts.VariableDeclaration;
 
 	constructor(
-		fileName: string,
-		node: ts.FunctionDeclaration | ts.ClassDeclaration | ts.EnumDeclaration | ts.VariableDeclaration,
+		readonly fileName: string,
+		readonly node: ts.FunctionDeclaration | ts.ClassDeclaration | ts.EnumDeclaration | ts.VariableDeclaration,
 		fileIdents: ShortIdent,
 	) {
-		this.fileName = fileName;
-		this.node = node;
 		// Todo: generate replacement names based on usage count, with more used names getting shorter identifiers
 		this.replacementName = fileIdents.next();
 	}
@@ -416,20 +404,13 @@ export class Mangler {
 
 	private readonly renameWorkerPool: workerpool.WorkerPool;
 
-	private readonly projectPath: string;
-	private readonly log: typeof console.log;
-	private readonly config: { readonly manglePrivateFields: boolean; readonly mangleExports: boolean };
-
 	constructor(
-		projectPath: string,
-		log: typeof console.log = () => { },
-		config: { readonly manglePrivateFields: boolean; readonly mangleExports: boolean },
+		private readonly projectPath: string,
+		private readonly log: typeof console.log = () => { },
+		private readonly config: { readonly manglePrivateFields: boolean; readonly mangleExports: boolean },
 	) {
-		this.projectPath = projectPath;
-		this.log = log;
-		this.config = config;
 
-		this.renameWorkerPool = workerpool.pool(path.join(import.meta.dirname, 'renameWorker.ts'), {
+		this.renameWorkerPool = workerpool.pool(path.join(__dirname, 'renameWorker.js'), {
 			maxWorkers: 4,
 			minWorkers: 'max'
 		});
@@ -772,7 +753,7 @@ function normalize(path: string): string {
 }
 
 async function _run() {
-	const root = path.join(import.meta.dirname, '..', '..', '..');
+	const root = path.join(__dirname, '..', '..', '..');
 	const projectBase = path.join(root, 'src');
 	const projectPath = path.join(projectBase, 'tsconfig.json');
 	const newProjectBase = path.join(path.dirname(projectBase), path.basename(projectBase) + '2');
@@ -793,6 +774,6 @@ async function _run() {
 	}
 }
 
-if (import.meta.main) {
+if (__filename === argv[1]) {
 	_run();
 }
