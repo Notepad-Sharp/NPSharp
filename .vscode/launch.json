@@ -78,7 +78,7 @@
 		{
 			"type": "extensionHost",
 			"request": "launch",
-			"name": "VS Code Emmet Tests",
+			"name": "NP Sharp Emmet Tests",
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"${workspaceFolder}/extensions/emmet/test-workspace",
@@ -96,7 +96,7 @@
 		{
 			"type": "extensionHost",
 			"request": "launch",
-			"name": "VS Code Configuration Editing Tests",
+			"name": "NP Sharp Configuration Editing Tests",
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}/extensions/configuration-editing",
@@ -113,7 +113,7 @@
 		{
 			"type": "extensionHost",
 			"request": "launch",
-			"name": "VS Code Git Tests",
+			"name": "NP Sharp Git Tests",
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"/tmp/my4g9l",
@@ -131,7 +131,7 @@
 		{
 			"type": "extensionHost",
 			"request": "launch",
-			"name": "VS Code Github Tests",
+			"name": "NP Sharp Github Tests",
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"${workspaceFolder}/extensions/github/testWorkspace",
@@ -149,7 +149,7 @@
 		{
 			"type": "extensionHost",
 			"request": "launch",
-			"name": "VS Code API Tests (single folder)",
+			"name": "NP Sharp API Tests (single folder)",
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				// "${workspaceFolder}", // Uncomment for running out of sources.
@@ -169,7 +169,7 @@
 		{
 			"type": "extensionHost",
 			"request": "launch",
-			"name": "VS Code API Tests (workspace)",
+			"name": "NP Sharp API Tests (workspace)",
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"${workspaceFolder}/extensions/vscode-api-tests/testworkspace.code-workspace",
@@ -187,7 +187,7 @@
 		{
 			"type": "extensionHost",
 			"request": "launch",
-			"name": "VS Code Tokenizer Tests",
+			"name": "NP Sharp Tokenizer Tests",
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"${workspaceFolder}/extensions/vscode-colorize-tests/test",
@@ -205,7 +205,7 @@
 		{
 			"type": "extensionHost",
 			"request": "launch",
-			"name": "VS Code Tokenizer Performance Tests",
+			"name": "NP Sharp Tokenizer Performance Tests",
 			"runtimeExecutable": "${execPath}",
 			"args": [
 				"${workspaceFolder}/extensions/vscode-colorize-perf-tests/test",
@@ -223,7 +223,7 @@
 		{
 			"type": "chrome",
 			"request": "attach",
-			"name": "Attach to VS Code",
+			"name": "Attach to NP Sharp",
 			"browserAttachLocation": "workspace",
 			"port": 9222,
 			"outFiles": [
@@ -237,7 +237,7 @@
 		{
 			"type": "chrome",
 			"request": "launch",
-			"name": "Launch VS Code Internal",
+			"name": "Launch NP Sharp Internal",
 			"windows": {
 				"runtimeExecutable": "${workspaceFolder}/scripts/code.bat"
 			},
@@ -282,7 +282,7 @@
 			// To debug observables you also need the extension "ms-vscode.debug-value-editor"
 			"type": "chrome",
 			"request": "launch",
-			"name": "Launch VS Code Internal (Hot Reload)",
+			"name": "Launch NP Sharp Internal (Hot Reload)",
 			"windows": {
 				"runtimeExecutable": "${workspaceFolder}/scripts/code.bat"
 			},
@@ -330,7 +330,7 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "VS Code Server (Web)",
+			"name": "NP Sharp Server (Web)",
 			"runtimeExecutable": "${workspaceFolder}/scripts/code-server.sh",
 			"windows": {
 				"runtimeExecutable": "${workspaceFolder}/scripts/code-server.bat",
@@ -370,7 +370,7 @@
 			"request": "launch",
 			"outFiles": [],
 			"perScriptSourcemaps": "yes",
-			"name": "VS Code Server (Web, Chrome)",
+			"name": "NP Sharp Server (Web, Chrome)",
 			"url": "http://localhost:8080?tkn=dev-token",
 			"preLaunchTask": "Run code server",
 			"presentation": {
@@ -383,7 +383,7 @@
 			"request": "launch",
 			"outFiles": [],
 			"perScriptSourcemaps": "yes",
-			"name": "VS Code Server (Web, Edge)",
+			"name": "NP Sharp Server (Web, Edge)",
 			"url": "http://localhost:8080?tkn=dev-token",
 			"pauseForSourceMap": false,
 			"preLaunchTask": "Run code server",
@@ -397,7 +397,7 @@
 			"request": "launch",
 			"outFiles": [],
 			"perScriptSourcemaps": "yes",
-			"name": "VS Code Web (Chrome)",
+			"name": "NP Sharp Web (Chrome)",
 			"url": "http://localhost:8080",
 			"preLaunchTask": "Run code web",
 			"presentation": {
@@ -410,7 +410,7 @@
 			"request": "launch",
 			"outFiles": [],
 			"perScriptSourcemaps": "yes",
-			"name": "VS Code Web (Edge)",
+			"name": "NP Sharp Web (Edge)",
 			"url": "http://localhost:8080",
 			"pauseForSourceMap": false,
 			"preLaunchTask": "Run code web",
@@ -521,7 +521,7 @@
 				"${workspaceFolder}/out/**/*.js"
 			],
 			"cascadeTerminateToConfigurations": [
-				"Attach to VS Code"
+				"Attach to NP Sharp"
 			],
 			"env": {
 				"MOCHA_COLORS": "true"
@@ -543,7 +543,7 @@
 				"runtimeExecutable": "${workspaceFolder}/.build/electron/code-oss"
 			},
 			"cascadeTerminateToConfigurations": [
-				"Attach to VS Code"
+				"Attach to NP Sharp"
 			],
 			"outputCapture": "std",
 			"args": [
@@ -627,10 +627,10 @@
 	],
 	"compounds": [
 		{
-			"name": "VS Code",
+			"name": "NP Sharp",
 			"stopAll": true,
 			"configurations": [
-				"Launch VS Code Internal",
+				"Launch NP Sharp Internal",
 				"Attach to Main Process",
 				"Attach to Extension Host",
 				"Attach to Shared Process",
@@ -642,10 +642,10 @@
 			}
 		},
 		{
-			"name": "VS Code (Hot Reload)",
+			"name": "NP Sharp (Hot Reload)",
 			"stopAll": true,
 			"configurations": [
-				"Launch VS Code Internal (Hot Reload)",
+				"Launch NP Sharp Internal (Hot Reload)",
 				"Attach to Main Process",
 				"Attach to Extension Host",
 				"Attach to Shared Process",
@@ -659,7 +659,7 @@
 		{
 			"name": "Search, Renderer, and Main processes",
 			"configurations": [
-				"Launch VS Code Internal",
+				"Launch NP Sharp Internal",
 				"Attach to Main Process",
 				"Attach to Search Process"
 			],
@@ -671,7 +671,7 @@
 		{
 			"name": "Renderer, Extension Host, and Main processes",
 			"configurations": [
-				"Launch VS Code Internal",
+				"Launch NP Sharp Internal",
 				"Attach to Main Process",
 				"Attach to Extension Host"
 			],
@@ -683,7 +683,7 @@
 		{
 			"name": "Debug Unit Tests",
 			"configurations": [
-				"Attach to VS Code",
+				"Attach to NP Sharp",
 				"Run Unit Tests"
 			],
 			"presentation": {
@@ -694,7 +694,7 @@
 		{
 			"name": "Debug Unit Tests (Current File)",
 			"configurations": [
-				"Attach to VS Code",
+				"Attach to NP Sharp",
 				"Run Unit Tests For Current File"
 			],
 			"presentation": {
@@ -706,7 +706,7 @@
 			"name": "Renderer and Main processes",
 			"stopAll": true,
 			"configurations": [
-				"Launch VS Code Internal",
+				"Launch NP Sharp Internal",
 				"Attach to Main Process"
 			],
 			"preLaunchTask": "Ensure Prelaunch Dependencies"

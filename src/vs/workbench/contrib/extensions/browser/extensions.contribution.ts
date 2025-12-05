@@ -351,7 +351,7 @@ CommandsRegistry.registerCommand({
 			{
 				name: 'options',
 				description: '(optional) Options for installing the extension. Object with the following properties: ' +
-					'`installOnlyNewlyAddedFromExtensionPackVSIX`: When enabled, VS Code installs only newly added extensions from the extension pack VSIX. This option is considered only when installing VSIX. ',
+					'`installOnlyNewlyAddedFromExtensionPackVSIX`: When enabled, NP Sharp installs only newly added extensions from the extension pack VSIX. This option is considered only when installing VSIX. ',
 				isOptional: true,
 				schema: {
 					'type': 'object',
@@ -368,7 +368,7 @@ CommandsRegistry.registerCommand({
 						},
 						'donotSync': {
 							'type': 'boolean',
-							'description': localize('workbench.extensions.installExtension.option.donotSync', "When enabled, VS Code do not sync this extension when Settings Sync is on."),
+							'description': localize('workbench.extensions.installExtension.option.donotSync', "When enabled, NP Sharp do not sync this extension when Settings Sync is on."),
 							default: false
 						},
 						'justification': {
@@ -893,8 +893,8 @@ class ExtensionsContributions extends Disposable implements IWorkbenchContributi
 				if (requireReload) {
 					notificationService.prompt(
 						Severity.Info,
-						vsixs.length > 1 ? localize('InstallVSIXs.successReload', "Completed installing extensions. Please reload Visual Studio Code to enable them.")
-							: localize('InstallVSIXAction.successReload', "Completed installing extension. Please reload Visual Studio Code to enable it."),
+						vsixs.length > 1 ? localize('InstallVSIXs.successReload', "Completed installing extensions. Please reload Notepad Sharp to enable them.")
+							: localize('InstallVSIXAction.successReload', "Completed installing extension. Please reload Notepad Sharp to enable it."),
 						[{
 							label: localize('InstallVSIXAction.reloadNow', "Reload Now"),
 							run: () => hostService.reload()

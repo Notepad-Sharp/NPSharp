@@ -100,21 +100,21 @@ async function main(buildDir?: string): Promise<void> {
 			'-insert',
 			'NSAppleEventsUsageDescription',
 			'-string',
-			'An application in Visual Studio Code wants to use AppleScript.',
+			'An application in Notepad Sharp wants to use AppleScript.',
 			`${infoPlistPath}`
 		]);
 		await spawn('plutil', [
 			'-replace',
 			'NSMicrophoneUsageDescription',
 			'-string',
-			'An application in Visual Studio Code wants to use the Microphone.',
+			'An application in Notepad Sharp wants to use the Microphone.',
 			`${infoPlistPath}`
 		]);
 		await spawn('plutil', [
 			'-replace',
 			'NSCameraUsageDescription',
 			'-string',
-			'An application in Visual Studio Code wants to use the Camera.',
+			'An application in Notepad Sharp wants to use the Camera.',
 			`${infoPlistPath}`
 		]);
 	}

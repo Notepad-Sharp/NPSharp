@@ -251,7 +251,7 @@ function createCopilotSetupStep(id: string, button: string, when: string, includ
 export const walkthroughs: GettingStartedWalkthroughContent = [
 	{
 		id: 'Setup',
-		title: localize('gettingStarted.setup.title', "Get started with VS Code"),
+		title: localize('gettingStarted.setup.title', "Get started with NP Sharp"),
 		description: localize('gettingStarted.setup.description', "Customize your editor, learn the basics, and start coding"),
 		isFeatured: true,
 		icon: setupIcon,
@@ -274,13 +274,13 @@ export const walkthroughs: GettingStartedWalkthroughContent = [
 						'onCommand:workbench.action.selectTheme'
 					],
 					media: { type: 'markdown', path: 'theme_picker', }
-				},
-				{
-					id: 'videoTutorial',
-					title: localize('gettingStarted.videoTutorial.title', "Watch video tutorials"),
-					description: localize('gettingStarted.videoTutorial.description.interpolated', "Watch the first in a series of short & practical video tutorials for VS Code's key features.\n{0}", Button(localize('watch', "Watch Tutorial"), 'https://aka.ms/vscode-getting-started-video')),
-					media: { type: 'svg', altText: 'VS Code Settings', path: 'learn.svg' },
 				}
+				// {
+				// 	id: 'videoTutorial',
+				// 	title: localize('gettingStarted.videoTutorial.title', "Watch video tutorials"),
+				// 	description: localize('gettingStarted.videoTutorial.description.interpolated', "Watch the first in a series of short & practical video tutorials for VS Code's key features.\n{0}", Button(localize('watch', "Watch Tutorial"), 'https://aka.ms/vscode-getting-started-video')),
+				// 	media: { type: 'svg', altText: 'VS Code Settings', path: 'learn.svg' },
+				// }
 			]
 		}
 	},
